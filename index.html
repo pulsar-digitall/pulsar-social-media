@@ -237,10 +237,91 @@
     .media.clicavel { cursor: pointer; }
     .player-inline { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
     .em-construcao .nota { font-size: 13px; color: var(--text-3); border-left: 2px solid var(--accent-border); padding-left: 14px; }
+
+    /* ===================== MOBILE ===================== */
+    /* Topbar e overlay so aparecem no mobile (escondidos no desktop). */
+    .mobile-topbar { display: none; }
+    .sidebar-overlay { display: none; }
+
+    @media (max-width: 860px) {
+      /* Topbar fixa com hamburguer + marca */
+      .mobile-topbar {
+        display: flex; align-items: center; gap: 12px;
+        position: fixed; top: 0; left: 0; right: 0; height: 54px; z-index: 50;
+        padding: 0 14px; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+      .mobile-topbar .hamburger {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--border-strong);
+        border-radius: var(--radius-sm); background: var(--surface); color: var(--text);
+        cursor: pointer; padding: 0;
+      }
+      .mobile-topbar .hamburger svg { width: 20px; height: 20px; }
+      .mobile-topbar .mt-brand { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+      .mobile-topbar .mt-brand i { color: var(--accent); font-style: normal; }
+
+      /* Sidebar vira drawer deslizante */
+      aside.sidebar {
+        position: fixed; top: 0; left: 0; height: 100%; width: 280px; max-width: 84vw;
+        transform: translateX(-100%); transition: transform 0.28s ease; z-index: 60;
+        box-shadow: 4px 0 24px rgba(16,24,40,0.14);
+      }
+      body.nav-aberto aside.sidebar { transform: none; }
+      nav.areas .nav-item.ativo::before { left: -16px; }
+
+      /* Overlay escuro atras do drawer */
+      .sidebar-overlay {
+        display: block; position: fixed; inset: 0; z-index: 55;
+        background: rgba(10,10,11,0.42); opacity: 0; pointer-events: none;
+        transition: opacity 0.28s ease;
+      }
+      body.nav-aberto .sidebar-overlay { opacity: 1; pointer-events: auto; }
+
+      /* Conteudo desce abaixo da topbar fixa */
+      .conteudo { padding-top: 54px; }
+      .area-topo { top: 54px; padding: 18px 18px 16px; }
+      .area-topo h2 { font-size: 19px; }
+      .area-corpo { padding: 20px 18px 60px; }
+
+      /* Filtros empilham e ocupam largura total */
+      .filtros { flex-direction: column; align-items: stretch; gap: 12px; margin-top: 16px; }
+      .campo { width: 100%; }
+      .select-wrap, select, input[type="search"] { width: 100%; min-width: 0; }
+      .btn-toolbar { margin-left: 0 !important; justify-content: center; }
+      .contador { margin-left: 0; align-self: flex-start; }
+
+      /* Galeria em coluna unica */
+      .galeria { grid-template-columns: 1fr; gap: 18px; }
+      .media { aspect-ratio: auto; max-height: none; }
+      .media video, .media img, .thumb-anuncio { aspect-ratio: 9 / 16; max-height: 70vh; }
+
+      /* Dashboard: numeros e linhas mais compactos */
+      .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .stat { padding: 16px 16px; }
+      .stat .num { font-size: 25px; }
+      .alta-row { padding: 14px 16px; gap: 11px; }
+      .alta-row .num-pill { margin-left: auto; }
+      .analise-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .stat-grid { grid-template-columns: 1fr; }
+      .area-topo h2 { font-size: 18px; }
+    }
   </style>
 </head>
 <body>
   <div class="app">
+    <!-- ===================== TOPBAR MOBILE ===================== -->
+    <header class="mobile-topbar">
+      <button class="hamburger" id="btn-nav" aria-label="Abrir menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <span class="mt-brand">Pulsar<i>.</i></span>
+    </header>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <!-- ===================== SIDEBAR ===================== -->
     <aside class="sidebar">
       <div class="brand">
@@ -410,6 +491,17 @@
       ];
       var AREA_INICIAL = "dashboard";
 
+      // ---------- Drawer mobile ----------
+      var btnNav = document.getElementById("btn-nav");
+      var overlay = document.getElementById("sidebar-overlay");
+      function abrirNav() { document.body.classList.add("nav-aberto"); if (btnNav) btnNav.setAttribute("aria-expanded", "true"); }
+      function fecharNav() { document.body.classList.remove("nav-aberto"); if (btnNav) btnNav.setAttribute("aria-expanded", "false"); }
+      if (btnNav) btnNav.addEventListener("click", function () {
+        if (document.body.classList.contains("nav-aberto")) fecharNav(); else abrirNav();
+      });
+      if (overlay) overlay.addEventListener("click", fecharNav);
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") fecharNav(); });
+
       // ---------- Navegacao ----------
       var nav = document.getElementById("nav-areas");
       function selecionarArea(id) {
@@ -418,6 +510,7 @@
         // Re-renderiza areas que dependem do estado salvo (localStorage).
         if (id === "swipe") renderSwipe();
         if (id === "dashboard") renderDashboard();
+        fecharNav(); // no mobile, fecha o drawer ao trocar de area
       }
       AREAS.forEach(function (a) {
         var btn = document.createElement("button");
