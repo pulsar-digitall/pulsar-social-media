@@ -13,3 +13,6 @@ scripts/out/
 Thumbs.db
 
 # Nota: swipe/espiao_midia/ (miniaturas + videos) VAI para o deploy por escolha do usuario.
+
+# Local Netlify folder
+.netlify

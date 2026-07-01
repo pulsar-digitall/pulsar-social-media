@@ -16,7 +16,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/4418901185049940.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/4418901185049940.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 1:23",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-855846210554194",
@@ -33,7 +33,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/855846210554194.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/855846210554194.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:33",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4602445960033204",
@@ -50,7 +50,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/4602445960033204.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/4602445960033204.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 1:48",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2117332175536442",
@@ -67,7 +67,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2117332175536442.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2117332175536442.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:38",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-997787969910574",
@@ -84,7 +84,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/997787969910574.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/997787969910574.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 1:14",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1003413178960456",
@@ -101,7 +101,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1003413178960456.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1003413178960456.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 1:17",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-3139741829562334",
@@ -118,7 +118,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/3139741829562334.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/3139741829562334.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:34",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1058415683175133",
@@ -135,7 +135,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1058415683175133.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1058415683175133.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:56",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1334789915287066",
@@ -152,7 +152,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1334789915287066.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1334789915287066.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:43",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2231012944400636",
@@ -169,7 +169,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2231012944400636.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2231012944400636.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:08",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1710143453438375",
@@ -186,7 +186,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1710143453438375.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1710143453438375.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:34",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-3597819323689056",
@@ -203,7 +203,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/3597819323689056.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/3597819323689056.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:33",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1015950914169651",
@@ -220,7 +220,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1015950914169651.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1015950914169651.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 1:05",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-873480538640357",
@@ -237,7 +237,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/873480538640357.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/873480538640357.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 1:19",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2530771057378304",
@@ -254,7 +254,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2530771057378304.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2530771057378304.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:38",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1716729416192481",
@@ -271,7 +271,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1716729416192481.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1716729416192481.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:05",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2223143128440446",
@@ -288,7 +288,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2223143128440446.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2223143128440446.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:35",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1735637570770993",
@@ -305,7 +305,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1735637570770993.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1735637570770993.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:55",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1840817773569109",
@@ -322,7 +322,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1840817773569109.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1840817773569109.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 1:02",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-3594353784046256",
@@ -339,7 +339,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/3594353784046256.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/3594353784046256.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 1:06",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-998830033012027",
@@ -356,7 +356,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/998830033012027.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/998830033012027.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2811182999253484",
@@ -373,7 +373,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2811182999253484.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2811182999253484.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1308398594800719",
@@ -390,7 +390,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1308398594800719.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1308398594800719.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1735265027660300",
@@ -407,7 +407,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1735265027660300.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1735265027660300.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-764248873412942",
@@ -424,7 +424,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/764248873412942.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/764248873412942.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1448653180280252",
@@ -441,7 +441,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1448653180280252.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1448653180280252.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1482155943711482",
@@ -458,7 +458,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1482155943711482.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1482155943711482.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1483195040274296",
@@ -475,7 +475,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1483195040274296.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1483195040274296.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2546197362499550",
@@ -492,7 +492,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2546197362499550.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2546197362499550.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-982813274563780",
@@ -509,7 +509,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/982813274563780.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/982813274563780.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-984264564368781",
@@ -526,7 +526,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/984264564368781.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/984264564368781.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1017009724034625",
@@ -543,7 +543,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1017009724034625.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1017009724034625.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-806268999118252",
@@ -560,7 +560,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/806268999118252.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/806268999118252.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2472672666579903",
@@ -577,7 +577,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/2472672666579903.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/2472672666579903.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4461414007476296",
@@ -594,7 +594,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/4461414007476296.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/4461414007476296.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1296342095611477",
@@ -611,7 +611,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1296342095611477.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1296342095611477.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1344829437788757",
@@ -628,7 +628,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1344829437788757.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1344829437788757.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1492620335412212",
@@ -645,7 +645,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1492620335412212.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1492620335412212.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1913459466019270",
@@ -662,7 +662,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1913459466019270.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1913459466019270.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-865529389959199",
@@ -679,7 +679,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/865529389959199.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/865529389959199.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00 FB.ME Ideweb Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1494725575133966",
@@ -696,7 +696,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1494725575133966.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1494725575133966.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00 FB.ME Ideweb Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1727153058634837",
@@ -713,7 +713,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1727153058634837.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1727153058634837.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1034859668972408",
@@ -730,7 +730,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1034859668972408.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1034859668972408.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1311950317692787",
@@ -747,7 +747,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1311950317692787.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1311950317692787.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1563895411917229",
@@ -764,7 +764,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1563895411917229.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1563895411917229.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1617084509389332",
@@ -781,7 +781,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1617084509389332.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1617084509389332.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1690221078874987",
@@ -798,7 +798,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1690221078874987.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1690221078874987.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1690808648792923",
@@ -815,7 +815,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1690808648792923.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1690808648792923.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1917733818913330",
@@ -832,7 +832,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/101914649544034/1917733818913330.jpg",
     "midia_video_local": "swipe/espiao_midia/101914649544034/1917733818913330.mp4",
     "texto": "Quer atrair pacientes de Implante todos os meses para sua clínica? Conheça o Método C4, uma estratégia que já ajudou a alavancar mais de 400 projetos em todo o Brasil. 🎯 Tráfego Pago, IA, Treinamento de CRC, Automações e GMN 🤝 Equipe especializada em Implantodontia ✅ Plano de ação personalizado para o seu momento Clique em CADASTRE-SE para conhecer a nossa Assessoria. Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27642131368755166",
@@ -849,7 +849,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/27642131368755166.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/27642131368755166.mp4",
     "texto": "🦷 De R$150 mil para R$350 mil/mês — em uma única clínica odontológica. O Dr. Tiago e a Edivânia já tinham passado por várias agências de marketing. Inclusive pela MAIOR do Brasil. E mesmo assim… o paciente certo não chegava. Aquele que fecha implante, lente, reabilitação completa? Sumido. Até que entraram na assessoria HP Odonto. 👇 O que mudou? ✅ Estratégia de anúncios reconstruída do zero ✅ Secretária treinada em padrões de excelência no atendimento ✅ Novo estilo de edição de vídeo (que atrai paciente de alto valor) ✅ Gestão de resultados profissionalizada ✅ Marketing e vendas finalmente CO",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1628521491588424",
@@ -866,7 +866,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/1628521491588424.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/1628521491588424.mp4",
     "texto": "De R$ 50 mil para R$ 233 mil em dois meses. Esse foi o salto de uma clínica que sempre teve estrutura, equipe qualificada e excelência no atendimento, mas ainda não conseguia transformar isso em faturamento consistente. O que mudou? Implementamos um modelo completo de crescimento, unindo posicionamento estratégico, marketing orientado por dados e um time comercial treinado e acompanhado de perto. O resultado? Março: R$ 114 mil. Abril: R$ 233 mil. Recorde absoluto de faturamento. Com previsibilidade, processo e autoridade. Na HP Odonto, crescemos junto com o time da clínica. E é isso que torna ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1324670259631524",
@@ -883,7 +883,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/1324670259631524.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/1324670259631524.mp4",
     "texto": "Dentista que é bom não tem tempo pra ficar pensando em marketing. E nem você, que é empresário e dono de clínica odontológica. Foi por isso que, em 2022, eu fundei a HP Oonto com um único objetivo: ✅ Ser 100% especializado em odontologia ✅ Atender exclusivamente clínicas odontológicas Chega de agência amadora e gestor de tráfego que não entende nada de odontologia. Aqui, a entrega é completa: 🎯 Gestão de tráfego 🎯 Roteiros de vídeos prontos 🎯 Edição de vídeos 🎯 Treinamento da secretária para conversão 🎯 Estratégia completa de marketing e vendas 📲 Clique no botão, preencha o formulário e ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-744718818692813",
@@ -900,7 +900,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/744718818692813.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/744718818692813.mp4",
     "texto": "Dentista, esses são os 3 principais problemas que fazem o seu marketing só atrair pacientes desqualificados: 1️⃣ A empresa não tem expertise em odontologia. 2️⃣ A produção dos materiais fica toda com a clínica, pois a agência só faz tráfego e não cria os roteiros. 3️⃣ A agência não treina sua secretária para converter os contatos em avaliações e fechamentos. Na HP Odonto, resolvemos os três pontos: ✅ Somos especializados em odontologia e atendemos apenas clínicas odontológicas. ✅ Criamos os roteiros personalizados prontos para gravação, editamos os vídeos e cuidamos da comunicação. ✅ Treinamos",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4516096188630441",
@@ -917,7 +917,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/4516096188630441.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/4516096188630441.mp4",
     "texto": "Dentista, você é tecnicamente excelente, tem reputação e entrega qualidade de verdade… Mas continua vendo paciente fechar com quem não entrega nem metade do que você faz? 🚫 Isso precisa acabar. 💡 A HP Odonto posiciona você como a primeira escolha, atraindo pacientes que valorizam seu trabalho. 📲 Clique no botão e conheça a Assessoria de Marketing e Vendas da HP Odonto. 0:00 / 0:30 FORM.RESPONDI.APP Chega de perder pacientes para concorrentes piores Ver detalhes",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-3531926226964017",
@@ -934,7 +934,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/3531926226964017.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/3531926226964017.mp4",
     "texto": "De R$40K a R$250K: como a Dra. Vanessa se tornou referência regional em odontologia Sua clínica é incrível, mas só seus pacientes sabem disso? Foi exatamente o que aconteceu com a Dra. Vanessa, até ela decidir profissionalizar o marketing da clínica. Com a HP Odonto, ela transformou sua presença na internet: ✅ Tráfego pago estratégico. ✅ Roteiros para anúncios que destacam sua autoridade. ✅ Treinamento para a secretária converter leads em avaliações. 📈 O resultado? Reconhecimento em toda a região e um faturamento que ultrapassou R$250K em um único mês. 🔗 Clique no botão abaixo para descobrir",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2419579045119742",
@@ -951,7 +951,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/2419579045119742.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/2419579045119742.mp4",
     "texto": "De R$ 50 mil para R$ 233 mil em dois meses. Esse foi o salto de uma clínica que sempre teve estrutura, equipe qualificada e excelência no atendimento, mas ainda não conseguia transformar isso em faturamento consistente. O que mudou? Implementamos um modelo completo de crescimento, unindo posicionamento estratégico, marketing orientado por dados e um time comercial treinado e acompanhado de perto. O resultado? Março: R$ 114 mil. Abril: R$ 233 mil. Recorde absoluto de faturamento. Com previsibilidade, processo e autoridade. Na HP Odonto, crescemos junto com o time da clínica. E é isso que torna ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2705334243172748",
@@ -968,7 +968,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/2705334243172748.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/2705334243172748.mp4",
     "texto": "De R$ 50 mil para R$ 233 mil em dois meses. Esse foi o salto de uma clínica que sempre teve estrutura, equipe qualificada e excelência no atendimento, mas ainda não conseguia transformar isso em faturamento consistente. O que mudou? Implementamos um modelo completo de crescimento, unindo posicionamento estratégico, marketing orientado por dados e um time comercial treinado e acompanhado de perto. O resultado? Março: R$ 114 mil. Abril: R$ 233 mil. Recorde absoluto de faturamento. Com previsibilidade, processo e autoridade. Na HP Odonto, crescemos junto com o time da clínica. E é isso que torna ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1708993223440997",
@@ -985,7 +985,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/1708993223440997.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/1708993223440997.mp4",
     "texto": "De R$ 50 mil para R$ 233 mil em dois meses. Esse foi o salto de uma clínica que sempre teve estrutura, equipe qualificada e excelência no atendimento, mas ainda não conseguia transformar isso em faturamento consistente. O que mudou? Implementamos um modelo completo de crescimento, unindo posicionamento estratégico, marketing orientado por dados e um time comercial treinado e acompanhado de perto. O resultado? Março: R$ 114 mil. Abril: R$ 233 mil. Recorde absoluto de faturamento. Com previsibilidade, processo e autoridade. Na HP Odonto, crescemos junto com o time da clínica. E é isso que torna ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1002079285523598",
@@ -1002,7 +1002,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/1002079285523598.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/1002079285523598.mp4",
     "texto": "De R$ 50 mil para R$ 233 mil em dois meses. Esse foi o salto de uma clínica que sempre teve estrutura, equipe qualificada e excelência no atendimento, mas ainda não conseguia transformar isso em faturamento consistente. O que mudou? Implementamos um modelo completo de crescimento, unindo posicionamento estratégico, marketing orientado por dados e um time comercial treinado e acompanhado de perto. O resultado? Março: R$ 114 mil. Abril: R$ 233 mil. Recorde absoluto de faturamento. Com previsibilidade, processo e autoridade. Na HP Odonto, crescemos junto com o time da clínica. E é isso que torna ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1345976157454343",
@@ -1019,7 +1019,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105051675800076/1345976157454343.jpg",
     "midia_video_local": "swipe/espiao_midia/105051675800076/1345976157454343.mp4",
     "texto": "De R$ 50 mil para R$ 233 mil em dois meses. Esse foi o salto de uma clínica que sempre teve estrutura, equipe qualificada e excelência no atendimento, mas ainda não conseguia transformar isso em faturamento consistente. O que mudou? Implementamos um modelo completo de crescimento, unindo posicionamento estratégico, marketing orientado por dados e um time comercial treinado e acompanhado de perto. O resultado? Março: R$ 114 mil. Abril: R$ 233 mil. Recorde absoluto de faturamento. Com previsibilidade, processo e autoridade. Na HP Odonto, crescemos junto com o time da clínica. E é isso que torna ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1199982628802715",
@@ -1036,7 +1036,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1199982628802715.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1199982628802715.mp4",
     "texto": "Pare de \"vomitar\" termos técnicos e comece a negociar! 🗣️🚫 O paciente não quer saber apenas do procedimento, ele quer a transformação. Mas, na hora do fechamento, a falta de uma estratégia de preço pode afastar quem ainda está indeciso. A técnica da Ancoragem é o segredo dos grandes negociadores. Ao apresentar um valor de referência maior, você ganha \"cartas na manga\" para: ✅ Oferecer descontos reais. ✅ Facilitar o parcelamento. ✅ Gerar senso de urgência com condições exclusivas. Quer dominar outros métodos de vendas e aumentar sua conversão? Comente “VENDAS” abaixo e um especialista do noss",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1532831754869789",
@@ -1053,7 +1053,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1532831754869789.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1532831754869789.mp4",
     "texto": "🚀💬 Depoimento da @dra.tarcila CEO da @marquesodontomed Transformação que gera resultados de verdade! Cada melhoria implementada, dos processos internos às estratégias de equipe, trouxe mais eficiência, clareza e performance. O resultado? Um time engajado, decisões estratégicas e crescimento consistente, atingindo novos recordes de faturamento. 📈 Mais do que números, foi possível criar uma cultura de evolução constante, onde cada ação impacta diretamente nos resultados e fortalece a clínica. Imagine o que uma gestão estratégica assim poderia fazer pela sua equipe e pelo seu faturamento! 💡 �",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-975196698426425",
@@ -1070,7 +1070,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/975196698426425.jpg",
     "midia_video_local": "",
     "texto": "📲 Dentista, quer atrair mais pacientes pelas redes sociais e fazer seu consultório crescer de verdade? Então entenda: postar com constância e estratégia não é mais opcional é essencial! Postar só quando sobra tempo ou quando “lembra” não gera autoridade, não cria conexão e muito menos atrai os pacientes certos. A presença constante faz com que as pessoas lembrem de você, confiem no seu trabalho e se sintam seguras para agendar uma consulta. Aqui na AMV, acompanhamos nossos clientes de perto, construindo um posicionamento estratégico real, com base no que realmente funciona. Sabemos o que dá r",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-998135012773827",
@@ -1087,7 +1087,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/998135012773827.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/998135012773827.mp4",
     "texto": "Não é sorte. É método. A Dra. Juliana, responsável pelo @institutovicentimmaekawa , aplicou o método AMV com estratégia e aumentou o faturamento da clínica, acessando um novo patamar: crescimento real, previsível e faturamento maior, com estratégia, não com exaustão. 🚀 Quando você entende seu posicionamento, o mercado muda de postura. Ele para de te comparar, te reconhece e passa a te escolher. Você sai do improviso, ganha clareza, segurança nas decisões e constrói resultados que se sustentam no tempo. O Método AMV não é sobre tentar. É sobre estruturar um negócio que responde ao seu valor, à",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1635611047507864",
@@ -1104,7 +1104,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1635611047507864.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1635611047507864.mp4",
     "texto": "O seu problema na clínica provavelmente não é o marketing. 🤔 Se você já fatura acima de R$ 100 mil, tem uma boa estrutura e trabalha com tickets altos (implantes, facetas, alinhadores), o que falta não é \"mais anúncios\", mas sim um processo de vendas e captação robusto. Não adianta colocar moedas no tráfego pago se o seu comercial não tem scripts de agendamento e negociação validados. Na AMV Odonto, nós vamos além do clique: * Implementamos mais de 10 canais de aquisição. * Treinamos sua equipe comercial. * Estruturamos sua gestão para que o faturamento não dependa 100% de você. Já ajudamos m",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2003685460278844",
@@ -1121,7 +1121,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2003685460278844.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/2003685460278844.mp4",
     "texto": "A Clínica @marquesodontomed responsável pelo @dr.alairmarques passou por uma virada estratégica completa após a consultoria. A partir de ajustes consistentes em posicionamento, estrutura de processos internos e estratégia comercial, a clínica ganhou clareza sobre onde atuar, como comunicar valor e como converter melhor. 🚀 O impacto foi direto no caixa: o faturamento aumentou e a clínica alcançou um recorde financeiro, trazendo mais segurança, previsibilidade e controle da operação. 😉 Hoje, a clínica marques odontomed opera com mais organização, visão estratégica e foco em crescimento sustent",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-950074371199128",
@@ -1138,7 +1138,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/950074371199128.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/950074371199128.mp4",
     "texto": "Você, implantodontista, sabe que sua clínica tem potencial para faturar mais. Com o método AMV, é possível fechar de 5 a 10 tratamentos a mais todos os meses, aumentando faturamento e otimizando seu tempo. Se você já se frustrou com agências genéricas que prometem resultados mas não entregam, chegou a hora de mudar isso. Nosso método é estruturado, estratégico e focado em resultados reais. 💎 Já ajudamos mais de 200 clínicas a crescer e queremos que você seja o próximo. 📈 Transforme sua agenda cheia em pacientes que valorizam seu trabalho e resultados consistentes. 👇 Comente “MÉTODO” e vamos",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1038029311889522",
@@ -1155,7 +1155,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1038029311889522.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1038029311889522.mp4",
     "texto": "💼 Depoimento Real de Sucesso com a AMV 💼🚀 “Os resultados começaram a aparecer muito mais rápido do que imaginávamos!” – Dr. Vinicius- Irio Odontologia Botafogo 🔸 O Dr. Vinicius ,compartilha como a parceria com a AMV Seu Sucesso Digital elevou a performance, ampliou o fluxo de pacientes e trouxe um movimento muito mais qualificado para a agenda. Com nossa estratégia de tráfego pago, posicionamento e treinamento em vendas, a clínica passou a atrair leads realmente qualificados pessoas que chegam prontas para avaliar, entender o valor e avançar no tratamento. 💬👥 ⚙️ Na AMV, não é apenas sobr",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1024047053631851",
@@ -1172,7 +1172,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1024047053631851.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1024047053631851.mp4",
     "texto": "Você montou uma clínica maravilhosa. Investiu em estrutura, equipamentos, marketing… fez tudo certo. Mas, sem perceber, muitos profissionais acabam vivendo só do “sabor clínica”: o movimento depende do seu esforço diário, da sua presença, da sua energia o tempo todo. E aí a clínica cresce… mas você não. O faturamento vem, mas junto vem o cansaço, a sobrecarga e a sensação de estar sempre apagando incêndios. Clínica forte não é a que só tem movimento. É a que tem estratégia, posicionamento e gestão para crescer de forma sustentável sem depender exclusivamente de você. Se hoje você sente que est",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1673285690662167",
@@ -1189,7 +1189,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1673285690662167.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1673285690662167.mp4",
     "texto": "💎 Sua clínica é incrível e sua agenda está cheia… mas você ainda sente que poderia atrair pacientes de ticket mais alto? Na AMV, treinamos sua secretaria para identificar, atender e converter pacientes que realmente valorizam seu trabalho, sem depender de agências genéricas ou estratégias prontas que não funcionam. Chega de frustração! É hora de transformar sua clínica em um negócio de alto valor e resultados consistentes e com as estratégias certas. 🚀 💬 Comente “Método AMV” e receba um diagnóstico gratuito para elevar o nível do seu atendimento! 0:00 / 0:43 INSTAGRAM.COM AMV Seu Sucesso Di",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1702745381167721",
@@ -1206,7 +1206,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1702745381167721.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1702745381167721.mp4",
     "texto": "Você não sabe qual é um dos maiores erros que impede o crescimento de muitas clínicas? Não ter um processo comercial interno bem estruturado. Muitos consultórios investem em estrutura, equipamentos, treinamentos técnicos... mas esquecem do principal: como transformar interesse em fechamento de tratamento e faturamento real. Sem um processo claro para abordar, conduzir e acompanhar o paciente, a clínica perde oportunidades todos os dias mesmo tendo uma excelente qualidade técnica. Um fluxo comercial bem feito organiza todo o caminho do paciente: 📍 Desde o primeiro contato, 📍 Passando pela ava",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2169264690496350",
@@ -1223,7 +1223,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2169264690496350.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/2169264690496350.mp4",
     "texto": "Entrevistas no Ciosp! Qual a maior dor do dentista em 2026? @_ciosp @dr.lucasnogueira @dramarianamota @drajuliavaz @dr.gustavobaccelli @drgustavoferes @doc.ronaldojr @valdirmoronodontologia 0:00 / 3:53 WWW.INSTAGRAM.COM AMV Seu Sucesso Digital Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2144048119751141",
@@ -1240,7 +1240,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2144048119751141.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/2144048119751141.mp4",
     "texto": "🦷 Dentista, se você quer crescer de verdade no mercado, precisa dominar três pilares: posicionamento, fluxo comercial interno e construção de autoridade. 🔸Posicionamento é como o mercado te enxerga. Se você não define seu posicionamento, o paciente vai te comparar apenas pelo preço. Quem tem um posicionamento forte mostra claramente seus diferenciais, transmite valor e cria desejo antes mesmo da primeira consulta. 🔸Autoridade é construída com consistência. Não basta ser bom, é preciso que o mercado reconheça isso. Eduque seu público, compartilhe conteúdos relevantes, mostre resultados e est",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-858253610651097",
@@ -1257,7 +1257,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/858253610651097.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/858253610651097.mp4",
     "texto": "Essa é a dra.geovanaquino , depois de aplicar o Método AMV, ela passou a faturar mais de R$40.000, com estratégia, posicionamento e decisões certas. 🚀 Não foi sobre trabalhar mais horas. Foi sobre comunicar melhor, atrair o paciente certo e se posicionar como referência. Hoje, a Dra. Geovana vive uma realidade diferente: ✔️ Mais clareza ✔️ Mais autoridade ✔️ Mais resultado ✔️ Mais vendas O Método AMV não cria promessas. Cria processos que geram crescimento real. 😉💰 Quando existe método, o faturamento deixa de ser sorte e vira consequência. 🚀 Você pode conquistar esses resultados! 👉 Coment",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1501144464753846",
@@ -1274,7 +1274,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1501144464753846.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1501144464753846.mp4",
     "texto": "Pare de \"vomitar\" termos técnicos e comece a negociar! 🗣️🚫 O paciente não quer saber apenas do procedimento, ele quer a transformação. Mas, na hora do fechamento, a falta de uma estratégia de preço pode afastar quem ainda está indeciso. A técnica da Ancoragem é o segredo dos grandes negociadores. Ao apresentar um valor de referência maior, você ganha \"cartas na manga\" para: ✅ Oferecer descontos reais. ✅ Facilitar o parcelamento. ✅ Gerar senso de urgência com condições exclusivas. Quer dominar outros métodos de vendas e aumentar sua conversão? Comente “VENDAS” abaixo e um especialista do noss",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-945267295168347",
@@ -1291,7 +1291,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/945267295168347.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/945267295168347.mp4",
     "texto": "Uma nova jornada começa na AMV! É nosso cliente ou amigo? Deixe uma mensagem abaixo 🚀🙏🏻 0:00 / 2:50 WWW.INSTAGRAM.COM AMV Seu Sucesso Digital Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4403377246601850",
@@ -1308,7 +1308,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/4403377246601850.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/4403377246601850.mp4",
     "texto": "Ei, você, dentista! Está pronto para transformar seu consultório e acelerar seus resultados? Nós da AMV vamos te ajudar a alcançar isso com 3 pilares essenciais: 1️⃣ Gestão eficiente – Organize sua clínica para maximizar sua produtividade. 2️⃣ Atrair os pacientes certos – Chegue até o público ideal para o seu negócio. 3️⃣ Processos comerciais eficientes – Conquiste mais vendas com um funil comercial bem estruturado. Se você quer resultados reais, nós temos o caminho certo para você! Vamos juntos transformar seu consultório em um verdadeiro sucesso! Comente “EU QUERO” e nosso time vai entrar em",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-790201404028904",
@@ -1325,7 +1325,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/790201404028904.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/790201404028904.mp4",
     "texto": "🚀💬 Depoimento da @draliviatemer, CEO da @sorridentsbarueri_oficial A Dra. Lívia, especialista em Prótese Protocolo, já era uma franqueada premiada inclusive conquistou o 1º lugar em toda a rede. Mas aqui vai um ponto importante: até quem já está no topo precisa de direção. Na verdade, principalmente quem está no topo. Ela entrou na AMV em um momento em que já tinha conhecimento… mas faltava clareza estratégica, segurança nas decisões e alguém pra guiar o processo de perto. E foi exatamente isso que ela encontrou aqui dentro. O treinamento foi um verdadeiro divisor de águas aquele momento em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-963652186479616",
@@ -1342,7 +1342,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/963652186479616.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/963652186479616.mp4",
     "texto": "Quer ir além dos anúncios e realmente lotar a agenda com qualidade? Confira esses pilares essenciais: * Atendimento de Elite (CRC): Sua secretária não é apenas alguém que agenda horários. Ela precisa de scripts validados, empatia e técnicas de contorno de objeções logo no primeiro contato. * Processo de Confirmação: O \"no-show\" (faltas) mata o seu lucro. Tenha uma sequência estratégica de confirmação via WhatsApp que gere compromisso no paciente. * Ancoragem de Valor: Antes de falar o preço, você precisa vender o valor. O paciente deve entender o benefício e a transformação que o seu trabalho ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1751492219237813",
@@ -1359,7 +1359,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1751492219237813.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1617509319357217",
@@ -1376,7 +1376,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1617509319357217.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1617509319357217.mp4",
     "texto": "Se você foca apenas em atrair novos pacientes, está deixando dinheiro na mesa! 💸🦷 Muitas clínicas se prendem ao tradicional funil de vendas: atrair o lead, agendar e fechar. Mas o segredo das clínicas que faturam 7 dígitos está no que acontece depois da venda. A Ampulheta de Vendas foca no \"iceberg\" abaixo da superfície: ✅ Pesquisa de satisfação: Entenda seu paciente. ✅ Avaliação: Construa sua prova social no Google e redes sociais. ✅ Indicação Ativa: Transforme pacientes em promotores da sua marca. ✅ Recompra (LTV): O paciente que volta é o mais lucrativo para sua clínica. Quer sair do bási",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-776519922094321",
@@ -1393,7 +1393,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/776519922094321.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/776519922094321.mp4",
     "texto": "Dentista, atrair leads não é o maior desafio. O verdadeiro problema está em não saber o que fazer com eles. Muitas clínicas estão recebendo dezenas de contatos por semana, mas continuam com o faturamento travado. O motivo? Falta de um processo comercial interno eficiente. Não adianta gerar leads se sua equipe (CRC) demora para responder, não faz follow-up, não usa scripts e não tem clareza de como conduzir o paciente até o fechamento. 📉 Leads sem estratégia viram apenas números. 📈 Leads bem atendidos, com um fluxo comercial estruturado, se tornam pacientes e geram faturamento real. Equipe qu",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1842647870474543",
@@ -1410,7 +1410,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1842647870474543.jpg",
     "midia_video_local": "",
     "texto": "🚫 Faltas às consultas são um dos maiores obstáculos para o crescimento e a previsibilidade do seu consultório. Mas com a abordagem certa, é possível reduzir drasticamente esse problema. Tudo começa na primeira impressão. Quando o paciente agenda, principalmente os novos, é essencial reforçar a importância do compromisso. Agendar para datas próximas idealmente dentro de 3 dias aumenta significativamente a taxa de comparecimento. Outra estratégia poderosa é o envio de um vídeo de confirmação personalizado, onde o profissional reforça, com empatia, a importância da consulta e o cuidado que será ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1310822851000788",
@@ -1427,7 +1427,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1310822851000788.jpg",
     "midia_video_local": "",
     "texto": "Você sabia que o LTV (Lifetime Value) é uma das métricas mais poderosas para o crescimento da sua clínica odontológica? 💡 O LTV mede o valor que um paciente gera para o seu negócio ao longo do tempo, ajudando a entender a rentabilidade real de cada um e orientando suas estratégias de longo prazo. 🔍 Com esse dado em mãos, você pode criar ações para aumentar a fidelização, melhorar a experiência do paciente e garantir que ele permaneça por mais tempo, gerando mais receita para sua clínica. 📈 Quer aprender como aumentar o LTV da sua clínica e impulsionar os resultados? Comente “LTV” e eu te co",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1141341052395468",
@@ -1444,7 +1444,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1141341052395468.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1141341052395468.mp4",
     "texto": "O segredo não é ter mais leads, é ter mais PROCESSO! 🦷💼 Muitos dentistas acreditam que o problema da clínica é o \"lead caro\" ou a agência de tráfego. Mas a verdade é que não adianta abrir a torneira de novos contatos se o seu balde está furado. Gastar R$ 10k, R$ 15k em anúncios sem um CRM, um follow-up agressivo e um time comercial treinado é apenas escalar o prejuízo. Em 2026, o diferencial não será quem investe mais, mas quem \"tira mais suco do limão\". 🍋🍹 Você tem um processo comercial estruturado ou está apenas jogando dinheiro fora? Comenta aqui embaixo! 👇 0:00 / 1:39 INSTAGRAM.COM AM",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2141010720088196",
@@ -1461,7 +1461,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2141010720088196.jpg",
     "midia_video_local": "",
     "texto": "A iRio Botafogo é uma clínica que já nasceu com estrutura, excelência clínica e um posicionamento de alto padrão. Mas, para transformar potencial em crescimento previsível, não basta ter uma boa estrutura. É preciso comunicar valor, atrair pacientes mais qualificados e organizar uma operação comercial que acompanhe o nível da clínica. Foi esse o trabalho desenvolvido junto à AMV Odonto.🚀 Com estratégia, posicionamento e execução, a iRio Botafogo faturou R$762.326,00 em 90 dias. 💰 Esse resultado mostra que, quando uma clínica preparada encontra o método certo, o crescimento deixa de ser apena",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1368741441971584",
@@ -1478,7 +1478,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1368741441971584.jpg",
     "midia_video_local": "",
     "texto": "A Enlace não acelerou porque “teve sorte”. Acelerou porque parou de tratar crescimento como tentativa e passou a tratar como projeto. Quando a Dra. Andrea e o Dr. Manoel aplicaram a metodologia da AMV, a clínica ganhou mais do que campanhas rodando. Ganhou direção. A comunicação ficou mais clara. ✅ A autoridade começou a ser fortalecida. ✅ O processo comercial passou a ter mais organização. ✅ E cada ação começou a trabalhar com um objetivo: transformar potencial em faturamento. ✅ Em apenas 40 dias de projeto, a Enlace bateu a super meta. Esse é o tipo de resultado que acontece quando a clínica",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-825347206999922",
@@ -1495,7 +1495,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/825347206999922.jpg",
     "midia_video_local": "",
     "texto": "Toda clínica chega em um ponto em que só “ser boa” deixa de ser suficiente. A Dra. Giovanna Alves não cresceu porque começou com uma grande estrutura. Ela cresceu porque entendeu que, para sair do anonimato e se tornar referência, precisava construir presença, clareza e um processo capaz de transformar interesse em faturamento. Foi aí que a virada aconteceu! Com apenas uma cadeira, ela deixou de ser uma profissional recém-formada desconhecida para se tornar referência na cidade e ultrapassar 7 dígitos em vendas. Não foi sobre fazer mais do mesmo. Foi sobre organizar o crescimento em torno de 3",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1514034006775104",
@@ -1512,7 +1512,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1514034006775104.jpg",
     "midia_video_local": "",
     "texto": "A Dra. Geovana Aquino começou com uma realidade que muitos dentistas conhecem bem: uma cadeira, uma clínica alugada, uma cidade pequena e um faturamento de R$8 mil por mês. Para muitos, esse parecia ser o limite. Mas o problema não era a cidade. ❌ Não era a estrutura inicial. ❌ E muito menos falta de capacidade. ❌ O que faltava era método! Com a AMV Odonto, a Dra. Geovana passou a estruturar os 3 pilares que sustentam o crescimento previsível de uma clínica. 🚀 🎯 Autoridade para ser lembrada. 🧠 Mentalidade para decidir como empresária. 📈 Vendas para transformar oportunidade em faturamento. ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1019360950533988",
@@ -1529,7 +1529,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1019360950533988.jpg",
     "midia_video_local": "",
     "texto": "🔥 Crescer exige mais do que excelência clínica. A Dra. Juliana e o Instituto Vicentim Maekawa já tinham qualidade, entrega e potencial. Mas potencial sem direção vira esforço espalhado. O que mudou foi a forma de conduzir o crescimento: 🎯 Posicionamento mais forte 📌 Processo comercial mais organizado 📈 Estratégia para atrair pacientes mais qualificados 💡 Clareza para transformar oportunidade em faturamento Com o Método AMV, o Instituto Vicentim Maekawa quadruplicou o faturamento. Não foi sorte. Não foi improviso. Foi método aplicado com constância. Na AMV Odonto, ajudamos clínicas que já ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1508431434318366",
@@ -1546,7 +1546,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1508431434318366.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1508431434318366.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2071917483737966",
@@ -1563,7 +1563,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2071917483737966.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1361730862691649",
@@ -1580,7 +1580,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1361730862691649.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1535002578202470",
@@ -1597,7 +1597,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1535002578202470.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1538447047674819",
@@ -1614,7 +1614,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1538447047674819.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1020378850513352",
@@ -1631,7 +1631,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1020378850513352.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2106417196899308",
@@ -1648,7 +1648,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2106417196899308.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/2106417196899308.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1306280750998295",
@@ -1665,7 +1665,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1306280750998295.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1375629621091351",
@@ -1682,7 +1682,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1375629621091351.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1473885300710690",
@@ -1699,7 +1699,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1473885300710690.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1473885300710690.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1743359203512884",
@@ -1716,7 +1716,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1743359203512884.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1320227303069381",
@@ -1733,7 +1733,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1320227303069381.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2211557449578632",
@@ -1750,7 +1750,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2211557449578632.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-979755197752722",
@@ -1767,7 +1767,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/979755197752722.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1983371769213485",
@@ -1784,7 +1784,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1983371769213485.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1983371769213485.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-981047821486703",
@@ -1801,7 +1801,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/981047821486703.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/981047821486703.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1327808092874558",
@@ -1818,7 +1818,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1327808092874558.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1361205495923979",
@@ -1835,7 +1835,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1361205495923979.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1742048283881925",
@@ -1852,7 +1852,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1742048283881925.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1742048283881925.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1325336433071298",
@@ -1869,7 +1869,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1325336433071298.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1325336433071298.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1029346059554704",
@@ -1886,7 +1886,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1029346059554704.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1811444033168958",
@@ -1903,7 +1903,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1811444033168958.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1811444033168958.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1911413966238438",
@@ -1920,7 +1920,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1911413966238438.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1603412634646838",
@@ -1937,7 +1937,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1603412634646838.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2234858223717464",
@@ -1954,7 +1954,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2234858223717464.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27241732455513482",
@@ -1971,7 +1971,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/27241732455513482.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-3034540716750451",
@@ -1988,7 +1988,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/3034540716750451.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1634340501446721",
@@ -2005,7 +2005,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1634340501446721.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1634340501446721.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2227307668075390",
@@ -2022,7 +2022,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2227307668075390.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/2227307668075390.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1441376831363451",
@@ -2039,7 +2039,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1441376831363451.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-815951134699704",
@@ -2056,7 +2056,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/815951134699704.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/815951134699704.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1727309961740423",
@@ -2073,7 +2073,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1727309961740423.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1369284261883749",
@@ -2090,7 +2090,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1369284261883749.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-954666904275652",
@@ -2107,7 +2107,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/954666904275652.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2047974472816073",
@@ -2124,7 +2124,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2047974472816073.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/2047974472816073.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1672463994044286",
@@ -2141,7 +2141,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1672463994044286.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1672463994044286.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1600878507643227",
@@ -2158,7 +2158,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1600878507643227.jpg",
     "midia_video_local": "swipe/espiao_midia/105263212060030/1600878507643227.mp4",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1535146608242658",
@@ -2175,7 +2175,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1535146608242658.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1315951800172048",
@@ -2192,7 +2192,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/1315951800172048.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2167186414132168",
@@ -2209,7 +2209,160 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/105263212060030/2167186414132168.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica já tem estrutura, equipe e pacientes… mas você sente que ainda falta organização para crescer com previsibilidade? Agora, o desafio é outro: crescer com mais previsibilidade, organizar o comercial, melhorar a conversão do time e transformar a clínica em uma operação mais inteligente. A AMV não é para clínicas iniciantes. Somos uma aceleradora especializada em clínicas odontológicas que já possuem estrutura, demanda e ambição de crescimento, mas precisam ajustar os pontos certos para alcançar o próximo nível. Com um método validado em mais de 350 clínicas no Brasil, Estados Unidos e",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-1539377553854063",
+    "ad_id": "1539377553854063",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-1.fna.fbcdn.net/o1/v/t2/f2/m69/AQNRBn-P0WxLeufdO6PbnGf7fPpO7vQs7oGYwtIeOYAtsPtnwS6_NxrJwx05_Bs5KE0aY8ZHIIssPt78ZZFWvR7S.mp4?strext=1&_nc_cat=106&_nc_oc=Adp_6LFx5Xbyo4NZmKBvu55Wsnu8afbELN8Elwc8rywrnVA-s0bMY6oeD-3e6Haod7dVJlK3qsZ1ecv7kUCxfcxT&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-1.fna.fbcdn.net&_nc_ohc=HxoApoCBW-MQ7kNvwFRvOZV&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6NjM1NDEzMzgyMTc4NzQ5LCJhc3NldF9hZ2VfZGF5cyI6NTI5LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6MzcsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQBgXtdnihmx1XUmykpv7nFtzb2vfoDDehIm1IgXm-SoNQ&oe=6A4AC830",
+    "midia_local": "swipe/espiao_midia/108752541322718/1539377553854063.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/1539377553854063.mp4",
+    "texto": "Vaga de emprego em Lages! 🔥 Se você tem experiência ou facilidade com informática e excel, essa vaga pode ser sua! A Burst Mídia é uma das maiores assessorias de performance digital especializada no nicho de odontologia e estética do Brasil, e hoje está com a vaga de Gestor de Tráfego em aberto. Clique no botão abaixo, preencha o formulário e nossa equipe entrará em contato contigo! 0:00 / 0:38 Converse conosco Learn More",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-1681278939575757",
+    "ad_id": "1681278939575757",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "imagem",
+    "midia_url": "https://scontent.fbsb8-2.fna.fbcdn.net/v/t39.35426-6/707875927_957976073665263_1857225431647065150_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=ljDd1o3ZnWkQ7kNvwEHfUU2&_nc_oc=AdpkZy8f0fv9qYlGlXM5GoWJYuMdgGZIJWm2IbjicBrBEziQ7GDaYXLsAjPd9KLZ9-r_uCr_KkeGBL_eg8DrwD-I&_nc_zt=14&_nc_ht=scontent.fbsb8-2.fna&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&oh=00_AQAm6CBW38vhrqeGJdP2qTCxeQNr_gUlX-vHyd8RHvqjVA&oe=6A4AC084",
+    "midia_local": "swipe/espiao_midia/108752541322718/1681278939575757.jpg",
+    "midia_video_local": "",
+    "texto": "Vaga de emprego em Lages! 🔥 Se você procura uma vaga de emprego na área de vendas, com fixo e comissionamento, essa oportunidade pode ser sua! A Burst Mídia é uma das maiores assessorias de performance digital especializada no nicho de odontologia e estética do Brasil, e hoje está com a vaga de vendedor(a) em aberto. Clique no botão abaixo, preencha nosso formulário e aguarde o contato da nossa equipe! HTTPS://IAHCKBL45MB.TYPEFORM.COM/TO/F8F1XZFO See Details",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-1330531732527939",
+    "ad_id": "1330531732527939",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-2.fna.fbcdn.net/o1/v/t2/f2/m412/AQOihTs46cXNZZW9QI2D4acSrTBY_BCeBCIy7cd8ROyBclZIPxzGbUD9QLO2IcTU-GzZhTLuRBMDwBIPfQodEUCgs7tIQeBxeRAK6BJtGA.mp4?_nc_cat=111&_nc_oc=AdpS8NiU_KipcxMQwHRCXoClGbM2o4KKQLJhlm1MR5JkoZ1DQRHSL5pAaenosRQsYGCHoti_26GG-wECkYkJmizA&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-2.fna.fbcdn.net&_nc_ohc=eqP2xj3qSpUQ7kNvwHLaATr&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6MjQ4MTA2ODg2MjMyNDE0OSwiYXNzZXRfYWdlX2RheXMiOjc1LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6MjcsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQB6dLs2KhUjVMf51Z1j8hLbVG0OXT3gEG4837EfUdlUWw&oe=6A4AB99F",
+    "midia_local": "swipe/espiao_midia/108752541322718/1330531732527939.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/1330531732527939.mp4",
+    "texto": "Aumente os agendamentos e o faturamento do seu consultório com a Burst Midia, somos a assessoria de marketing especializada em odontologia estética que mais gera resultado no Brasil. Preencha o formulário que falamos com você em até 5 minutos. 0:00 / 0:27",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-5316967411861697",
+    "ad_id": "5316967411861697",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "imagem",
+    "midia_url": "https://scontent.fbsb8-2.fna.fbcdn.net/v/t39.35426-6/523510480_1109723324421340_3709173737780388030_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=aWeQmuCuQQcQ7kNvwH5AUtL&_nc_oc=AdoM0rymdyEQcdkMBQ24dT_z0YQqshn4qrhSaTg3uBR5XB9P2DblZz4UKail3Vf-0yEUeVgpVHMhfSqpybqxNDv4&_nc_zt=14&_nc_ht=scontent.fbsb8-2.fna&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&oh=00_AQA4UFtGS3kKQr4HV6K5p2lT6SBTWaBbiKpnWEYwS6VwRA&oe=6A4ADE60",
+    "midia_local": "swipe/espiao_midia/108752541322718/5316967411861697.jpg",
+    "midia_video_local": "",
+    "texto": "Vaga de emprego em Lages! 🔥 Se você procura uma vaga de emprego na área de vendas, com fixo e comissionamento, essa oportunidade pode ser sua! A Burst Mídia é uma das maiores assessorias de performance digital especializada no nicho de odontologia e estética do Brasil, e hoje está com a vaga de vendedor(a) em aberto. Clique no botão abaixo, preencha nosso formulário e aguarde o contato da nossa equipe! HTTPS://IAHCKBL45MB.TYPEFORM.COM/TO/F8F1XZFO Learn More",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-1639001023825409",
+    "ad_id": "1639001023825409",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-1.fna.fbcdn.net/o1/v/t2/f2/m412/AQOn2QsFcKEsQQtrbgKm-UuONt-fTVSMkojwyrEylw-mwFz5DNi-7R7GwBFxSE7uM3_V_PVY1F1QJ6y15TTobACt770OxIPSZI260qdP0w.mp4?_nc_cat=104&_nc_oc=AdpDJiSHzOiczuBRCoj4J-8gCfGbW_nVrNNL_xEUFy9eJ8WfKvFQIeY7II64ZYh2eJuWaSoCL59Db7TURF_DI_0E&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-1.fna.fbcdn.net&_nc_ohc=M1Mts0MQkbIQ7kNvwGe1cRs&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6NDQ4MTI1NjA0NTQyODc3MiwiYXNzZXRfYWdlX2RheXMiOjc4LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6NDQsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQDvFBrJmQRnLSXvvLbXZZh7L8Pol1JENYQ0fNn_da-ayw&oe=6A4AB2D2",
+    "midia_local": "swipe/espiao_midia/108752541322718/1639001023825409.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/1639001023825409.mp4",
+    "texto": "Vaga de emprego em Lages! 🔥 Se você procura uma vaga de emprego na área de vendas, com fixo e comissionamento, essa oportunidade pode ser sua! A Burst Mídia é uma das maiores assessorias de performance digital especializada no nicho de odontologia e estética do Brasil, e hoje está com a vaga de vendedor(a) em aberto. Clique no botão abaixo, preencha nosso formulário e aguarde o contato da nossa equipe! 0:00 / 0:45 HTTPS://IAHCKBL45MB.TYPEFORM.COM/TO/F8F1XZFO Learn More",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-1011267624884579",
+    "ad_id": "1011267624884579",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-2.fna.fbcdn.net/o1/v/t2/f2/m412/AQPXPKD-UyigMrur3zlvEPTyijrRmMfTEipg_tQqnKqTt5BTNUq5HDMHD4GV8Q3qvRAH8f-yvtsy-NvvK7gILmYAQzBvr2qXDEz9NmUtgQ.mp4?_nc_cat=111&_nc_oc=AdpPL3K5N3cclBCx7IbudL0q-96jH7SEqvemdUibGOidzpaBvoExBWXk9Y0cnmXfKxLFsd3_XpaegpB36t8Z1iC0&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-2.fna.fbcdn.net&_nc_ohc=QzFD4IMOHHwQ7kNvwG9T0O2&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6MTY4NDY5ODQ3OTI3NDY1MiwiYXNzZXRfYWdlX2RheXMiOjYsInZpX3VzZWNhc2VfaWQiOjEwNzk5LCJkdXJhdGlvbl9zIjo1MSwidXJsZ2VuX3NvdXJjZSI6Ind3dyJ9&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQCXd-ovlhAopyOozpN-cf1uLFCiV5ionufHFvJDYPOXyg&oe=6A4ABE97",
+    "midia_local": "swipe/espiao_midia/108752541322718/1011267624884579.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/1011267624884579.mp4",
+    "texto": "Aumente os agendamentos e o faturamento do seu consultório com a Burst Midia, somos a assessoria de marketing especializada em odontologia estética que mais gera resultado no Brasil. Preencha o formulário que falamos com você em até 5 minutos. 0:00 / 0:52",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-984684257812823",
+    "ad_id": "984684257812823",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-1.fna.fbcdn.net/o1/v/t2/f2/m412/AQMpwuOpRkScbec1l8pivUVZg5WN3Ao_3Yjr0HSY71FhpxUu3yXT0rIU_n_q3R8Vsu2VpwTnkaxo_i2vINlIiOFZUWwOpVb0v8Eh__RGgg.mp4?_nc_cat=105&_nc_oc=Adovf0GnhbyYlZZC6vdY63wHYH6c9AIGQja3tzFd0XRiEyA2MKmhLJe17zQD7-CGyZJQ6-V1ViN6eLg4dIpUfAdo&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-1.fna.fbcdn.net&_nc_ohc=jnXjLTzehyEQ7kNvwFOXT7H&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6MTc2NDQyMDYxNzg1NzYyNSwiYXNzZXRfYWdlX2RheXMiOjYsInZpX3VzZWNhc2VfaWQiOjEwNzk5LCJkdXJhdGlvbl9zIjo0NywidXJsZ2VuX3NvdXJjZSI6Ind3dyJ9&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQCtz-hVhzgBv_PZUEcxHCR5mRlDSaZM8-vTmvxWcPy2Dw&oe=6A4ADA35",
+    "midia_local": "swipe/espiao_midia/108752541322718/984684257812823.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/984684257812823.mp4",
+    "texto": "Aumente os agendamentos e o faturamento do seu consultório com a Burst Midia, somos a assessoria de marketing especializada em odontologia estética que mais gera resultado no Brasil. Preencha o formulário que falamos com você em até 5 minutos. 0:00 / 0:48",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-2468197660341507",
+    "ad_id": "2468197660341507",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-1.fna.fbcdn.net/o1/v/t2/f2/m412/AQMWnL4mRabyfOecfHyXSjlQL8svwm95e8wM3dfOP2GU08nWoitR9WcGH3usYeWLg6-q9E-VzpWCNBdBOVqS-fuwy9dGS53hRcLcmR5pmA.mp4?_nc_cat=104&_nc_oc=Ado8vcrWR9HB6KQWwPot9cT42Kd4RTQNG2XAjvZjz3Q4ddRegn-KbVxHDvCR9Id0htkwU7-lg4sd3rvGAhJicKiq&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-1.fna.fbcdn.net&_nc_ohc=OGFnsnrRpJEQ7kNvwHuO9aV&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6MTc3MTEzMDMwNDA4MDk2NSwiYXNzZXRfYWdlX2RheXMiOjYsInZpX3VzZWNhc2VfaWQiOjEwNzk5LCJkdXJhdGlvbl9zIjo1MSwidXJsZ2VuX3NvdXJjZSI6Ind3dyJ9&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQAeKpJbwlo7s0T_HaHyMRvjHW4wzZGyS1rew1AAXztdOA&oe=6A4AB5AE",
+    "midia_local": "swipe/espiao_midia/108752541322718/2468197660341507.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/2468197660341507.mp4",
+    "texto": "Aumente os agendamentos e o faturamento do seu consultório com a Burst Midia, somos a assessoria de marketing especializada em odontologia estética que mais gera resultado no Brasil. Preencha o formulário que falamos com você em até 5 minutos. 0:00 / 0:52",
+    "criado_em": "2026-07-01"
+  },
+  {
+    "id": "espiao-982871508078907",
+    "ad_id": "982871508078907",
+    "mock": false,
+    "origem": "espiao",
+    "dissecado": false,
+    "salvo_no_swipe": false,
+    "concorrente": "Burst Mídia",
+    "page_id": "108752541322718",
+    "nicho": "",
+    "formato": "video",
+    "midia_url": "https://video.fbsb8-2.fna.fbcdn.net/o1/v/t2/f2/m412/AQOxgy2UfdXinpiYWfIHCwtn6F18djnnuSfSFDIPSU5UNg4hGeHVB9rXiW059PjSWXo7pOSnCDulrmoUPvUwcKssvu7cnX_jKmE8UXzvjA.mp4?_nc_cat=107&_nc_oc=Ado-xbIytGbMk_vPQqi1opTzKaLllsNiS5b2UZh3EnhZ96hznoD0d0UnoWPOgRJheeS5Oi6juzOO8886MlIIxvgs&_nc_sid=ef5aa3&_nc_ht=video.fbsb8-2.fna.fbcdn.net&_nc_ohc=_3LXx1LQadsQ7kNvwFZD0Z_&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzMuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6OTk3NTkwNDE5NTI4NzczLCJhc3NldF9hZ2VfZGF5cyI6NiwidmlfdXNlY2FzZV9pZCI6MTA3OTksImR1cmF0aW9uX3MiOjUxLCJ1cmxnZW5fc291cmNlIjoid3d3In0%3D&ccb=17-1&_nc_gid=vcvnWAO6BKkQR9WncmXmkQ&_nc_ss=7b289&_nc_zt=28&oh=00_AQBac4SqHFzCoZQG1sU8an2foJyFrmUSXZRewOy1m7jqyw&oe=6A4ABD03",
+    "midia_local": "swipe/espiao_midia/108752541322718/982871508078907.jpg",
+    "midia_video_local": "swipe/espiao_midia/108752541322718/982871508078907.mp4",
+    "texto": "Aumente os agendamentos e o faturamento do seu consultório com a Burst Midia, somos a assessoria de marketing especializada em odontologia estética que mais gera resultado no Brasil. Preencha o formulário que falamos com você em até 5 minutos. 0:00 / 0:52",
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1494756575693079",
@@ -2226,7 +2379,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1494756575693079.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, lotamos sua agenda com pacientes prontos para fechar protocolo! Cansado de depender apenas de indicações ou sorte pra fechar implantes? Nós entendemos o seu desafio. Nossa estratégia posiciona sua clínica como referência em protocolos, atraindo pacientes qualificados e prontos para agir. Descubra como encher sua agenda com interessados reais, sem desperdício de verba, sazonalidade ou frustração. Clique agora e preencha o formulário para dar o próximo passo rumo a uma clínica cheia de protocolos.",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1024646099984727",
@@ -2243,7 +2396,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1024646099984727.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1024646099984727.mp4",
     "texto": "Imagine faturar mais de R$17 mil em apenas 2 dias! Essa é a realidade da Dra. Andrea. Ela não buscou uma agência de marketing, mas um time completo da Growth que cuida de tudo: da captação de leads ao treinamento da secretária, garantindo agendamentos e resultados reais. Você é um profissional excelente, mas sua agenda não reflete seu potencial? Cansado de só gerar leads? A Dra. Andrea provou que ter um parceiro que sonha junto e entrega agendamentos muda o jogo. Se você quer reescrever a história da sua clínica, clique no link aqui embaixo e vamos mudar o rumo dessa história! 0:00 / 1:17 INST",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2055152195075870",
@@ -2260,7 +2413,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2055152195075870.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2055152195075870.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1180714334137740",
@@ -2277,7 +2430,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1180714334137740.jpg",
     "midia_video_local": "",
     "texto": "Sua clínica como referência na sua região. Quer agenda cheia com pacientes prontos para tratar? Captação por procedimento + qualificação + treinamento comercial. Preencha o formulário e receba um plano em 48h. Preencher formulário agora Dentista: Tenha mais pacientes Sign Up",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1258560502928435",
@@ -2294,7 +2447,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1258560502928435.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, lotamos sua agenda com pacientes prontos para fechar protocolo! Cansado de depender apenas de indicações ou sorte pra fechar implantes? Nós entendemos o seu desafio. Nossa estratégia posiciona sua clínica como referência em protocolos, atraindo pacientes qualificados e prontos para agir. Descubra como encher sua agenda com interessados reais, sem desperdício de verba, sazonalidade ou frustração. Clique agora e preencha o formulário para dar o próximo passo rumo a uma clínica cheia de protocolos. FB.ME Fature mais na sua clínica com ESTRATÉGIA Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1696911455066866",
@@ -2311,7 +2464,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1696911455066866.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2172097266527635",
@@ -2328,7 +2481,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2172097266527635.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2172097266527635.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-887926654312976",
@@ -2345,7 +2498,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/887926654312976.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/887926654312976.mp4",
     "texto": "Sua clínica como referência na sua região. Quer agenda cheia com pacientes prontos para tratar? Captação por procedimento + qualificação + treinamento comercial. Preencha o formulário e receba um plano em 48h. Preencher formulário agora 0:00 / 0:45 FB.ME Dentista: Tenha mais pacientes Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1688078508989592",
@@ -2362,7 +2515,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1688078508989592.jpg",
     "midia_video_local": "",
     "texto": "Uma mudança silenciosa está acontecendo no comportamento do paciente odontológico — e a maioria dos dentistas ainda não percebeu. O paciente de hoje não escolhe dentista por indicação. Ele pesquisa no Google, compara perfis, lê avaliações e toma a decisão antes mesmo de ligar para a clínica. Isso significa que, se a sua clínica não aparece no momento certo, com a mensagem certa — você simplesmente não existe para esse paciente. Entenda o que mudou e como se adaptar antes que seja tarde. SAIBA MAIS Sign Up",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1011858121187558",
@@ -2379,7 +2532,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1011858121187558.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1011858121187558.mp4",
     "texto": "Dentista, se a sua agenda não está como deveria, o problema pode não ser a sua entrega. Muitas vezes, o que falta é uma estratégia clara para atrair pacientes, gerar demanda e transformar interesse em tratamento fechado. Preencha o formulário e descubra como a Growth pode ajudar. 0:00 / 0:32 FB.ME Dentista: Tenha mais pacientes em sua clínica Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1357981296143861",
@@ -2396,7 +2549,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1357981296143861.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1357981296143861.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1628595644890192",
@@ -2413,7 +2566,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1628595644890192.jpg",
     "midia_video_local": "",
     "texto": "Uma mudança silenciosa está ocorrendo no comportamento dos pacientes odontológicos... E muitos dentistas ainda não perceberam! Hoje, os pacientes pesquisam no Google, compararam perfis e lêem avaliações antes de escolher um dentista. Se sua clínica não aparece no momento certo com a mensagem certa... Você simplesmente não existe para eles! Descubra o que mudou e como se adaptar agora! Dentista, sua clínica pode faturar mais em 2026 Sign Up",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-952044441208958",
@@ -2430,7 +2583,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/952044441208958.jpg",
     "midia_video_local": "",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-844420722079700",
@@ -2447,7 +2600,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/844420722079700.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4526479594251088",
@@ -2464,7 +2617,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/4526479594251088.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/4526479594251088.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1488490849605573",
@@ -2481,7 +2634,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1488490849605573.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1488490849605573.mp4",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27350845491186417",
@@ -2498,7 +2651,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/27350845491186417.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/27350845491186417.mp4",
     "texto": "Sua clínica como referência na sua região. Quer agenda cheia com pacientes prontos para tratar? Captação por procedimento + qualificação + treinamento comercial. Preencha o formulário e receba um plano em 48h. Preencher formulário agora 0:00 / 0:32 FB.ME Dentista: Tenha mais pacientes Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1706642210465437",
@@ -2515,7 +2668,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1706642210465437.jpg",
     "midia_video_local": "",
     "texto": "Você já viu colegas talentosos desistirem por falta de pacientes? Ser um excelente dentista não é o suficiente. Você precisa encher a agenda! Consultórios vazios e faturamento travado? Nós podemos ajudar. • Posicionamos sua autoridade com estratégia; • Atraímos os pacientes certos com tráfego pago inteligente; • Transformamos interesse em consultas com copywriting de alta conversão; Imagine uma agenda cheia, sem precisar implorar por indicações. Clique no link, preencha o formulário e descubra como crescer! Não deixe seu potencial ir embora, sua vez chegou. Multiplique o seu faturamento com a ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1317504549733214",
@@ -2532,7 +2685,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1317504549733214.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, você não precisa contratar um CRC interno para começar a ter um processo comercial mais organizado. Com a Growth Odonto, seu consultório conta com uma estrutura completa de tráfego + CRC, pensada para atrair pacientes qualificados, acompanhar os contatos, fazer follow-up e aumentar as chances de transformar interesse em avaliação. Enquanto você foca nos tratamentos, nossa equipe cuida da estratégia para gerar mais oportunidades e mais previsibilidade para o seu consultório. Clique no botão e preencha o formulário para entender como podemos ajudar. FB.ME Dentista, sua clínica ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1294411655614941",
@@ -2549,7 +2702,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1294411655614941.jpg",
     "midia_video_local": "",
     "texto": "🦷 Atenção, implantodontistas! Se você já domina a técnica, mas sente que poderia fechar muito mais protocolos por mês, esse recado é pra você. 👉 A maior dor de quem atua nessa área não é a falta de capacidade clínica, e sim a falta de pacientes chegando prontos para investir em um protocolo. O que vamos te mostrar não é uma vaga de emprego. É uma parceria estratégica para transformar o desempenho da sua clínica e fazer você alcançar resultados consistentes todos os meses. Com o método certo, você pode: ✅ Atrair pacientes qualificados que buscam protocolo; ✅ Aumentar sua previsibilidade de fa",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1306452881693237",
@@ -2566,7 +2719,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1306452881693237.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1306452881693237.mp4",
     "texto": "🦷 Dentista, indicação é ótima… mas ela paga suas contas com previsibilidade? A maioria das clínicas vive de boca a boca — e isso realmente traz bons pacientes. O problema é que indicação não tem controle, não tem volume previsível e não garante o faturamento do próximo mês. Sem previsibilidade, sua clínica vira refém da sorte. Com estratégia de marketing e um ecossistema bem estruturado, você passa a ter controle sobre sua demanda, sua agenda e suas metas. Não é sobre abandonar indicação. É sobre parar de depender só dela. 👉 Clique no botão e preencha o formulário para receber um planejament",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1487305773145805",
@@ -2583,7 +2736,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1487305773145805.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, você não precisa contratar um CRC interno para começar a ter um processo comercial mais organizado. Com a Growth Odonto, seu consultório conta com uma estrutura completa de tráfego + CRC, pensada para atrair pacientes qualificados, acompanhar os contatos, fazer follow-up e aumentar as chances de transformar interesse em avaliação. Enquanto você foca nos tratamentos, nossa equipe cuida da estratégia para gerar mais oportunidades e mais previsibilidade para o seu consultório. Clique no botão e preencha o formulário para entender como podemos ajudar.",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-3534674340035395",
@@ -2600,7 +2753,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/3534674340035395.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/3534674340035395.mp4",
     "texto": "Dentista, se a sua agenda não está como deveria, o problema pode não ser a sua entrega. Muitas vezes, o que falta é uma estratégia clara para atrair pacientes, gerar demanda e transformar interesse em tratamento fechado. Preencha o formulário e descubra como a Growth pode ajudar. 0:00 / 0:00 FB.ME Dentista: Tenha mais pacientes em sua clínica Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2012392913486668",
@@ -2617,7 +2770,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2012392913486668.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2012392913486668.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-884689010583713",
@@ -2634,7 +2787,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/884689010583713.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-984176017892583",
@@ -2651,7 +2804,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/984176017892583.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/984176017892583.mp4",
     "texto": "🦷 Dentista, indicação é ótima… mas ela paga suas contas com previsibilidade? A maioria das clínicas vive de boca a boca — e isso realmente traz bons pacientes. O problema é que indicação não tem controle, não tem volume previsível e não garante o faturamento do próximo mês. Sem previsibilidade, sua clínica vira refém da sorte. Com estratégia de marketing e um ecossistema bem estruturado, você passa a ter controle sobre sua demanda, sua agenda e suas metas. Não é sobre abandonar indicação. É sobre parar de depender só dela. 👉 Clique no botão e preencha o formulário para receber um planejament",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2001266310763519",
@@ -2668,7 +2821,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2001266310763519.jpg",
     "midia_video_local": "",
     "texto": "Quantos colegas de profissão você já viu desistirem não por falta de talento, mas por não conseguirem encher a agenda? 👉 A verdade é que ser um bom dentista não basta se os pacientes não estão chegando até você. 📉 Consultórios vazios, dependência de indicações e a frustração de ver o faturamento travado fazem muitos profissionais abandonarem seus sonhos mas com você não vai ser assim. Se você já sabe atender com excelência, nós cuidamos da parte mais difícil: fazer o paciente bater na sua porta. Como? Através de um método que combina: ✅ Posicionamento estratégico para destacar sua autoridade",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1769816897313264",
@@ -2685,7 +2838,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1769816897313264.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1769816897313264.mp4",
     "texto": "Sua clínica como referência na sua região. Quer agenda cheia com pacientes prontos para tratar? Captação por procedimento + qualificação + treinamento comercial. Preencha o formulário e receba um plano em 48h. Preencher formulário agora 0:00 / 0:00 FB.ME Dentista: Tenha mais pacientes Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1507327974433857",
@@ -2702,7 +2855,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1507327974433857.jpg",
     "midia_video_local": "",
     "texto": "Quantos colegas de profissão você já viu desistirem não por falta de talento, mas por não conseguirem encher a agenda? 👉 A verdade é que ser um bom dentista não basta se os pacientes não estão chegando até você. 📉 Consultórios vazios, dependência de indicações e a frustração de ver o faturamento travado fazem muitos profissionais abandonarem seus sonhos mas com você não vai ser assim. Se você já sabe atender com excelência, nós cuidamos da parte mais difícil: fazer o paciente bater na sua porta. Como? Através de um método que combina: ✅ Posicionamento estratégico para destacar sua autoridade",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1219324403520309",
@@ -2719,7 +2872,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1219324403520309.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1219324403520309.mp4",
     "texto": "“A gente já tinha tentado de tudo. Trocamos de agência várias vezes, mas os resultados nunca vinham…” Foi assim até conhecer o @grupoodontologicoct Hoje, Danilo e Júlia falam com orgulho da transformação que a clínica passou — mais pacientes, mais faturamento e, principalmente, a confiança de ver que existe sim um time que entrega o que promete. Se você também está cansado de promessas vazias e quer resultado de verdade, esse vídeo é pra você. Assista e descubra por que o Grupo Carlos Teodorico virou referência no que faz 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1721490269095158",
@@ -2736,7 +2889,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1721490269095158.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1529575442159778",
@@ -2753,7 +2906,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1529575442159778.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1529575442159778.mp4",
     "texto": "Sua clínica como referência na sua região. Quer agenda cheia com pacientes prontos para tratar? Captação por procedimento + qualificação + treinamento comercial. Preencha o formulário e receba um plano em 48h. Preencher formulário agora 0:00 / 0:00 FB.ME Dentista: Tenha mais pacientes Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4226614230889113",
@@ -2770,7 +2923,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/4226614230889113.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/4226614230889113.mp4",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1647373946377133",
@@ -2787,7 +2940,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1647373946377133.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, você não precisa contratar um CRC interno para começar a ter um processo comercial mais organizado. Com a Growth Odonto, seu consultório conta com uma estrutura completa de tráfego + CRC, pensada para atrair pacientes qualificados, acompanhar os contatos, fazer follow-up e aumentar as chances de transformar interesse em avaliação. Enquanto você foca nos tratamentos, nossa equipe cuida da estratégia para gerar mais oportunidades e mais previsibilidade para o seu consultório. Clique no botão e preencha o formulário para entender como podemos ajudar. FB.ME Dentista, sua clínica ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2466722947177782",
@@ -2804,7 +2957,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2466722947177782.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1720787145762560",
@@ -2821,7 +2974,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1720787145762560.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1720787145762560.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2142527849932283",
@@ -2838,7 +2991,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2142527849932283.jpg",
     "midia_video_local": "",
     "texto": "Quantos colegas de profissão você já viu desistirem não por falta de talento, mas por não conseguirem encher a agenda? 👉 A verdade é que ser um bom dentista não basta se os pacientes não estão chegando até você. 📉 Consultórios vazios, dependência de indicações e a frustração de ver o faturamento travado fazem muitos profissionais abandonarem seus sonhos mas com você não vai ser assim. Se você já sabe atender com excelência, nós cuidamos da parte mais difícil: fazer o paciente bater na sua porta. Como? Através de um método que combina: ✅ Posicionamento estratégico para destacar sua autoridade",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2220091435483314",
@@ -2855,7 +3008,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2220091435483314.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2220091435483314.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-969900415644893",
@@ -2872,7 +3025,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/969900415644893.jpg",
     "midia_video_local": "",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2141094820012920",
@@ -2889,7 +3042,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2141094820012920.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, lotamos sua agenda com pacientes prontos para fechar protocolo! Cansado de depender apenas de indicações ou sorte pra fechar implantes? Nós entendemos o seu desafio. Nossa estratégia posiciona sua clínica como referência em protocolos, atraindo pacientes qualificados e prontos para agir. Descubra como encher sua agenda com interessados reais, sem desperdício de verba, sazonalidade ou frustração. Clique agora e preencha o formulário para dar o próximo passo rumo a uma clínica cheia de protocolos.",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1597685581878117",
@@ -2906,7 +3059,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1597685581878117.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1597685581878117.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1531272938672207",
@@ -2923,7 +3076,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1531272938672207.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1531272938672207.mp4",
     "texto": "Dentista, se a sua agenda não está como deveria, o problema pode não ser a sua entrega. Muitas vezes, o que falta é uma estratégia clara para atrair pacientes, gerar demanda e transformar interesse em tratamento fechado. Preencha o formulário e descubra como a Growth pode ajudar. 0:00 / 0:00 FB.ME Dentista: Tenha mais pacientes em sua clínica Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1589714859830944",
@@ -2940,7 +3093,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1589714859830944.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1589714859830944.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-868525598913849",
@@ -2957,7 +3110,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/868525598913849.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/868525598913849.mp4",
     "texto": "Dentista, se a sua agenda não está como deveria, o problema pode não ser a sua entrega. Muitas vezes, o que falta é uma estratégia clara para atrair pacientes, gerar demanda e transformar interesse em tratamento fechado. Preencha o formulário e descubra como a Growth pode ajudar. 0:00 / 0:00 FB.ME Dentista: Tenha mais pacientes em sua clínica Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1920438678667067",
@@ -2974,7 +3127,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1920438678667067.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-862410870181847",
@@ -2991,7 +3144,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/862410870181847.jpg",
     "midia_video_local": "",
     "texto": "❌ PARE DE PERDER LUCRO! O problema da sua clínica não é o tráfego, é o Processo Comercial. Você já investiu em tráfego, trocou de agência e gravou vídeos, mas o faturamento da clínica continua estagnado? A verdade é que gerar leads não basta. Clínicas que estão dobrando o lucro descobriram que o segredo está em um Funil de Vendas que realmente converte. Nós da Growth desenvolvemos o método que une tráfego pago qualificado, treinamento de atendimento comercial profissional e método para atrair clientes qualificados: - Vender protocolos de alto valor. - Eliminar a dependência de secretárias sobr",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-953465147525669",
@@ -3008,7 +3161,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/953465147525669.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2223058764897696",
@@ -3025,7 +3178,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2223058764897696.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2223058764897696.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1612821604183590",
@@ -3042,7 +3195,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1612821604183590.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1612821604183590.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1679445749965512",
@@ -3059,7 +3212,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1679445749965512.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-848693851256231",
@@ -3076,7 +3229,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/848693851256231.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/848693851256231.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1971413760182243",
@@ -3093,7 +3246,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1971413760182243.jpg",
     "midia_video_local": "",
     "texto": "Quantos colegas de profissão você já viu desistirem não por falta de talento, mas por não conseguirem encher a agenda? 👉 A verdade é que ser um bom dentista não basta se os pacientes não estão chegando até você. 📉 Consultórios vazios, dependência de indicações e a frustração de ver o faturamento travado fazem muitos profissionais abandonarem seus sonhos mas com você não vai ser assim. Se você já sabe atender com excelência, nós cuidamos da parte mais difícil: fazer o paciente bater na sua porta. Como? Através de um método que combina: ✅ Posicionamento estratégico para destacar sua autoridade",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1564536785240691",
@@ -3110,7 +3263,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1564536785240691.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1564536785240691.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-842385641926238",
@@ -3127,7 +3280,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/842385641926238.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, você não precisa contratar um CRC interno para começar a ter um processo comercial mais organizado. Com a Growth Odonto, seu consultório conta com uma estrutura completa de tráfego + CRC, pensada para atrair pacientes qualificados, acompanhar os contatos, fazer follow-up e aumentar as chances de transformar interesse em avaliação. Enquanto você foca nos tratamentos, nossa equipe cuida da estratégia para gerar mais oportunidades e mais previsibilidade para o seu consultório. Clique no botão e preencha o formulário para entender como podemos ajudar.",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2101356643777100",
@@ -3144,7 +3297,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2101356643777100.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2101356643777100.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-833448856023909",
@@ -3161,7 +3314,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/833448856023909.jpg",
     "midia_video_local": "",
     "texto": "❌ PARE DE PERDER LUCRO! O problema da sua clínica não é o tráfego, é o Processo Comercial. Você já investiu em tráfego, trocou de agência e gravou vídeos, mas o faturamento da clínica continua estagnado? A verdade é que gerar leads não basta. Clínicas que estão dobrando o lucro descobriram que o segredo está em um Funil de Vendas que realmente converte. Nós da Growth desenvolvemos o método que une tráfego pago qualificado, treinamento de atendimento comercial profissional e método para atrair clientes qualificados: - Vender protocolos de alto valor. - Eliminar a dependência de secretárias sobr",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1325686592995218",
@@ -3178,7 +3331,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1325686592995218.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1325686592995218.mp4",
     "texto": "Dentista, lotamos sua agenda com pacientes interessados em agendar! Cansado de depender apenas de indicações para atrair pacientes? Nós entendemos o seu desafio! Nossa estratégia transforma sua clínica em um ímã de pacientes, garantindo resultados reais e rápidos. Descubra como encher sua agenda sem preocupações, medo de gastar dinheiro à toa ou depender da época do ano. Clique agora e preencha o formulário para dar o próximo passo rumo ao sucesso! 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-869006378870522",
@@ -3195,7 +3348,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/869006378870522.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/869006378870522.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1624155321996244",
@@ -3212,7 +3365,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1624155321996244.jpg",
     "midia_video_local": "",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1300682568112760",
@@ -3229,7 +3382,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1300682568112760.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1300682568112760.mp4",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4465650173711618",
@@ -3246,7 +3399,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/4465650173711618.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/4465650173711618.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2595444134224797",
@@ -3263,7 +3416,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2595444134224797.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2595444134224797.mp4",
     "texto": "Dentista, se a sua agenda não está como deveria, o problema pode não ser a sua entrega. Muitas vezes, o que falta é uma estratégia clara para atrair pacientes, gerar demanda e transformar interesse em tratamento fechado. Preencha o formulário e descubra como a Growth pode ajudar. 0:00 / 0:00 FB.ME Dentista: Tenha mais pacientes em sua clínica Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-930297973380552",
@@ -3280,7 +3433,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/930297973380552.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/930297973380552.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-993812106468629",
@@ -3297,7 +3450,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/993812106468629.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/993812106468629.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2312099399200759",
@@ -3314,7 +3467,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2312099399200759.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2312099399200759.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-26076925028649098",
@@ -3331,7 +3484,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/26076925028649098.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/26076925028649098.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1698724447728398",
@@ -3348,7 +3501,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1698724447728398.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1698724447728398.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1260389652526057",
@@ -3365,7 +3518,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1260389652526057.jpg",
     "midia_video_local": "",
     "texto": "Você está pronto para descobrir a Nova Fonte de Faturamento que está transformando o mercado de implantes e protocolos odontológicos no Brasil? 🚀 Chega de depender de convênios e de ter a agenda vazia! A Growth Odonto, maior HUB de inteligência e execução para dentistas do país, revela o Método 10X, comprovado para gerar até 10x mais vendas de procedimentos de alto ticket. Imagine sua clínica com a agenda cheia de pacientes que valorizam seu trabalho e pagam pelo melhor. É a sua chance de ter uma gestão de clínica odontológica mais lucrativa e a liberdade que você sempre buscou. Este é o cami",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1330027448561419",
@@ -3382,7 +3535,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1330027448561419.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1330027448561419.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-975923808742897",
@@ -3399,7 +3552,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/975923808742897.jpg",
     "midia_video_local": "",
     "texto": "🦷 Atenção, implantodontistas! Se você já domina a técnica, mas sente que poderia fechar muito mais protocolos por mês, esse recado é pra você. 👉 A maior dor de quem atua nessa área não é a falta de capacidade clínica, e sim a falta de pacientes chegando prontos para investir em um protocolo. O que vamos te mostrar não é uma vaga de emprego. É uma parceria estratégica para transformar o desempenho da sua clínica e fazer você alcançar resultados consistentes todos os meses. Com o método certo, você pode: ✅ Atrair pacientes qualificados que buscam protocolo; ✅ Aumentar sua previsibilidade de fa",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1683775316160630",
@@ -3416,7 +3569,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1683775316160630.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, você não precisa contratar um CRC interno para começar a ter um processo comercial mais organizado. Com a Growth Odonto, seu consultório conta com uma estrutura completa de tráfego + CRC, pensada para atrair pacientes qualificados, acompanhar os contatos, fazer follow-up e aumentar as chances de transformar interesse em avaliação. Enquanto você foca nos tratamentos, nossa equipe cuida da estratégia para gerar mais oportunidades e mais previsibilidade para o seu consultório. Clique no botão e preencha o formulário para entender como podemos ajudar.",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1540224507775183",
@@ -3433,7 +3586,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1540224507775183.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1540224507775183.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-26954023520934714",
@@ -3450,7 +3603,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/26954023520934714.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/26954023520934714.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1284666277116440",
@@ -3467,7 +3620,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1284666277116440.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1284666277116440.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-856323663739093",
@@ -3484,7 +3637,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/856323663739093.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/856323663739093.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1940950389893034",
@@ -3501,7 +3654,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1940950389893034.jpg",
     "midia_video_local": "",
     "texto": "Dentista, você não precisa carregar sozinho a captação, o agendamento e o follow-up dos seus pacientes. Com a Growth Odonto, seu consultório conta com uma estratégia completa para atrair pacientes qualificados e conduzir melhor cada oportunidade até a avaliação. A gente une tráfego pago, estratégia de captação e processo comercial odontológico, sem você precisar contratar um CRC do zero ou perder tempo tentando treinar uma equipe sem método. Do primeiro contato ao follow-up, o foco é simples: mais pacientes qualificados, mais avaliações e mais previsibilidade para o seu consultório. Clique em ",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2219633988576514",
@@ -3518,7 +3671,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2219633988576514.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2219633988576514.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-26840456672230970",
@@ -3535,7 +3688,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/26840456672230970.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/26840456672230970.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1967134470596790",
@@ -3552,7 +3705,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1967134470596790.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1967134470596790.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1697298701410565",
@@ -3569,7 +3722,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1697298701410565.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1697298701410565.mp4",
     "texto": "Dentistas estão lotando a agenda com a Growth Odonto. Ele decidiu investir no marketing certo — e hoje colhe os frutos: mais pacientes, mais faturamento e zero preocupação com captação. 🚨 Esse vídeo é pra você que ainda acha que marketing não funciona pra odontologia. Preencha o formulário agora e descubra como a gente pode transformar a sua clínica também. 0:00 / 0:00 FB.ME Multiplique o seu faturamento com a Growth Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2034550690764953",
@@ -3586,7 +3739,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2034550690764953.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2034550690764953.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1762776661760342",
@@ -3603,7 +3756,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1762776661760342.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1762776661760342.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1937509433591918",
@@ -3620,7 +3773,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1937509433591918.jpg",
     "midia_video_local": "",
     "texto": "❌ PARE DE PERDER LUCRO! O problema da sua clínica não é o tráfego, é o Processo Comercial. Você já investiu em tráfego, trocou de agência e gravou vídeos, mas o faturamento da clínica continua estagnado? A verdade é que gerar leads não basta. Clínicas que estão dobrando o lucro descobriram que o segredo está em um Funil de Vendas que realmente converte. Nós da Growth desenvolvemos o método que une tráfego pago qualificado, treinamento de atendimento comercial profissional e método para atrair clientes qualificados: - Vender protocolos de alto valor. - Eliminar a dependência de secretárias sobr",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2863195924078895",
@@ -3637,7 +3790,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2863195924078895.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2863195924078895.mp4",
     "texto": "📲✨ O tráfego pago atrai, mas é o atendimento que converte! Muitas clínicas perdem pacientes não por falta de anúncios, mas por um WhatsApp frio e sem estratégia. 👎 Atendimento errado = cliente se sente só mais um → altas taxas de falta. 👍 Atendimento humanizado = conexão + autoridade → agenda cheia e lucro real. 🔑 Técnicas simples que fazem a diferença: ✔️ Entender a necessidade do paciente ✔️ Identificar a dor real ✔️ Acolher e mostrar autoridade ✔️ Fechar com escassez e opções claras 🚀 Transforme o WhatsApp da sua clínica em máquina de vendas! 💬 Comenta “Protocolo” que eu te mostro com",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27262859270030966",
@@ -3654,7 +3807,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/27262859270030966.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/27262859270030966.mp4",
     "texto": "Dentista, lotamos sua agenda com pacientes interessados em agendar! Cansado de depender apenas de indicações para atrair pacientes? Nós entendemos o seu desafio! Nossa estratégia transforma sua clínica em um ímã de pacientes, garantindo resultados reais e rápidos. Descubra como encher sua agenda sem preocupações, medo de gastar dinheiro à toa ou depender da época do ano. Clique agora e preencha o formulário para dar o próximo passo rumo ao sucesso! Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-999281306175764",
@@ -3671,7 +3824,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/999281306175764.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/999281306175764.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-784395101329913",
@@ -3688,7 +3841,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/784395101329913.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/784395101329913.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1020128923829153",
@@ -3705,7 +3858,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1020128923829153.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1020128923829153.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1294872389494279",
@@ -3722,7 +3875,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1294872389494279.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1294872389494279.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1987117012166794",
@@ -3739,7 +3892,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1987117012166794.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1987117012166794.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1002925205578742",
@@ -3756,7 +3909,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1002925205578742.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1002925205578742.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-4423163794639336",
@@ -3773,7 +3926,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/4423163794639336.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/4423163794639336.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27658219807117021",
@@ -3790,7 +3943,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/27658219807117021.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/27658219807117021.mp4",
     "texto": "Barbeiro ganhando mais que dentista? 😳 Parece absurdo, mas é a realidade. Enquanto muitos dentistas continuam esperando indicações e reclamando que “o marketing é caro”, barbeiros que cobram R$50 por um corte estão investindo pesado em sistemas, marketing e experiência para atrair clientes todos os dias. 📉 Resultado? O barbeiro fatura, cresce e escala. O dentista… fica estagnado. 🔗 Entre em contato com a gente e descubra como encher sua agenda de pacientes com uma estratégia validada. Baixo volume de impressões 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1321870379884815",
@@ -3807,7 +3960,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1321870379884815.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1321870379884815.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1541962657521788",
@@ -3824,7 +3977,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1541962657521788.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1541962657521788.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27282205521418240",
@@ -3841,7 +3994,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/27282205521418240.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/27282205521418240.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1619632219138866",
@@ -3858,7 +4011,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1619632219138866.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1619632219138866.mp4",
     "texto": "Depender de indicação é trocar o controle do seu faturamento pela sorte. Um mês cheio, no outro no sufoco e você não sabe o que vem pela frente. Assista esse vídeo e descubra como sair desse ciclo. Comenta aqui: sua clínica hoje depende de indicação? 👇 🔗 Link na bio pra saber mais sobre captação de pacientes qualificados. . . #implantodontia #captaçãodepacientes #marketingparadentistas #agendacheia #gestaodeclinica Baixo volume de impressões 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1675633260331688",
@@ -3875,7 +4028,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1675633260331688.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1675633260331688.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1037587265610412",
@@ -3892,7 +4045,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1037587265610412.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1037587265610412.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1945361349518421",
@@ -3909,7 +4062,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1945361349518421.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1945361349518421.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1464143142068269",
@@ -3926,7 +4079,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1464143142068269.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1464143142068269.mp4",
     "texto": "Enquanto curtia merecidas férias em Noronha, a Dra. Edilaine recebeu um PIX de R$53.000,00. 📈 Resultado de um trabalho sólido, estratégia certa e posicionamento de alto nível. Isso é prova de que quando a estrutura está bem feita, os resultados continuam chegando — mesmo de férias! 🚀 #crescimento #estrategia #resultados #growth #altoperformance Baixo volume de impressões 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-823492733774795",
@@ -3943,7 +4096,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/823492733774795.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/823492733774795.mp4",
     "texto": "Dentista, já imaginou ter pacientes qualificados chegando direto na sua cadeira? Chega de depender de agência genérica que só entrega lead solto e te deixa na mão na hora do fechamento. A Growth trabalha com uma metodologia validada dentro das nossas clínicas e também com mais de 600 clínicas atendidas. O foco aqui não é só gerar contato. É atrair o paciente certo, com perfil mais qualificado e real intenção de avançar no tratamento. Se você quer entender como essa metodologia pode ajudar sua clínica a ter mais previsibilidade e mais oportunidades reais de fechamento, preencha o formulário e f",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1328974975883326",
@@ -3960,7 +4113,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1328974975883326.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1328974975883326.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1240321034739657",
@@ -3977,7 +4130,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1240321034739657.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1240321034739657.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1698204661381037",
@@ -3994,7 +4147,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1698204661381037.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1698204661381037.mp4",
     "texto": "Quantos pacientes novos vão entrar na sua clínica no próximo mês? Se a resposta foi “não faço ideia” esse vídeo é pra você. Mês cheio ou mês vazio não é azar. É falta de captação estruturada. Assista até o final. Comente “reunião” aqui em baixo que vamos entrar em contato com você 👇 #implantodontia #captaçãodepacientes #marketingparadentistas #agendacheia #gestaodeclinicas Baixo volume de impressões 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-27966220606315626",
@@ -4011,7 +4164,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/27966220606315626.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/27966220606315626.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-826737966961326",
@@ -4028,7 +4181,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/826737966961326.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/826737966961326.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1335794898654942",
@@ -4045,7 +4198,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1335794898654942.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1335794898654942.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1555439529536114",
@@ -4062,7 +4215,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1555439529536114.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1555439529536114.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2547347809017547",
@@ -4079,7 +4232,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2547347809017547.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2547347809017547.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1777197633519280",
@@ -4096,7 +4249,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1777197633519280.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1777197633519280.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2115415459331072",
@@ -4113,7 +4266,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2115415459331072.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2115415459331072.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-811856378396779",
@@ -4130,7 +4283,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/811856378396779.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/811856378396779.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-849486577921544",
@@ -4147,7 +4300,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/849486577921544.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/849486577921544.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2138153640376325",
@@ -4164,7 +4317,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2138153640376325.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2138153640376325.mp4",
     "texto": "Dentista, sua clínica pode atrair mais pacientes com estratégia. Se você sente que sua agenda poderia estar mais cheia, o problema nem sempre é a sua entrega. Muitas vezes, o que falta é um processo claro para atrair pacientes, gerar mais oportunidades e transformar interesse em tratamento fechado. Hoje, não basta só esperar indicação ou contar com o boca a boca. A clínica que quer crescer precisa de estrutura, posicionamento e estratégia para captar pacientes de forma mais previsível. A Growth ajuda dentistas que querem sair da instabilidade e construir uma operação mais forte, com foco em ca",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2206247360175942",
@@ -4181,7 +4334,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2206247360175942.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2206247360175942.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-959681870030593",
@@ -4198,7 +4351,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/959681870030593.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/959681870030593.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1529135288909602",
@@ -4215,7 +4368,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1529135288909602.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1529135288909602.mp4",
     "texto": "Paciente pediu orçamento, sumiu e você não fez nada? Ele ainda pode fechar. O follow-up certo na hora certa recupera quem já estava quase decidido. Assista esse vídeo e repasse pra sua CRC hoje. Salva esse vídeo, sua equipe vai precisar. 🔗 Link na bio para saber como captar mais pacientes qualificados. #CRC #followup #captacaodepacientes #marketingparadentistas #implantodontia Baixo volume de impressões 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1301624604859676",
@@ -4232,7 +4385,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1301624604859676.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1301624604859676.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1562648601873014",
@@ -4249,7 +4402,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1562648601873014.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1562648601873014.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1560999538795625",
@@ -4266,7 +4419,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1560999538795625.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1560999538795625.mp4",
     "texto": "Dentista, quantos pacientes a sua clínica está deixando de fechar por falta de estratégia? Hoje, não basta ser um bom profissional. Se a sua clínica quer crescer de forma previsível, você precisa atrair os pacientes certos, fortalecer sua operação e criar mais oportunidades reais de fechamento. Muitos dentistas ainda dependem apenas de indicação, da sorte ou de ações soltas que não geram constância. E é aí que a clínica trava. A Growth ajuda dentistas a atraírem mais pacientes, estruturarem melhor o crescimento da clínica e criarem um caminho mais claro para aumentar os resultados. Se você que",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1723883098805970",
@@ -4283,7 +4436,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1723883098805970.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1723883098805970.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1733062811153201",
@@ -4300,7 +4453,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1733062811153201.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1733062811153201.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1550109116828543",
@@ -4317,7 +4470,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1550109116828543.jpg",
     "midia_video_local": "",
     "texto": "VAGA DE GESTOR DE TRAFEGO WHATSAPP VAGA DE GESTOR DE TRAFEGO Enviar mensagem pelo WhatsApp",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1685516589338770",
@@ -4334,7 +4487,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1685516589338770.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1685516589338770.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2556693194796717",
@@ -4351,7 +4504,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2556693194796717.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/2556693194796717.mp4",
     "texto": "Você já se perguntou por que alguns colegas conseguem fechar 10 protocolos por mês, enquanto outros mal conseguem lotar a agenda? Spoiler: não tem nada a ver com agência “milagrosa” ou sorte. Existe um detalhe que ninguém te contou e é exatamente esse detalhe que separa quem escala resultados de quem continua preso à instabilidade. É um ajuste estratégico que transforma interesse em pacientes reais prontos para fechar protocolos, mês após mês. Imagine sua clínica com previsibilidade, faturamento em alta e você no controle do crescimento. Sem depender de indicações aleatórias, sem cair em prome",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2072681010264697",
@@ -4368,7 +4521,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/2072681010264697.jpg",
     "midia_video_local": "",
     "texto": "VAGA DE CS WHATSAPP VAGA DE CS Enviar mensagem pelo WhatsApp",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1257853879608021",
@@ -4385,7 +4538,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1257853879608021.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1257853879608021.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1338322044358148",
@@ -4402,7 +4555,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1338322044358148.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1338322044358148.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1040983748276416",
@@ -4419,7 +4572,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1040983748276416.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1040983748276416.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1041766274846355",
@@ -4436,7 +4589,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1041766274846355.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1041766274846355.mp4",
     "texto": "🚨 Agenda vazia não é azar. É falta de estratégia! Com o direcionamento certo, o que hoje é espaço livre na sua agenda vira paciente marcado. 📲 Quer saber como? Acesse o nosso link da bio. . . . #marketingparaclinicas #growfh #trafegocomproposito Baixo volume de impressões 0:00 / 0:00 INSTAGRAM.COM Growth Odonto Acessar o perfil do Instagram",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-988779730599322",
@@ -4453,7 +4606,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/988779730599322.jpg",
     "midia_video_local": "",
     "texto": "Implantodontista, você não precisa contratar um CRC interno para começar a ter um processo comercial mais organizado. Com a Growth Odonto, seu consultório conta com uma estrutura completa de tráfego + CRC, pensada para atrair pacientes qualificados, acompanhar os contatos, fazer follow-up e aumentar as chances de transformar interesse em avaliação. Enquanto você foca nos tratamentos, nossa equipe cuida da estratégia para gerar mais oportunidades e mais previsibilidade para o seu consultório. Clique no botão e preencha o formulário para entender como podemos ajudar. Baixo volume de impressões",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1038366371878195",
@@ -4470,7 +4623,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1038366371878195.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1038366371878195.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1704913660849702",
@@ -4487,7 +4640,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/263325836857945/1704913660849702.jpg",
     "midia_video_local": "swipe/espiao_midia/263325836857945/1704913660849702.mp4",
     "texto": "Dentista, chega de pagar por lead e continuar com a cadeira vazia. Quantas vezes você já investiu em marketing, gerou leads e, na hora do agendamento, o paciente simplesmente sumiu? Aí começa o jogo de empurra: a secretária culpa a agência, a agência culpa a secretária, e quem fica no prejuízo é você. A Growth veio para acabar com isso. Nosso trabalho não termina no lead. Nosso trabalho é colocar o paciente agendado direto na sua cadeira. Ou seja: não é só gerar contato. É atrair, qualificar e avançar no processo até o que realmente importa: o paciente marcado para comparecer na clínica. Se vo",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-967875052818776",
@@ -4504,7 +4657,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/967875052818776.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/967875052818776.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1480362996387718",
@@ -4521,7 +4674,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1480362996387718.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1480362996387718.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 0:47",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1869733736996231",
@@ -4538,7 +4691,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1869733736996231.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1869733736996231.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 0:24",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1456843496223562",
@@ -4555,7 +4708,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1456843496223562.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1456843496223562.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 1:23",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-909151262111501",
@@ -4572,7 +4725,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/909151262111501.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/909151262111501.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS te enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atender",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1215409080495520",
@@ -4589,7 +4742,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1215409080495520.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1215409080495520.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 1:02",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1287593129945569",
@@ -4606,7 +4759,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1287593129945569.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1287593129945569.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 1:22",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1270427367752745",
@@ -4623,7 +4776,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1270427367752745.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1270427367752745.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS te enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atender",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-965704752951189",
@@ -4640,7 +4793,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/965704752951189.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/965704752951189.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-969305649062583",
@@ -4657,7 +4810,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/969305649062583.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/969305649062583.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-939795095094212",
@@ -4674,7 +4827,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/939795095094212.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/939795095094212.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1280278710974080",
@@ -4691,7 +4844,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1280278710974080.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1280278710974080.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1015427981438364",
@@ -4708,7 +4861,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1015427981438364.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1015427981438364.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1916154825764041",
@@ -4725,7 +4878,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1916154825764041.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1916154825764041.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1322484423025709",
@@ -4742,7 +4895,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1322484423025709.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1322484423025709.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2455159238337462",
@@ -4759,7 +4912,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/2455159238337462.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/2455159238337462.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-2476707296178853",
@@ -4776,7 +4929,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/2476707296178853.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/2476707296178853.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS te enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atender",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-877220925334668",
@@ -4793,7 +4946,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/877220925334668.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/877220925334668.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1313004477029131",
@@ -4810,7 +4963,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1313004477029131.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1313004477029131.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1723277998705954",
@@ -4827,7 +4980,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1723277998705954.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1723277998705954.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1366138162199573",
@@ -4844,7 +4997,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1366138162199573.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1366138162199573.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1532411601874763",
@@ -4861,7 +5014,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1532411601874763.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1532411601874763.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1594941425119816",
@@ -4878,7 +5031,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1594941425119816.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1594941425119816.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! Baixo volume de impressões 0:00 / 0:00 FB.ME 200 MIL DE FATURAMENTO Ilha Odonto Cadastre-se",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-1710006253330210",
@@ -4895,7 +5048,7 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/1710006253330210.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/1710006253330210.mp4",
     "texto": "+200.000,00 DE FATURAMENTO NA SUA CLÍNICA ODONTOLÓGICA! CLIQUE NO BOTÃO ABAIXO, que em 15 minutos vou te PROVAR que existe SIM uma máquina que lota sua agenda de IMPLANTES e PROTOCOLO de maneira automática! Baixo volume de impressões 0:00 / 0:00",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   },
   {
     "id": "espiao-990699443757970",
@@ -4912,6 +5065,6 @@ window.CARDS_ESPIAO = [
     "midia_local": "swipe/espiao_midia/869714519565845/990699443757970.jpg",
     "midia_video_local": "swipe/espiao_midia/869714519565845/990699443757970.mp4",
     "texto": "Dentista, se você também não possui resultados com o tráfego pago saiba que você não é o único. As agências de marketing implementaram uma realidade para você que NÃO EXISTE! Leads \"Quentes\", \"Qualificados\", toda essa babozeira para te mandar qualquer paciente para o seu whatsapp e no final, culparem a SUA CRC porque não vocês não estão fechando nenhum tratamento. Eu e minha equipe NÃO VAMOS tes enviar lead no WHATSAPP, vamos te enviar PACIENTES SENTADOS NA SUA CADEIRA! Isso mesmo, pacientes de implantes, próteses... Tratamentos de Hight ticket, na sua frente, sua única preocupação é de atende",
-    "criado_em": "2026-06-26"
+    "criado_em": "2026-07-01"
   }
 ];
