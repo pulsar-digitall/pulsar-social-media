@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulsar Social Media Agente</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%2329ABE2'%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(0 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(60 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(120 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(180 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(240 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(300 50 50) rotate(22 50 25)'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F6F7F9;
+      --surface: #FFFFFF;
+      --surface-2: #FFFFFF;
+      --surface-3: #F1F2F5;
+      --border: rgba(17, 17, 26, 0.08);
+      --border-strong: rgba(17, 17, 26, 0.13);
+      --accent: #29ABE2;
+      --accent-hover: #1A8AC4;
+      --accent-soft: rgba(41, 171, 226, 0.10);
+      --accent-border: rgba(41, 171, 226, 0.45);
+      --accent-glow: rgba(41, 171, 226, 0.20);
+      --text: #14141A;
+      --text-2: #55555F;
+      --text-3: #8A8A94;
+      --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.05);
+      --shadow-md: 0 4px 14px rgba(16, 24, 40, 0.06), 0 14px 30px -14px rgba(16, 24, 40, 0.14);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --sidebar-w: 252px;
+      --font-brand: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg); color: var(--text); font-family: var(--font-brand);
+      line-height: 1.5; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+
+    * { scrollbar-width: thin; scrollbar-color: #D2D5DC transparent; }
+    *::-webkit-scrollbar { width: 10px; height: 10px; }
+    *::-webkit-scrollbar-track { background: transparent; }
+    *::-webkit-scrollbar-thumb { background: #D2D5DC; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+    *::-webkit-scrollbar-thumb:hover { background: #BCC0CA; background-clip: padding-box; }
+
+    /* ===================== SHELL ===================== */
+    .app { display: flex; min-height: 100vh; }
+
+    /* ===================== SIDEBAR ===================== */
+    aside.sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--surface-2); border-right: 1px solid var(--border);
+      box-shadow: 1px 0 16px rgba(16, 24, 40, 0.03);
+      position: sticky; top: 0; height: 100vh;
+      display: flex; flex-direction: column; padding: 24px 16px 18px; z-index: 20;
+    }
+    .brand { display: flex; flex-direction: column; gap: 12px; padding: 4px 8px 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .brand-logo { height: 30px; width: auto; max-width: 190px; object-fit: contain; display: none; }
+    .brand-fallback { display: flex; align-items: center; gap: 11px; }
+    .brand-fallback .mark { width: 28px; height: 28px; flex-shrink: 0; }
+    .brand-fallback .wordmark { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+    .brand-fallback .wordmark i { color: var(--accent); font-style: normal; }
+    .brand .sub { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); padding-left: 2px; }
+
+    .nav-grupo { padding: 0 8px; }
+    .nav-grupo .titulo { font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; padding-left: 4px; }
+    nav.areas { display: flex; flex-direction: column; gap: 3px; }
+    nav.areas .nav-item {
+      position: relative; display: flex; align-items: center; gap: 11px; width: 100%; text-align: left;
+      background: transparent; color: var(--text-2); border: 1px solid transparent; border-radius: var(--radius-sm);
+      padding: 10px 12px; font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+    nav.areas .nav-item:hover { background: var(--surface-3); color: var(--text); }
+    nav.areas .nav-item.ativo { background: var(--accent-soft); color: var(--text); border-color: var(--accent-border); }
+    nav.areas .nav-item.ativo::before { content: ""; position: absolute; left: -16px; top: 50%; transform: translateY(-50%); width: 3px; height: 18px; border-radius: 0 3px 3px 0; background: var(--accent); }
+    nav.areas .nav-item .ico { width: 18px; height: 18px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; opacity: 0.92; }
+    nav.areas .nav-item .ico svg { width: 17px; height: 17px; }
+    nav.areas .nav-item .badge { margin-left: auto; font-size: 9px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-3); border: 1px solid var(--border-strong); border-radius: 999px; padding: 2px 7px; font-weight: 600; }
+
+    .sidebar .rodape { margin-top: auto; padding: 14px 12px 2px; border-top: 1px solid var(--border); }
+    .sidebar .rodape .org { font-size: 12px; font-weight: 600; color: var(--text-2); }
+    .sidebar .rodape .org-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+    /* ===================== CONTEUDO ===================== */
+    .conteudo { flex: 1; min-width: 0; }
+    .area { display: none; }
+    .area.ativa { display: block; animation: fade 0.28s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .area-topo {
+      position: sticky; top: 0; z-index: 10;
+      background: linear-gradient(180deg, rgba(246,247,249,0.97), rgba(246,247,249,0.80));
+      backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 26px 36px 20px;
+    }
+    .area-topo .titulo-linha { display: flex; align-items: center; gap: 12px; }
+    .area-topo h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+    .area-topo .desc { color: var(--text-2); font-size: 14px; margin-top: 4px; }
+    .selo-mock {
+      font-size: 9.5px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700;
+      color: var(--accent-hover); border: 1px solid var(--accent-border); background: var(--accent-soft);
+      border-radius: 999px; padding: 3px 8px;
+    }
+
+    /* ===================== FILTROS / TOOLBAR ===================== */
+    .filtros { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; margin-top: 22px; }
+    .campo { display: flex; flex-direction: column; gap: 7px; }
+    .campo label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3); }
+    .select-wrap { position: relative; }
+    .select-wrap::after { content: ""; position: absolute; right: 13px; top: 50%; width: 9px; height: 9px; transform: translateY(-65%) rotate(45deg); border-right: 1.5px solid var(--text-2); border-bottom: 1.5px solid var(--text-2); pointer-events: none; }
+    select {
+      appearance: none; -webkit-appearance: none; background: var(--surface); color: var(--text);
+      border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+      padding: 10px 38px 10px 13px; font-size: 14px; font-family: inherit; min-width: 200px; cursor: pointer; outline: none;
+      box-shadow: var(--shadow-sm); transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    select:hover { border-color: #C9CCD4; }
+    select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+    input[type="search"] { background: var(--surface); color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 10px 13px; font-size: 14px; font-family: inherit; min-width: 230px; outline: none; box-shadow: var(--shadow-sm); transition: border-color 0.18s ease, box-shadow 0.18s ease; }
+    input[type="search"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .tag.link { color: var(--accent-hover); border-color: var(--accent-border); background: var(--accent-soft); text-decoration: none; cursor: pointer; }
+    .tag.link:hover { background: var(--accent); color: #fff; }
+
+    .contador { margin-left: auto; color: var(--text-3); font-size: 13px; align-self: center; }
+    .contador b { color: var(--text); font-weight: 600; }
+
+    .btn-toolbar {
+      background: var(--accent); color: #FFFFFF; border: 1px solid var(--accent); border-radius: var(--radius-sm);
+      padding: 10px 16px; font-size: 13.5px; font-weight: 600; font-family: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 7px; box-shadow: var(--shadow-sm); transition: background 0.16s ease;
+    }
+    .btn-toolbar:hover { background: var(--accent-hover); }
+    .btn-toolbar .mais { font-size: 16px; line-height: 1; }
+
+    .area-corpo { padding: 30px 36px 72px; max-width: 1340px; }
+
+    /* ===================== DASHBOARD ===================== */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 30px; }
+    .stat { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 20px 22px; }
+    .stat .num { font-size: 30px; font-weight: 700; letter-spacing: -0.6px; }
+    .stat .lab { font-size: 13px; color: var(--text-2); margin-top: 4px; }
+    .stat .mini-mock { position: absolute; top: 14px; right: 14px; font-size: 8.5px; letter-spacing: 0.8px; text-transform: uppercase; font-weight: 700; color: var(--text-3); border: 1px solid var(--border-strong); border-radius: 999px; padding: 2px 6px; }
+
+    .painel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .painel-topo { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .painel-topo h3 { font-size: 15px; font-weight: 700; }
+    .alta-row { display: flex; align-items: center; gap: 14px; padding: 15px 22px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s ease; }
+    .alta-row:hover { background: var(--surface-3); }
+    .alta-row:last-child { border-bottom: none; }
+    .alta-row .seta { margin-left: 10px; color: var(--text-3); font-size: 16px; }
+    .alta-row .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .alta-row .nome { font-weight: 600; font-size: 14px; }
+    .alta-row .meta { color: var(--text-3); font-size: 12.5px; margin-top: 1px; }
+    .alta-row .num-pill { margin-left: auto; font-size: 12.5px; font-weight: 600; color: var(--accent-hover); background: var(--accent-soft); border: 1px solid var(--accent-border); border-radius: 999px; padding: 5px 11px; white-space: nowrap; }
+
+    /* ===================== GRUPOS (Espiao) ===================== */
+    .grupo-conc { margin-bottom: 36px; }
+    .grupo-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .grupo-head .av { width: 34px; height: 34px; border-radius: 9px; background: var(--accent-soft); color: var(--accent-hover); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+    .grupo-head .gnome { font-size: 16px; font-weight: 700; }
+    .grupo-head .gmeta { color: var(--text-3); font-size: 12.5px; margin-top: 1px; }
+    .grupo-head .gcount { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+    .grupo-head .gcount b { color: var(--text); }
+
+    /* ===================== GALERIA ===================== */
+    .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 24px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+      overflow: hidden; display: flex; flex-direction: column;
+      transition: border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .card:hover { border-color: var(--accent-border); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+    .media {
+      position: relative; aspect-ratio: 9 / 16; max-height: 380px;
+      background: radial-gradient(120% 120% at 50% 0%, #EEF0F4 0%, #F7F8FA 100%);
+      display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border);
+    }
+    .media video { width: 100%; height: 100%; object-fit: cover; }
+    .media img { width: 100%; height: 100%; object-fit: cover; }
+    .badge-listado { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.85); backdrop-filter: blur(6px); color: var(--text-2); border: 1px solid var(--border-strong); font-size: 9.5px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; font-weight: 700; z-index: 2; }
+    .play-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; border-radius: 50%; background: rgba(10,10,11,0.45); display: flex; align-items: center; justify-content: center; z-index: 2; pointer-events: none; }
+    .play-badge svg { width: 20px; height: 20px; fill: #fff; margin-left: 2px; }
+    .thumb-anuncio { width: 100%; height: 100%; object-fit: cover; }
+    .txt-anuncio { font-size: 13.5px; color: #3F3F46; line-height: 1.5; white-space: pre-wrap; max-height: 160px; overflow-y: auto; padding-right: 6px; }
+    .btn-sm.dissecar { color: var(--text-3); }
+    .media .sem-video { display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-3); }
+    .media .sem-video .disco { width: 54px; height: 54px; border-radius: 50%; background: #FFFFFF; border: 1px solid var(--border-strong); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; }
+    .media .sem-video .disco svg { width: 20px; height: 20px; fill: var(--text-3); margin-left: 3px; }
+    .media .sem-video span { font-size: 12.5px; }
+    .badge-mock { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.75); backdrop-filter: blur(6px); color: var(--accent-hover); border: 1px solid var(--accent-border); font-size: 9.5px; letter-spacing: 1.2px; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; font-weight: 700; }
+    .badge-salvo { position: absolute; top: 12px; right: 12px; background: var(--accent); color: #fff; font-size: 9.5px; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+
+    .corpo { padding: 18px 20px; display: flex; flex-direction: column; gap: 13px; flex: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag { font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--text-2); background: var(--surface-3); }
+    .tag.nicho { color: var(--accent-hover); border-color: var(--accent-border); background: var(--accent-soft); }
+    .hook { font-size: 16.5px; font-weight: 600; line-height: 1.38; letter-spacing: -0.2px; }
+    .hook-meta { font-size: 12.5px; color: var(--text-3); }
+    .hook-meta b { color: var(--text-2); font-weight: 600; }
+
+    .card-acoes { display: flex; gap: 8px; }
+    .btn-sm { flex: 1; font-size: 12.5px; font-weight: 600; padding: 8px 10px; border-radius: 8px; cursor: pointer; font-family: inherit; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-2); transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+    .btn-sm:hover { border-color: #C9CCD4; color: var(--text); }
+    .btn-sm.salvar { color: var(--accent-hover); border-color: var(--accent-border); }
+    .btn-sm.salvar:hover { background: var(--accent); color: #fff; }
+    .btn-sm.salvo { background: var(--accent-soft); color: var(--accent-hover); border-color: var(--accent-border); }
+
+    .btn-exp { margin-top: auto; background: transparent; color: var(--accent-hover); border: 1px solid var(--accent-border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.16s ease, color 0.16s ease; }
+    .btn-exp:hover { background: var(--accent); color: #FFFFFF; }
+
+    .detalhe { display: none; border-top: 1px solid var(--border); padding: 18px 20px; background: var(--surface-3); flex-direction: column; gap: 18px; }
+    .card.aberto .detalhe { display: flex; }
+    .bloco h4 { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent-hover); margin-bottom: 6px; }
+    .bloco p, .bloco li { font-size: 13.5px; color: #3F3F46; }
+    .bloco.transcricao p { color: var(--text-2); font-style: italic; max-height: 170px; overflow-y: auto; padding-right: 8px; }
+    .analise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 18px; }
+    .analise-grid div { font-size: 12.5px; color: #45454D; }
+    .analise-grid b { color: var(--text-3); font-weight: 500; }
+    .variacao { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; background: var(--surface); box-shadow: var(--shadow-sm); margin-bottom: 10px; }
+    .variacao .titulo { color: var(--accent-hover); font-weight: 600; font-size: 13px; margin-bottom: 9px; }
+    .variacao .linha { font-size: 13px; margin-bottom: 6px; color: #3F3F46; }
+    .variacao .linha b { color: var(--text-3); font-weight: 500; }
+
+    .vazio { text-align: center; color: var(--text-3); padding: 70px 20px; font-size: 15px; }
+
+    /* ===================== PLACEHOLDER ===================== */
+    .em-construcao { max-width: 640px; margin-top: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 30px; }
+    .em-construcao .selo { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-hover); border: 1px solid var(--accent-border); background: var(--accent-soft); border-radius: 999px; padding: 6px 12px; margin-bottom: 18px; }
+    .em-construcao .selo .ponto { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pisca 1.8s ease-in-out infinite; }
+    @keyframes pisca { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .em-construcao p { color: var(--text-2); font-size: 14px; margin-bottom: 12px; }
+    .em-construcao p:last-child { margin-bottom: 0; }
+    .media.clicavel { cursor: pointer; }
+    .player-inline { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
+    .em-construcao .nota { font-size: 13px; color: var(--text-3); border-left: 2px solid var(--accent-border); padding-left: 14px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img id="brand-logo" class="brand-logo" src="assets/logo.png" alt="Pulsar"
+             onload="this.style.display='block';var f=document.getElementById('brand-fallback');if(f)f.style.display='none';" />
+        <div class="brand-fallback" id="brand-fallback">
+          <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+            <g fill="#29ABE2">
+              <rect x="44.5" y="10" width="11" height="30" rx="5" transform="rotate(0 50 50) rotate(22 50 25)" />
+              <rect x="44.5" y="10" width="11" height="30" rx="5" transform="rotate(60 50 50) rotate(22 50 25)" />
+              <rect x="44.5" y="10" width="11" height="30" rx="5" transform="rotate(120 50 50) rotate(22 50 25)" />
+              <rect x="44.5" y="10" width="11" height="30" rx="5" transform="rotate(180 50 50) rotate(22 50 25)" />
+              <rect x="44.5" y="10" width="11" height="30" rx="5" transform="rotate(240 50 50) rotate(22 50 25)" />
+              <rect x="44.5" y="10" width="11" height="30" rx="5" transform="rotate(300 50 50) rotate(22 50 25)" />
+            </g>
+          </svg>
+          <span class="wordmark">Pulsar<i>.</i></span>
+        </div>
+        <div class="sub">Social Media Agente</div>
+      </div>
+
+      <div class="nav-grupo">
+        <div class="titulo">Areas</div>
+        <nav class="areas" id="nav-areas"></nav>
+      </div>
+
+      <div class="rodape">
+        <div class="org">Pulsar</div>
+        <div class="org-sub">Negocios Digitais</div>
+      </div>
+    </aside>
+
+    <!-- ===================== CONTEUDO ===================== -->
+    <div class="conteudo">
+
+      <!-- AREA: DASHBOARD -->
+      <section class="area" id="area-dashboard" data-area="dashboard">
+        <div class="area-topo">
+          <div class="titulo-linha"><h2>Dashboard</h2><span class="selo-mock">Mock</span></div>
+          <div class="desc">Resumo geral do que esta acontecendo.</div>
+        </div>
+        <div class="area-corpo">
+          <div class="stat-grid" id="dash-stats"></div>
+          <div class="painel">
+            <div class="painel-topo"><h3>Em alta agora</h3></div>
+            <div id="dash-alta"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AREA: ESPIAO -->
+      <section class="area" id="area-espiao" data-area="espiao">
+        <div class="area-topo">
+          <div class="titulo-linha"><h2>Espiao</h2><span class="selo-mock">Mock</span></div>
+          <div class="desc">Anuncios ativos dos concorrentes monitorados.</div>
+          <div class="filtros">
+            <div class="campo" id="campo-conc" style="display:none;"><label for="f-conc-espiao">Concorrente</label><div class="select-wrap"><select id="f-conc-espiao"><option value="">Todos</option></select></div></div>
+            <div class="campo" id="campo-busca" style="display:none;"><label for="f-busca-espiao">Buscar</label><input id="f-busca-espiao" type="search" placeholder="texto do anuncio..." /></div>
+            <div class="campo"><label for="f-nicho-espiao">Nicho</label><div class="select-wrap"><select id="f-nicho-espiao"><option value="">Todos</option></select></div></div>
+            <div class="campo"><label for="f-hook-espiao">Tipo de hook</label><div class="select-wrap"><select id="f-hook-espiao"><option value="">Todos</option></select></div></div>
+            <div class="contador" id="contador-espiao"></div>
+          </div>
+        </div>
+        <div class="area-corpo">
+          <div id="espiao-grupos"></div>
+          <div class="vazio" id="vazio-espiao" style="display:none;">Nenhum anuncio encontrado com esses filtros.</div>
+        </div>
+      </section>
+
+      <!-- AREA: SWIPE -->
+      <section class="area" id="area-swipe" data-area="swipe">
+        <div class="area-topo">
+          <div class="titulo-linha"><h2>Swipe</h2><span class="selo-mock">Mock</span></div>
+          <div class="desc">Seu acervo curado de criativos.</div>
+          <div class="filtros">
+            <div class="campo"><label for="f-nicho-swipe">Nicho</label><div class="select-wrap"><select id="f-nicho-swipe"><option value="">Todos</option></select></div></div>
+            <div class="campo"><label for="f-hook-swipe">Tipo de hook</label><div class="select-wrap"><select id="f-hook-swipe"><option value="">Todos</option></select></div></div>
+            <button class="btn-toolbar" id="btn-add-manual" style="margin-left:auto;"><span class="mais">+</span> Adicionar manual</button>
+            <div class="contador" id="contador-swipe"></div>
+          </div>
+        </div>
+        <div class="area-corpo">
+          <div class="galeria" id="galeria-swipe"></div>
+          <div class="vazio" id="vazio-swipe" style="display:none;">Nenhum criativo no acervo com esses filtros.</div>
+        </div>
+      </section>
+
+      <!-- AREA: COPYWRITER (placeholder) -->
+      <section class="area" id="area-copywriter" data-area="copywriter">
+        <div class="area-topo"><h2>Copywriter</h2><div class="desc">Escreve anuncios e reels no tom da Pulsar.</div></div>
+        <div class="area-corpo">
+          <div class="em-construcao">
+            <span class="selo"><span class="ponto"></span>Em construcao</span>
+            <p>Esta area vai gerar copy de anuncios e roteiros de reel no tom da Pulsar, adaptados ao nicho da clinica (medica, estetica, odonto).</p>
+            <p class="nota">As 3 variacoes de roteiro que aparecem dentro de cada card do Espiao e do Swipe sao a primeira semente desta area.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AREA: ORGANICO (placeholder) -->
+      <section class="area" id="area-organico" data-area="organico">
+        <div class="area-topo"><h2>Organico</h2><div class="desc">Engajamento organico da propria Pulsar.</div></div>
+        <div class="area-corpo">
+          <div class="em-construcao">
+            <span class="selo"><span class="ponto"></span>Em construcao</span>
+            <p>Esta area vai cuidar do conteudo organico da Pulsar: ideias de post, calendario e acompanhamento de engajamento das proprias redes.</p>
+            <p class="nota">Vai reaproveitar o tom definido no brand.md e os criativos validados no Swipe.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="swipe/cards.js"></script>
+  <script src="swipe/cards_espiao.js"></script>
+  <script>
+    (function () {
+      var VIDEO_BASE = "swipe/";
+      var CARDS = Array.isArray(window.CARDS) ? window.CARDS : [];
+      // Anuncios reais do Espiao (gerados pelo scraper). Listados, ainda nao dissecados.
+      var ESPIAO_REAL = Array.isArray(window.CARDS_ESPIAO) ? window.CARDS_ESPIAO : [];
+      var ESPIAO_POR_ID = {};
+      ESPIAO_REAL.forEach(function (c) { ESPIAO_POR_ID[c.id] = c; });
+
+      // Persistencia local do Swipe (sem backend; o card.json segue sendo a fonte para o Supabase depois).
+      var SWIPE_KEY = "pulsar_swipe_salvos";
+      function lerSalvos() { try { return new Set(JSON.parse(localStorage.getItem(SWIPE_KEY) || "[]")); } catch (e) { return new Set(); } }
+      function gravarSalvos(set) { try { localStorage.setItem(SWIPE_KEY, JSON.stringify(Array.from(set))); } catch (e) {} }
+      function estaSalvo(id) { return lerSalvos().has(id); }
+      function alternarSalvo(id) { var s = lerSalvos(); if (s.has(id)) s.delete(id); else s.add(id); gravarSalvos(s); return s.has(id); }
+
+      // ---------- Preview (modal) e download ----------
+      function _extDe(path) { var m = /\.([a-z0-9]+)(?:\?|$)/i.exec(path || ""); return m ? m[1].toLowerCase() : ""; }
+      function baixarMidia(c) {
+        var url = (c.formato === "video") ? (c.midia_video_local || c.midia_url || "") : (c.midia_local || c.midia_url || "");
+        if (!url) return;
+        var ext = c.formato === "video" ? "mp4" : (_extDe(c.midia_local) || _extDe(url) || "jpg");
+        var base = (c.concorrente ? c.concorrente.replace(/[^a-z0-9]+/gi, "_") : "criativo") + "_" + (c.ad_id || c.id);
+        var a = document.createElement("a");
+        a.href = url; a.download = base + "." + ext;
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+      // Abre a midia em uma ABA NOVA (player nativo do Chrome). Robusto: nunca fica coberto.
+      function abrirMidia(c) {
+        var url = (c.formato === "video") ? (c.midia_video_local || c.midia_url || "") : (c.midia_local || c.midia_url || "");
+        if (!url && c.ad_id) url = "https://www.facebook.com/ads/library/?id=" + encodeURIComponent(c.ad_id);
+        if (url) window.open(url, "_blank", "noopener");
+      }
+      var rotuloNicho = { medica: "Medica", estetica: "Estetica", odonto: "Odonto" };
+      var playIcone = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+
+      var ICONES = {
+        dashboard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>',
+        espiao: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
+        swipe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+        copywriter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+        organico: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>'
+      };
+
+      var AREAS = [
+        { id: "dashboard", rotulo: "Dashboard" },
+        { id: "espiao", rotulo: "Espiao" },
+        { id: "swipe", rotulo: "Swipe" },
+        { id: "copywriter", rotulo: "Copywriter", badge: "Em breve" },
+        { id: "organico", rotulo: "Organico", badge: "Em breve" }
+      ];
+      var AREA_INICIAL = "dashboard";
+
+      // ---------- Navegacao ----------
+      var nav = document.getElementById("nav-areas");
+      function selecionarArea(id) {
+        document.querySelectorAll(".area").forEach(function (s) { s.classList.toggle("ativa", s.getAttribute("data-area") === id); });
+        nav.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("ativo", b.getAttribute("data-area") === id); });
+        // Re-renderiza areas que dependem do estado salvo (localStorage).
+        if (id === "swipe") renderSwipe();
+        if (id === "dashboard") renderDashboard();
+      }
+      AREAS.forEach(function (a) {
+        var btn = document.createElement("button");
+        btn.className = "nav-item";
+        btn.setAttribute("data-area", a.id);
+        btn.innerHTML = '<span class="ico">' + (ICONES[a.id] || "") + '</span><span>' + a.rotulo + '</span>' + (a.badge ? '<span class="badge">' + a.badge + '</span>' : '');
+        btn.addEventListener("click", function () { selecionarArea(a.id); });
+        nav.appendChild(btn);
+      });
+
+      // ---------- Helpers ----------
+      function esc(t) { return String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+      function boolTxt(v) { if (v === true || v === "true") return "Sim"; if (v === false || v === "false") return "Nao"; return v || ""; }
+      function srcVideo(c) { if (c.mock || !c.video) return ""; return VIDEO_BASE + c.nicho + "/" + c.id + "/" + c.video; }
+      function unicos(campo) { var vistos = {}, lista = []; CARDS.forEach(function (c) { var v = c[campo]; if (v && !vistos[v]) { vistos[v] = true; lista.push(v); } }); return lista.sort(); }
+      function preencherFiltro(sel, valores, fmt) { valores.forEach(function (v) { var op = document.createElement("option"); op.value = v; op.textContent = fmt ? (fmt[v] || v) : v; sel.appendChild(op); }); }
+      function iniciais(nome) { return (nome || "?").split(" ").map(function (p) { return p[0]; }).join("").slice(0, 2).toUpperCase(); }
+
+      function variacoesHtml(vars) {
+        if (!vars || !vars.length) return "<p style='color:var(--text-3)'>Sem variacoes geradas.</p>";
+        return vars.map(function (v) {
+          return '<div class="variacao"><div class="titulo">' + esc(v.titulo || "Variacao") + '</div>' +
+            '<div class="linha"><b>Hook:</b> ' + esc(v.hook) + '</div>' +
+            '<div class="linha"><b>Body:</b> ' + esc(v.body) + '</div>' +
+            '<div class="linha"><b>CTA:</b> ' + esc(v.cta) + '</div>' +
+            '<div class="linha"><b>Direcao visual:</b> ' + esc(v.direcao_visual) + '</div></div>';
+        }).join("");
+      }
+
+      function mediaHtml(c, mostrarSalvo) {
+        var badge = c.mock ? '<span class="badge-mock">Mock</span>' : '';
+        var salvo = (mostrarSalvo && c.salvo_no_swipe) ? '<span class="badge-salvo">No Swipe</span>' : '';
+        var src = srcVideo(c);
+        if (src) return '<div class="media">' + badge + salvo + '<video controls preload="metadata" src="' + esc(src) + '"></video></div>';
+        return '<div class="media">' + badge + salvo + '<div class="sem-video"><span class="disco">' + playIcone + '</span><span>' + (c.mock ? "Sem video (exemplo)" : "Video nao disponivel") + '</span></div></div>';
+      }
+
+      function cardHtml(c, acoes) {
+        var av = c.analise_visual || {};
+        var acoesHtml = "";
+        if (acoes && acoes.length) {
+          var botoes = "";
+          if (acoes.indexOf("salvar") >= 0) {
+            var salvo = !!c.salvo_no_swipe;
+            botoes += '<button class="btn-sm ' + (salvo ? "salvo" : "salvar") + '" data-act="salvar">' + (salvo ? "Salvo no Swipe" : "Salvar no Swipe") + '</button>';
+          }
+          if (acoes.indexOf("dissecar") >= 0) botoes += '<button class="btn-sm" data-act="dissecar">Dissecar</button>';
+          acoesHtml = '<div class="card-acoes">' + botoes + '</div>';
+        }
+        return mediaHtml(c, acoes && acoes.indexOf("salvar") >= 0) +
+          '<div class="corpo">' +
+            '<div class="tags"><span class="tag nicho">' + esc(rotuloNicho[c.nicho] || c.nicho) + '</span><span class="tag">' + esc(c.formato) + '</span>' + (c.duracao ? '<span class="tag">' + esc(c.duracao) + '</span>' : '') + '</div>' +
+            '<div class="hook">' + esc(c.hook) + '</div>' +
+            '<div class="hook-meta">Tipo de hook: <b>' + esc(c.tipo_hook) + '</b></div>' +
+            (c.fonte ? '<div class="hook-meta">Fonte: <b>' + esc(c.fonte) + '</b></div>' : '') +
+            acoesHtml +
+            '<button class="btn-exp">Expandir</button>' +
+          '</div>' +
+          '<div class="detalhe">' +
+            '<div class="bloco"><h4>Hook visual</h4><p>' + esc(c.hook_visual) + '</p></div>' +
+            '<div class="bloco"><h4>Body</h4><p>' + esc(c.body) + '</p></div>' +
+            '<div class="bloco"><h4>CTA</h4><p>' + esc(c.cta) + '</p></div>' +
+            '<div class="bloco"><h4>Direcao e edicao</h4><p>' + esc(c.direcao_edicao) + '</p></div>' +
+            '<div class="bloco"><h4>Analise visual</h4><div class="analise-grid">' +
+              '<div><b>Primeiros 3s:</b> ' + esc(av.primeiros_3s) + '</div><div><b>Ritmo de corte:</b> ' + esc(av.ritmo_corte) + '</div>' +
+              '<div><b>Legenda:</b> ' + esc(boolTxt(av.legenda)) + '</div><div><b>Musica:</b> ' + esc(boolTxt(av.musica)) + '</div>' +
+              '<div><b>Texto na tela:</b> ' + esc(boolTxt(av.texto_na_tela)) + '</div><div><b>Tom e expressao:</b> ' + esc(av.tom_expressao) + '</div>' +
+            '</div></div>' +
+            '<div class="bloco"><h4>Por que escalou</h4><p>' + esc(c.por_que_escalou) + '</p></div>' +
+            '<div class="bloco transcricao"><h4>Transcricao</h4><p>' + esc(c.transcricao) + '</p></div>' +
+            '<div class="bloco"><h4>Variacoes de roteiro</h4>' + variacoesHtml(c.variacoes) + '</div>' +
+          '</div>';
+      }
+
+      function montarCard(c, acoes) {
+        var el = document.createElement("article");
+        el.className = "card";
+        el.innerHTML = cardHtml(c, acoes);
+        var btnExp = el.querySelector(".btn-exp");
+        btnExp.addEventListener("click", function () {
+          var aberto = el.classList.toggle("aberto");
+          btnExp.textContent = aberto ? "Recolher" : "Expandir";
+        });
+        var btnSalvar = el.querySelector('[data-act="salvar"]');
+        if (btnSalvar) btnSalvar.addEventListener("click", function () {
+          // Visual por ora: alterna o estado salvo sem persistir (sem mexer no schema).
+          var salvo = btnSalvar.classList.toggle("salvo");
+          btnSalvar.classList.toggle("salvar", !salvo);
+          btnSalvar.textContent = salvo ? "Salvo no Swipe" : "Salvar no Swipe";
+        });
+        return el;
+      }
+
+      // ---------- Card de anuncio LISTADO (real, nao dissecado) ----------
+      function mediaListadaHtml(c) {
+        var badge = '<span class="badge-listado">Nao dissecado</span>';
+        var thumb = c.midia_local || (c.formato === "imagem" ? c.midia_url : "");
+        var play = c.formato === "video" ? '<span class="play-badge">' + playIcone + '</span>' : "";
+        var fallback = '<div class="sem-video sem-midia-fb" style="display:none;"><span class="disco">' + playIcone + '</span><span>Midia indisponivel</span></div>';
+        if (thumb) {
+          return '<div class="media clicavel">' + badge + play + '<img class="thumb-anuncio" src="' + esc(thumb) + '" alt="anuncio" loading="lazy">' + fallback + '</div>';
+        }
+        return '<div class="media">' + badge + '<div class="sem-video"><span class="disco">' + playIcone + '</span><span>Sem midia</span></div></div>';
+      }
+      function montarCardListado(c, opts) {
+        opts = opts || {};
+        var el = document.createElement("article");
+        el.className = "card";
+        var salvoIni = estaSalvo(c.id);
+        var libUrl = c.ad_id ? "https://www.facebook.com/ads/library/?id=" + encodeURIComponent(c.ad_id) : "";
+        el.innerHTML = mediaListadaHtml(c) +
+          '<div class="corpo">' +
+            '<div class="tags"><span class="tag">' + esc(c.formato || "?") + '</span>' +
+              (libUrl ? '<a class="tag link" href="' + esc(libUrl) + '" target="_blank" rel="noopener">Ver na Ad Library</a>' : '') +
+            '</div>' +
+            '<div class="txt-anuncio">' + esc(c.texto || "(sem texto)") + '</div>' +
+            '<div class="card-acoes">' +
+              '<button class="btn-sm ' + (salvoIni ? "salvo" : "salvar") + '" data-act="salvar">' + (salvoIni ? "Salvo" : "Salvar") + '</button>' +
+              '<button class="btn-sm" data-act="baixar">Baixar</button>' +
+              '<button class="btn-sm dissecar" data-act="dissecar" title="Precisa da chave do Gemini no .env">Dissecar</button>' +
+            '</div>' +
+          '</div>';
+        var media = el.querySelector(".media.clicavel");
+        if (media) media.addEventListener("click", function () {
+          // Player INLINE: troca a miniatura pelo <video> dentro do proprio card.
+          // Sem sobreposicao = impossivel ficar coberto por header/extensao.
+          if (c.formato === "video") {
+            var src = c.midia_video_local || c.midia_url || "";
+            if (src) {
+              media.innerHTML = '<video controls autoplay playsinline class="player-inline" src="' + esc(src) + '"></video>';
+              media.classList.remove("clicavel");
+              return;
+            }
+          }
+          abrirMidia(c); // imagem ou video sem arquivo: abre em aba nova
+        });
+        var bx = el.querySelector('[data-act="baixar"]');
+        if (bx) bx.addEventListener("click", function () { baixarMidia(c); });
+        var img = el.querySelector(".thumb-anuncio");
+        if (img) img.addEventListener("error", function () {
+          img.style.display = "none";
+          var fb = el.querySelector(".sem-midia-fb");
+          if (fb) fb.style.display = "flex";
+        });
+        var s = el.querySelector('[data-act="salvar"]');
+        s.addEventListener("click", function () {
+          var on = alternarSalvo(c.id);
+          s.classList.toggle("salvo", on);
+          s.classList.toggle("salvar", !on);
+          s.textContent = on ? "Salvo no Swipe" : "Salvar no Swipe";
+          if (opts.onToggle) opts.onToggle();
+        });
+        var d = el.querySelector('[data-act="dissecar"]');
+        if (d) d.addEventListener("click", function () {
+          var orig = d.textContent;
+          d.textContent = "Configure o Gemini no .env";
+          setTimeout(function () { d.textContent = orig; }, 1800);
+        });
+        return el;
+      }
+
+      // ---------- Dashboard ----------
+      function renderDashboard() {
+        var temReal = ESPIAO_REAL.length > 0;
+        var concorrentes = temReal
+          ? (function () { var s = {}; ESPIAO_REAL.forEach(function (c) { if (c.concorrente) s[c.concorrente] = 1; }); return Object.keys(s).length; })()
+          : unicos("concorrente").length;
+        var ativosMonitorados = temReal ? ESPIAO_REAL.length : CARDS.filter(function (c) { return c.origem === "espiao"; }).length;
+        var noSwipe = (function () {
+          var n = CARDS.filter(function (c) { return c.salvo_no_swipe; }).length;
+          lerSalvos().forEach(function (id) { if (ESPIAO_POR_ID[id]) n++; });
+          return n;
+        })();
+        var stats = [
+          { num: String(ativosMonitorados), lab: "Anuncios ativos monitorados", mock: !temReal },
+          { num: String(concorrentes), lab: "Concorrentes monitorados", mock: !temReal },
+          { num: String(noSwipe), lab: "Criativos no Swipe", mock: false },
+          { num: "5", lab: "Anuncios em alta", mock: true }
+        ];
+        document.getElementById("dash-stats").innerHTML = stats.map(function (s) {
+          return '<div class="stat">' + (s.mock ? '<span class="mini-mock">Mock</span>' : '') + '<div class="num">' + s.num + '</div><div class="lab">' + s.lab + '</div></div>';
+        }).join("");
+
+        var alta;
+        if (temReal) {
+          var grupos = {};
+          ESPIAO_REAL.forEach(function (c) { var k = c.concorrente || "Sem concorrente"; grupos[k] = (grupos[k] || 0) + 1; });
+          alta = Object.keys(grupos).map(function (k) { return { nome: k, nicho: "", novos: grupos[k] }; })
+            .sort(function (a, b) { return b.novos - a.novos; });
+        } else {
+          alta = [
+            { nome: "Instituto Lumina", nicho: "medica", novos: 6 },
+            { nome: "Clinica Vitalis", nicho: "estetica", novos: 5 },
+            { nome: "OdontoExcellence", nicho: "odonto", novos: 3 }
+          ];
+        }
+        document.getElementById("dash-alta").innerHTML = alta.map(function (a) {
+          var meta = a.nicho ? (rotuloNicho[a.nicho] || a.nicho) : "anuncios ativos";
+          return '<div class="alta-row" data-conc="' + esc(a.nome) + '"><span class="dot"></span><div><div class="nome">' + esc(a.nome) + '</div><div class="meta">' + meta + '</div></div><span class="num-pill">' + a.novos + ' anuncios</span><span class="seta">&rsaquo;</span></div>';
+        }).join("");
+        if (temReal) {
+          document.querySelectorAll("#dash-alta .alta-row").forEach(function (row) {
+            row.addEventListener("click", function () { focarConcorrente(row.getAttribute("data-conc")); });
+          });
+        }
+      }
+
+      // ---------- Espiao (agrupado por concorrente) ----------
+      var fNichoE = document.getElementById("f-nicho-espiao"), fHookE = document.getElementById("f-hook-espiao");
+      var fConcE = document.getElementById("f-conc-espiao"), campoConc = document.getElementById("campo-conc");
+      var fBuscaE = document.getElementById("f-busca-espiao");
+      var contadorE = document.getElementById("contador-espiao"), gruposE = document.getElementById("espiao-grupos"), vazioE = document.getElementById("vazio-espiao");
+
+      // Leva pro Espiao filtrando por um concorrente (usado ao clicar no Dashboard).
+      function focarConcorrente(nome) {
+        if (ESPIAO_REAL.length && fConcE) fConcE.value = nome || "";
+        selecionarArea("espiao");
+        renderEspiao();
+      }
+      function renderEspiao() {
+        var filtrosEl = document.querySelector("#area-espiao .filtros");
+
+        // Modo REAL: anuncios listados pelo scraper (sem disseccao). Mostra o filtro de
+        // Concorrente; nicho/hook so se aplicam depois da disseccao, entao ficam ocultos.
+        if (ESPIAO_REAL.length) {
+          if (filtrosEl) filtrosEl.style.display = "";
+          var campoNichoE = fNichoE.closest(".campo"); if (campoNichoE) campoNichoE.style.display = "none";
+          var campoHookE = fHookE.closest(".campo"); if (campoHookE) campoHookE.style.display = "none";
+          if (campoConc) campoConc.style.display = "";
+          var campoBusca = document.getElementById("campo-busca"); if (campoBusca) campoBusca.style.display = "";
+
+          var selConc = fConcE ? fConcE.value : "";
+          var q = (fBuscaE && fBuscaE.value ? fBuscaE.value : "").trim().toLowerCase();
+          var listaR = ESPIAO_REAL.filter(function (c) {
+            var okConc = !selConc || (c.concorrente || "Sem concorrente") === selConc;
+            var okQ = !q || ((c.texto || "") + " " + (c.concorrente || "")).toLowerCase().indexOf(q) >= 0;
+            return okConc && okQ;
+          });
+          var ordemR = [], gruposR = {};
+          listaR.forEach(function (c) { var k = c.concorrente || "Sem concorrente"; if (!gruposR[k]) { gruposR[k] = []; ordemR.push(k); } gruposR[k].push(c); });
+          gruposE.innerHTML = "";
+          vazioE.style.display = listaR.length ? "none" : "block";
+          ordemR.forEach(function (k) {
+            var cards = gruposR[k];
+            var vid = cards.filter(function (x) { return x.formato === "video"; }).length;
+            var img = cards.filter(function (x) { return x.formato === "imagem"; }).length;
+            var wrap = document.createElement("div");
+            wrap.className = "grupo-conc";
+            wrap.innerHTML = '<div class="grupo-head"><div class="av">' + iniciais(k) + '</div><div><div class="gnome">' + esc(k) + '</div><div class="gmeta">' + vid + ' video, ' + img + ' imagem</div></div><div class="gcount"><b>' + cards.length + '</b> anuncios ativos</div></div><div class="galeria"></div>';
+            var grid = wrap.querySelector(".galeria");
+            cards.forEach(function (c) { grid.appendChild(montarCardListado(c)); });
+            gruposE.appendChild(wrap);
+          });
+          contadorE.innerHTML = "<b>" + listaR.length + "</b> anuncios reais" + (selConc ? " (filtrado)" : "");
+          return;
+        }
+
+        // Modo MOCK: cards ja dissecados (exemplo), com filtros.
+        if (filtrosEl) filtrosEl.style.display = "";
+        var nicho = fNichoE.value, hook = fHookE.value;
+        var lista = CARDS.filter(function (c) { return c.origem === "espiao" && (!nicho || c.nicho === nicho) && (!hook || c.tipo_hook === hook); });
+        var ordem = [], grupos = {};
+        lista.forEach(function (c) { var k = c.concorrente || "Sem concorrente"; if (!grupos[k]) { grupos[k] = []; ordem.push(k); } grupos[k].push(c); });
+        gruposE.innerHTML = "";
+        vazioE.style.display = lista.length ? "none" : "block";
+        ordem.forEach(function (k) {
+          var cards = grupos[k];
+          var wrap = document.createElement("div");
+          wrap.className = "grupo-conc";
+          var nichoGrupo = rotuloNicho[cards[0].nicho] || cards[0].nicho;
+          wrap.innerHTML = '<div class="grupo-head"><div class="av">' + iniciais(k) + '</div><div><div class="gnome">' + esc(k) + '</div><div class="gmeta">' + nichoGrupo + '</div></div><div class="gcount"><b>' + cards.length + '</b> anuncios ativos</div></div><div class="galeria"></div>';
+          var grid = wrap.querySelector(".galeria");
+          cards.forEach(function (c) { grid.appendChild(montarCard(c, ["salvar", "dissecar"])); });
+          gruposE.appendChild(wrap);
+        });
+        contadorE.innerHTML = "<b>" + lista.length + "</b> anuncios";
+      }
+
+      // ---------- Swipe (acervo curado) ----------
+      var fNichoS = document.getElementById("f-nicho-swipe"), fHookS = document.getElementById("f-hook-swipe");
+      var contadorS = document.getElementById("contador-swipe"), galeriaS = document.getElementById("galeria-swipe"), vazioS = document.getElementById("vazio-swipe");
+      function renderSwipe() {
+        var nicho = fNichoS.value, hook = fHookS.value;
+        var itens = [];
+        // Reais salvos (listados) via localStorage.
+        lerSalvos().forEach(function (id) { if (ESPIAO_POR_ID[id]) itens.push({ tipo: "listado", card: ESPIAO_POR_ID[id] }); });
+        // Mocks ja dissecados marcados como salvos.
+        CARDS.filter(function (c) { return c.salvo_no_swipe; }).forEach(function (c) { itens.push({ tipo: "dissecado", card: c }); });
+        // Filtros de nicho/hook so se aplicam aos dissecados (listados ainda nao tem).
+        var filtrados = itens.filter(function (it) {
+          if (it.tipo === "dissecado") return (!nicho || it.card.nicho === nicho) && (!hook || it.card.tipo_hook === hook);
+          return true;
+        });
+        galeriaS.innerHTML = "";
+        vazioS.style.display = filtrados.length ? "none" : "block";
+        filtrados.forEach(function (it) {
+          if (it.tipo === "listado") galeriaS.appendChild(montarCardListado(it.card, { onToggle: renderSwipe }));
+          else galeriaS.appendChild(montarCard(it.card, []));
+        });
+        contadorS.innerHTML = "<b>" + filtrados.length + "</b> criativos";
+      }
+
+      // ---------- Setup ----------
+      preencherFiltro(fNichoE, unicos("nicho"), rotuloNicho); preencherFiltro(fHookE, unicos("tipo_hook"), null);
+      preencherFiltro(fNichoS, unicos("nicho"), rotuloNicho); preencherFiltro(fHookS, unicos("tipo_hook"), null);
+      fNichoE.addEventListener("change", renderEspiao); fHookE.addEventListener("change", renderEspiao);
+      fNichoS.addEventListener("change", renderSwipe); fHookS.addEventListener("change", renderSwipe);
+
+      // Filtro de Concorrente (modo real do Espiao)
+      if (ESPIAO_REAL.length && fConcE) {
+        var vistosC = {}, listaC = [];
+        ESPIAO_REAL.forEach(function (c) { var k = c.concorrente || "Sem concorrente"; if (!vistosC[k]) { vistosC[k] = 1; listaC.push(k); } });
+        listaC.sort();
+        preencherFiltro(fConcE, listaC, null);
+        fConcE.addEventListener("change", renderEspiao);
+        if (fBuscaE) fBuscaE.addEventListener("input", renderEspiao);
+      }
+
+      renderDashboard(); renderEspiao(); renderSwipe();
+      selecionarArea(AREA_INICIAL);
+    })();
+  </script>
+</body>
+</html>

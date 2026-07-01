@@ -1,0 +1,15 @@
+# Ambiente (nunca versionar segredos)
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Saida bruta do scraper (nao necessaria para o site)
+scripts/out/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Nota: swipe/espiao_midia/ (miniaturas + videos) VAI para o deploy por escolha do usuario.

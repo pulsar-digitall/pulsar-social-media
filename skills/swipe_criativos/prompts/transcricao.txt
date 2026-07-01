@@ -1,0 +1,7 @@
+Transcreva a fala do video enviado de forma verbatim (palavra por palavra), em portugues,
+sem travessoes. Nao resuma, nao corrija, nao adicione comentarios.
+
+Responda APENAS em JSON valido neste formato:
+{
+  "transcricao": "transcricao verbatim completa da fala"
+}
