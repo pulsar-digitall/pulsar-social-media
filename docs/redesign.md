@@ -81,6 +81,13 @@ As telas de Relatórios (Etapa 3) vivem dentro da página do cliente do Gestor e
 foram migradas junto (aviso de exemplo, preview WhatsApp, link público e
 histórico usam os mesmos tokens).
 
+## Galeria final (replicação aprovada em todas as telas)
+
+Conjunto `final-<tema>-<tela>.png` em [`docs/redesign/`](./redesign), nos dois
+temas: `dashboard`, `clientes`, `gestor-geral`, `gestor-cliente`,
+`gestor-relatorios`, `radar-concorrentes`, `radar-swipe`, `em-breve` e
+`offline-gestor` (aviso de backend offline).
+
 ## Verificação
 
 Checagem automatizada (Playwright): troca de tema aplica `--bg` correto nos dois

@@ -106,9 +106,10 @@
     .area-topo h2 { font-size: 27px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
     .area-topo .desc { color: var(--text-2); font-size: 14px; margin-top: 4px; }
     .selo-mock {
-      font-size: 9.5px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700;
-      color: var(--accent-hover); border: 1px solid var(--accent-border); background: var(--accent-soft);
-      border-radius: 999px; padding: 3px 8px;
+      display: inline-flex; align-items: center;
+      background: var(--selo-exemplo-bg); color: var(--selo-exemplo-fg);
+      font-size: 12px; font-weight: 600; padding: 4px 10px;
+      border-radius: 999px; white-space: nowrap;
     }
 
     /* ===================== FILTROS / TOOLBAR ===================== */
@@ -242,7 +243,7 @@
     .vazio { text-align: center; color: var(--text-3); padding: 70px 20px; font-size: 15px; }
 
     /* ===================== PLACEHOLDER ===================== */
-    .em-construcao { max-width: 640px; margin-top: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 30px; }
+    .em-construcao { max-width: 640px; margin-top: 4px; background: var(--surface); border: 1px solid var(--card-border); border-radius: var(--card-radius, 20px); box-shadow: var(--card-shadow); padding: 30px; }
     .em-construcao .selo { display: inline-flex; align-items: center; gap: 7px; font-size: 10.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-hover); border: 1px solid var(--accent-border); background: var(--accent-soft); border-radius: 999px; padding: 6px 12px; margin-bottom: 18px; }
     .em-construcao .selo .ponto { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pisca 1.8s ease-in-out infinite; }
     @keyframes pisca { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -404,7 +405,7 @@
       <!-- AREA: CONCORRENTES (Radar; id interno "espiao" preservado para dados e funcoes) -->
       <section class="area" id="area-espiao" data-area="espiao">
         <div class="area-topo">
-          <div class="titulo-linha"><h2>Concorrentes</h2><span class="selo-mock">Mock</span></div>
+          <div class="titulo-linha"><h2>Concorrentes</h2><span class="selo-mock" id="selo-mock-espiao">Dados de exemplo</span></div>
           <div class="desc">Radar: anuncios ativos dos concorrentes monitorados.</div>
           <div class="filtros">
             <div class="campo" id="campo-conc" style="display:none;"><label for="f-conc-espiao">Concorrente</label><div class="select-wrap"><select id="f-conc-espiao"><option value="">Todos</option></select></div></div>
@@ -423,7 +424,7 @@
       <!-- AREA: SWIPE DE ANUNCIOS (Radar) -->
       <section class="area" id="area-swipe" data-area="swipe">
         <div class="area-topo">
-          <div class="titulo-linha"><h2>Swipe de Anuncios</h2><span class="selo-mock">Mock</span></div>
+          <div class="titulo-linha"><h2>Swipe de Anuncios</h2><span class="selo-mock" id="selo-mock-swipe" title="Parte dos cards ainda e exemplo do layout">Contem exemplos</span></div>
           <div class="desc">Seu acervo curado de referencias de anuncio pago.</div>
           <div class="filtros">
             <div class="campo"><label for="f-nicho-swipe">Nicho</label><div class="select-wrap"><select id="f-nicho-swipe"><option value="">Todos</option></select></div></div>
@@ -878,6 +879,10 @@
       }
       function renderEspiao() {
         var filtrosEl = document.querySelector("#area-espiao .filtros");
+
+        // Selo "Dados de exemplo" so aparece quando NAO ha anuncios reais coletados.
+        var seloEspiao = document.getElementById("selo-mock-espiao");
+        if (seloEspiao) seloEspiao.style.display = ESPIAO_REAL.length ? "none" : "inline-flex";
 
         // Modo REAL: anuncios listados pelo scraper (sem disseccao). Mostra o filtro de
         // Concorrente; nicho/hook so se aplicam depois da disseccao, entao ficam ocultos.
