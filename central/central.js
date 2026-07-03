@@ -376,6 +376,7 @@
             } else {
               lado += c.contaConectada ? '<span class="ct-badge neutro">sem dados</span>' : '<span class="ct-badge off">Pendente</span>';
             }
+            lado += pillTracking(c.trackingCompletude || 0);
             return '<div class="ct-item clicavel" data-id="' + esc(c.id) + '">' +
               '<span class="av">' + esc(iniciaisDe(c.nome)) + "</span>" +
               '<div class="info"><div class="titulo">' + esc(c.nome) + '</div><div class="sub">' +
@@ -536,6 +537,7 @@
         "</div>" +
       "</div>" +
       '<div id="ct-conexao-resultado"></div>' +
+      '<div class="painel ct-secao" id="ct-tracking-strip" style="display:none;"></div>' +
       '<div class="ct-canal-titulo">Meta Ads</div>' +
       '<div class="ct-secao" id="ct-resumo">' + spinner("Carregando resumo...") + "</div>" +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Performance diaria</h3>' +
@@ -642,6 +644,7 @@
     carregarSerie(cliente, moeda, false);
     carregarCampanhas(cliente, moeda, false);
     carregarGoogleAds(cliente, moeda, false);
+    carregarTrackingStrip(cliente);
     carregarLinkPublico(cliente);
     carregarHistoricoRelatorios(cliente);
     carregarChangelog(cliente, "30");
@@ -1472,6 +1475,234 @@
   var observadorTabelas = new MutationObserver(function () { raizesTabelas.forEach(rotularTabelas); });
   raizesTabelas.forEach(function (r) { if (r) observadorTabelas.observe(r, { childList: true, subtree: true }); });
 
+  // =====================================================================
+  // TRACKING (Etapa 4): checklist, monitor de eventos do Pixel e UTMs
+  // =====================================================================
+  var trackingClienteId = null;
+
+  function pillTracking(pct) {
+    var cls = pct >= 100 ? "on" : pct > 0 ? "conectado" : "neutro";
+    return '<span class="ct-badge ' + cls + '">Tracking ' + pct + "%</span>";
+  }
+
+  function progressoHtml(pct) {
+    var w = Math.max(0, Math.min(100, Math.round(pct)));
+    if (w === 0) {
+      return '<div class="ct-progress"><div class="barra" style="width:48px;background:var(--surface-3);color:var(--text-3);">0%</div><div class="resto">100%</div></div>';
+    }
+    return '<div class="ct-progress"><div class="barra" style="width:' + w + '%;">' + w + "%</div>" +
+           (w < 100 ? '<div class="resto">' + (100 - w) + "%</div>" : "") + "</div>";
+  }
+
+  var ICONES_TRK = {
+    pendente: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>',
+    em_andamento: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>',
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    problema: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+  };
+  var ROTULO_STATUS_TRK = { pendente: "Pendente", em_andamento: "Em andamento", ok: "OK", problema: "Com problema" };
+
+  function renderTracking() {
+    var root = document.getElementById("tracking-root");
+    var topo = document.getElementById("tracking-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Tracking...");
+    api("/api/paid-ads/clients")
+      .then(function (r) {
+        estado.clientes = r.clientes || [];
+        if (!estado.clientes.length) {
+          if (topo) topo.innerHTML = "";
+          root.innerHTML = '<div class="painel"><div class="vazio">Nenhum cliente cadastrado ainda.<br/><br/>' +
+            '<button class="btn-toolbar" data-act="ir-clientes">Criar cliente</button></div></div>';
+          var b = root.querySelector('[data-act="ir-clientes"]');
+          if (b) b.addEventListener("click", function () { irParaArea("clientes"); });
+          return;
+        }
+        if (!trackingClienteId || !buscarCliente(trackingClienteId)) trackingClienteId = estado.clientes[0].id;
+        if (topo) {
+          topo.innerHTML = '<div class="select-wrap"><select id="trk-cliente">' + estado.clientes.map(function (c) {
+            return '<option value="' + esc(c.id) + '"' + (c.id === trackingClienteId ? " selected" : "") + ">" + esc(c.nome) + "</option>";
+          }).join("") + "</select></div>";
+          document.getElementById("trk-cliente").addEventListener("change", function () {
+            trackingClienteId = this.value;
+            renderTracking();
+          });
+        }
+        var cliente = buscarCliente(trackingClienteId);
+        root.innerHTML =
+          '<div class="painel ct-secao"><div class="painel-topo"><h3>Checklist de tracking</h3><span class="contador" id="trk-progresso"></span></div><div id="trk-checklist">' + spinner("Carregando checklist...") + "</div></div>" +
+          '<div class="painel ct-secao"><div class="painel-topo"><h3>Monitor de eventos (Pixel)</h3><span class="contador" id="trk-eventos-info"></span></div><div id="trk-eventos">' + spinner("Lendo eventos do Pixel...") + "</div></div>" +
+          '<div class="painel"><div class="painel-topo"><h3>Auditoria de UTMs</h3><span class="contador" id="trk-utms-info"></span></div><div id="trk-utms">' + spinner("Auditando UTMs...") + "</div></div>";
+        carregarChecklist(cliente);
+        carregarEventosPixel(cliente, false);
+        carregarUtms(cliente, false);
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderTracking);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  // ---------- 4.1 Checklist ----------
+  function carregarChecklist(cliente) {
+    var alvo = document.getElementById("trk-checklist");
+    if (!alvo) return;
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/tracking")
+      .then(function (r) { renderChecklist(cliente, r); })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarChecklist(cliente); }); });
+  }
+
+  function renderChecklist(cliente, r) {
+    var alvo = document.getElementById("trk-checklist");
+    var prog = document.getElementById("trk-progresso");
+    if (prog) prog.innerHTML = '<div style="min-width:220px;">' + progressoHtml(r.completude) + "</div>";
+    var h = '<div class="trk-lista">' + r.itens.map(function (item) {
+      var opcoes = r.statusPossiveis.map(function (s) {
+        return '<option value="' + s + '"' + (item.status === s ? " selected" : "") + ">" + (ROTULO_STATUS_TRK[s] || s) + "</option>";
+      }).join("");
+      return '<div class="trk-item st-' + esc(item.status) + '" data-linha="' + esc(item.id) + '">' +
+        '<span class="trk-ico">' + (ICONES_TRK[item.status] || ICONES_TRK.pendente) + "</span>" +
+        '<div class="trk-info"><div class="trk-titulo">' + esc(item.titulo) + '</div><div class="trk-desc">' + esc(item.descricao) + "</div></div>" +
+        '<input class="trk-obs" data-item="' + esc(item.id) + '" placeholder="Observacao..." value="' + esc(item.observacao || "") + '" />' +
+        '<div class="select-wrap"><select class="trk-status" data-item="' + esc(item.id) + '">' + opcoes + "</select></div>" +
+        "</div>";
+    }).join("") + "</div>";
+    alvo.innerHTML = h;
+
+    function salvarItem(itemId) {
+      var sel = alvo.querySelector('.trk-status[data-item="' + itemId + '"]');
+      var obs = alvo.querySelector('.trk-obs[data-item="' + itemId + '"]');
+      api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/tracking", {
+        method: "POST",
+        body: { item: itemId, status: sel.value, observacao: obs.value }
+      })
+        .then(function (nr) {
+          if (prog) prog.innerHTML = '<div style="min-width:220px;">' + progressoHtml(nr.completude) + "</div>";
+          var linha = alvo.querySelector('[data-linha="' + itemId + '"]');
+          if (linha) {
+            linha.className = "trk-item st-" + sel.value;
+            linha.setAttribute("data-linha", itemId);
+            var ico = linha.querySelector(".trk-ico");
+            if (ico) ico.innerHTML = ICONES_TRK[sel.value] || ICONES_TRK.pendente;
+          }
+        })
+        .catch(function (err) { window.alert("Erro ao salvar item: " + err.message); });
+    }
+
+    alvo.querySelectorAll(".trk-status").forEach(function (sel) {
+      sel.addEventListener("change", function () { salvarItem(sel.getAttribute("data-item")); });
+    });
+    alvo.querySelectorAll(".trk-obs").forEach(function (inp) {
+      inp.addEventListener("change", function () { salvarItem(inp.getAttribute("data-item")); });
+    });
+  }
+
+  // ---------- 4.2 Monitor de eventos ----------
+  function carregarEventosPixel(cliente, refresh) {
+    var alvo = document.getElementById("trk-eventos");
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Lendo eventos do Pixel...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/tracking-eventos" + (refresh ? "?refresh=1" : ""))
+      .then(function (r) {
+        var info = document.getElementById("trk-eventos-info");
+        if (info) info.innerHTML = r.mock ? '<span class="selo-exemplo" title="' + esc(r.aviso || "") + '">Dados de exemplo</span>' : "";
+        var icoSinal = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+        var h = "";
+        if (r.sinais && r.sinais.length) {
+          h += '<div class="trk-sinais">' + r.sinais.map(function (s) {
+            return '<div class="trk-sinal">' + icoSinal + "<span>" + esc(s) + "</span></div>";
+          }).join("") + "</div>";
+        } else {
+          h += '<div class="trk-sinais"><div class="trk-sinal" style="background:var(--positive-soft);"><span style="color:var(--positive);font-weight:600;">Nenhum sinal de problema nos ultimos 7 dias.</span></div></div>';
+        }
+        h += '<div class="trk-origem">' +
+             (r.origemDisponivel && r.origem
+               ? '<span class="ct-badge conectado">Browser: ' + fmtNum(r.origem.browser) + "</span>" +
+                 '<span class="ct-badge ' + (r.origem.server > 0 ? "on" : "off") + '">Server (CAPI): ' + fmtNum(r.origem.server) + "</span>"
+               : '<span class="ct-badge neutro">Origem browser/server indisponivel nesta conta</span>') +
+             "</div>";
+        if (!r.eventos.length) {
+          h += '<div class="vazio">Nenhum evento recebido nos ultimos 7 dias.</div>';
+        } else {
+          h += '<div class="ct-tabela-wrap" style="margin-top:6px;"><table class="ct-tabela"><thead><tr>' +
+               "<th>Evento</th><th class=\"num\">Ultimos 7 dias</th><th class=\"num\">7 dias anteriores</th><th class=\"num\">Variacao</th></tr></thead><tbody>";
+          r.eventos.forEach(function (ev) {
+            h += '<tr><td class="nome-obj">' + esc(ev.nome) + '</td><td class="num">' + fmtNum(ev.total) + "</td>" +
+                 '<td class="num">' + fmtNum(ev.anterior) + '</td><td class="num">' +
+                 (ev.variacaoPct != null ? badgeVar(ev.variacaoPct, 1) : '<span class="ct-var neutra">&mdash;</span>') + "</td></tr>";
+          });
+          h += "</tbody></table></div>";
+        }
+        h += '<div style="padding:0 20px 16px;">' + linhaCacheHtml(r.cache, r.mock) + "</div>";
+        alvo.innerHTML = h;
+        var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+        if (btnAtu) btnAtu.addEventListener("click", function () { carregarEventosPixel(cliente, true); });
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarEventosPixel(cliente, false); }); });
+  }
+
+  // ---------- 4.3 Auditoria de UTMs ----------
+  var ROTULO_UTM = { ok: "OK", sem_utm: "Sem UTM", fora_padrao: "Fora do padrao" };
+  var CLASSE_UTM = { ok: "on", sem_utm: "alerta", fora_padrao: "off" };
+
+  function carregarUtms(cliente, refresh) {
+    var alvo = document.getElementById("trk-utms");
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Auditando UTMs...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/tracking-utms" + (refresh ? "?refresh=1" : ""))
+      .then(function (r) {
+        var info = document.getElementById("trk-utms-info");
+        if (info) info.innerHTML = r.mock ? '<span class="selo-exemplo" title="' + esc(r.aviso || "") + '">Dados de exemplo</span>' : "";
+        var h = '<div class="trk-origem">' +
+          '<span class="ct-badge on">' + r.resumo.ok + " ok</span>" +
+          '<span class="ct-badge alerta">' + r.resumo.semUtm + " sem UTM</span>" +
+          '<span class="ct-badge off">' + r.resumo.foraPadrao + " fora do padrao</span>" +
+          '<span class="ct-badge neutro" title="Parametros obrigatorios">Padrao: ' + r.padrao.join(", ") + "</span></div>";
+        if (!r.anuncios.length) {
+          h += '<div class="vazio">Nenhum anuncio encontrado no periodo.</div>';
+        } else {
+          h += '<div class="ct-tabela-wrap" style="margin-top:6px;"><table class="ct-tabela"><thead><tr>' +
+               "<th>Anuncio</th><th>Status</th><th>UTM</th><th>Detalhe</th></tr></thead><tbody>";
+          r.anuncios.forEach(function (a) {
+            var detalhe = a.status === "ok"
+              ? '<span style="color:var(--text-3);font-size:12px;" title="' + esc(a.urlTags) + '">' + esc(a.urlTags.length > 60 ? a.urlTags.slice(0, 60) + "..." : a.urlTags) + "</span>"
+              : a.status === "sem_utm"
+                ? '<span style="color:var(--text-2);font-size:12.5px;">Nenhum parametro de URL configurado</span>'
+                : '<span style="color:var(--text-2);font-size:12.5px;">Faltando: <b>' + a.faltando.join(", ") + "</b></span>";
+            h += '<tr><td class="nome-obj">' + esc(a.nome) + "</td>" +
+                 "<td>" + (a.statusAnuncio === "ACTIVE" ? '<span class="ct-badge on">ativo</span>' : '<span class="ct-badge neutro">' + esc(String(a.statusAnuncio || "").toLowerCase()) + "</span>") + "</td>" +
+                 '<td><span class="ct-badge ' + (CLASSE_UTM[a.status] || "neutro") + '">' + (ROTULO_UTM[a.status] || a.status) + "</span></td>" +
+                 "<td>" + detalhe + "</td></tr>";
+          });
+          h += "</tbody></table></div>";
+        }
+        h += '<div style="padding:0 20px 16px;">' + linhaCacheHtml(r.cache, r.mock) + "</div>";
+        alvo.innerHTML = h;
+        var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+        if (btnAtu) btnAtu.addEventListener("click", function () { carregarUtms(cliente, true); });
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarUtms(cliente, false); }); });
+  }
+
+  // Faixa de completude do tracking na pagina do cliente (Gestor)
+  function carregarTrackingStrip(cliente) {
+    var strip = document.getElementById("ct-tracking-strip");
+    if (!strip) return;
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/tracking")
+      .then(function (r) {
+        strip.style.display = "";
+        strip.innerHTML = '<div style="padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">' +
+          '<span style="font-size:14px;font-weight:600;">Tracking</span>' +
+          '<div style="flex:1;min-width:220px;max-width:420px;">' + progressoHtml(r.completude) + "</div>" +
+          '<button class="btn-sm salvar" data-act="abrir-tracking">Abrir Tracking</button></div>';
+        strip.querySelector('[data-act="abrir-tracking"]').addEventListener("click", function () {
+          trackingClienteId = cliente.id;
+          irParaArea("tracking");
+        });
+      })
+      .catch(function () { strip.style.display = "none"; });
+  }
+
   // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
@@ -1480,6 +1711,7 @@
       if (id === "dashboard") renderDashCentral();
       if (id === "clientes") carregarClientes();
       if (id === "gestor") carregarGestor();
+      if (id === "tracking") renderTracking();
     }
   };
 

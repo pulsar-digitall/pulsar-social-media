@@ -193,8 +193,43 @@
   padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--text);
 }
 
+/* ---------- Tracking (Etapa 4) ---------- */
+.trk-lista { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 16px; }
+.trk-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 12px;
+  transition: background 150ms ease;
+}
+.trk-item:hover { background: var(--surface-2); }
+.trk-ico {
+  width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+  background: var(--surface-2); color: var(--text-3);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.trk-ico svg { width: 16px; height: 16px; }
+.trk-item.st-ok .trk-ico { background: var(--positive-soft); color: var(--positive); }
+.trk-item.st-em_andamento .trk-ico { background: var(--accent-soft); color: var(--accent); }
+.trk-item.st-problema .trk-ico { background: var(--negative-soft); color: var(--negative); }
+.trk-info { flex: 1; min-width: 200px; }
+.trk-titulo { font-size: 14px; font-weight: 600; color: var(--text); }
+.trk-desc { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+.trk-obs {
+  width: 230px; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 8px 11px; font-size: 12.5px; font-family: inherit; outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.trk-obs:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.trk-item select { min-width: 150px; padding: 8px 32px 8px 12px; font-size: 12.5px; }
+.trk-sinais { display: flex; flex-direction: column; gap: 8px; padding: 14px 20px 0; }
+.trk-sinal { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text-2); background: var(--warning-soft); border-radius: 10px; padding: 9px 12px; }
+.trk-sinal .ic { color: var(--warning); flex-shrink: 0; width: 16px; height: 16px; margin-top: 1px; }
+.trk-origem { display: flex; gap: 8px; padding: 14px 20px 0; flex-wrap: wrap; align-items: center; }
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 860px) {
+  .trk-item { flex-wrap: wrap; }
+  .trk-obs { width: 100%; }
   .ct-diag-grid { grid-template-columns: 1fr; }
   .ct-cmd { flex-direction: column; }
   .ct-form-grid { grid-template-columns: 1fr; }

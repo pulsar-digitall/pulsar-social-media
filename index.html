@@ -525,15 +525,18 @@
         </div>
       </section>
 
-      <!-- AREA: TRACKING (placeholder) -->
+      <!-- AREA: TRACKING (Etapa 4) -->
       <section class="area" id="area-tracking" data-area="tracking">
-        <div class="area-topo"><h2>Tracking</h2><div class="desc">GTM, Meta CAPI e qualidade de rastreamento.</div></div>
-        <div class="area-corpo">
-          <div class="em-construcao">
-            <span class="selo"><span class="ponto"></span>Em construcao</span>
-            <p>Esta area vai acompanhar a saude do rastreamento de cada cliente: GTM, Meta CAPI e eventos de MQL.</p>
+        <div class="area-topo">
+          <div class="titulo-linha" style="justify-content: space-between; flex-wrap: wrap; row-gap: 12px;">
+            <div>
+              <h2>Tracking</h2>
+              <div class="desc" style="margin-top: 2px;">Checklist de rastreamento, eventos do Pixel e auditoria de UTMs por cliente.</div>
+            </div>
+            <div id="tracking-topo" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
           </div>
         </div>
+        <div class="area-corpo" id="tracking-root"></div>
       </section>
 
     </div>
@@ -612,7 +615,7 @@
         ] },
         { titulo: "Entregas", areas: [
           { id: "relatorios", rotulo: "Relatorios", badge: "Em breve" },
-          { id: "tracking", rotulo: "Tracking", badge: "Em breve" }
+          { id: "tracking", rotulo: "Tracking" }
         ] }
       ];
       var AREA_INICIAL = "dashboard";
