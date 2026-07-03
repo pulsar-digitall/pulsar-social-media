@@ -7,19 +7,37 @@
 
 :root {
   /* ---- Tema CLARO (padrao) ---- */
-  --bg: #F6F8FA;
+  --bg: #EEF1F5;                   /* fundo visivelmente cinza: profundidade vs cards */
   --surface: #FFFFFF;
   --surface-2: #F0F3F6;
   --surface-3: #EAEEF2;            /* hover/aninhamento mais profundo */
   --border: #E4E8EC;
   --border-strong: #D5DAE0;
   --border-hover: #C6CCD4;
-  --text: #16181B;
-  --text-2: #6B7178;
-  --text-3: #8F959C;
+  --text: #0F1115;                 /* quase preto, como os titulos da referencia */
+  --text-2: #737A82;
+  --text-3: #9AA1A9;
 
   --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.06);
   --shadow-md: 0 4px 14px rgba(16, 24, 40, 0.07), 0 14px 30px -14px rgba(16, 24, 40, 0.12);
+
+  /* Cards: sem borda no claro — a separacao vem da sombra */
+  --card-border: transparent;
+  --card-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 12px rgba(16, 24, 40, 0.06);
+  --card-shadow-hover: 0 4px 8px rgba(16, 24, 40, 0.06), 0 12px 24px rgba(16, 24, 40, 0.10);
+  --card-radius: 20px;
+
+  /* Grafico e tooltip */
+  --tooltip-bg: #0F1115;
+  --tooltip-fg: #FFFFFF;
+  --tooltip-fg2: rgba(255, 255, 255, 0.7);
+  --chart-media: #B8C0C9;
+
+  /* Selo "Dados de exemplo" */
+  --selo-exemplo-bg: #FFF4D6;
+  --selo-exemplo-fg: #8A6D1A;
+  --pend-ico-bg: rgba(245, 185, 61, 0.15);
+  --pend-ico-fg: #B8860B;
 
   --scrollbar: #D2D5DC;
   --scrollbar-hover: #BCC0CA;
@@ -39,18 +57,18 @@
   --texto-sobre-accent: #FFFFFF;
 
   /* ---- Semanticas (AA sobre --surface do tema claro) ---- */
-  --positive: #1F9D68;
+  --positive: #1F9E6E;
   --positive-soft: rgba(52, 201, 142, 0.14);
-  --negative: #D9435C;
+  --negative: #D63955;
   --negative-soft: rgba(240, 82, 106, 0.12);
   --negative-hover: #C13049;
   --warning: #A87A16;
   --warning-soft: rgba(245, 185, 61, 0.16);
   --warning-border: rgba(245, 185, 61, 0.55);
 
-  /* ---- Tipografia ---- */
+  /* ---- Tipografia: Inter em TUDO (pesos + tracking negativo = visual SF Pro) ---- */
   --font-brand: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-titulo: "Space Grotesk", "Codec Pro", "Inter", system-ui, sans-serif;
+  --font-titulo: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* ---- Forma (base 8px) ---- */
   --radius: 16px;
@@ -75,6 +93,21 @@
   /* Sem sombra no escuro: elevacao por borda + superficie */
   --shadow-sm: 0 0 0 0 transparent;
   --shadow-md: 0 0 0 0 transparent;
+
+  /* Cards no escuro: elevacao por borda, sem sombra */
+  --card-border: #26292E;
+  --card-shadow: none;
+  --card-shadow-hover: none;
+
+  --tooltip-bg: #F2F4F6;
+  --tooltip-fg: #0F1115;
+  --tooltip-fg2: rgba(15, 17, 21, 0.65);
+  --chart-media: #3A4048;
+
+  --selo-exemplo-bg: rgba(245, 185, 61, 0.15);
+  --selo-exemplo-fg: #F5C244;
+  --pend-ico-bg: rgba(245, 185, 61, 0.13);
+  --pend-ico-fg: #F5C244;
 
   --scrollbar: #2E3238;
   --scrollbar-hover: #3B4048;
@@ -104,37 +137,65 @@
    COMPONENTES BASE
    ========================================================================== */
 
-/* ---- Titulos usam a fonte de titulo ---- */
-h1, h2, h3,
-.stat .num,
-.brand-fallback .wordmark,
-.mt-brand,
-.grupo-head .gnome {
-  font-family: var(--font-titulo);
-  letter-spacing: -0.2px;
-}
+/* ---- Escala tipografica (Inter reproduzindo o visual SF Pro) ----
+   Titulo de pagina 32/700/-0.02em | titulo de card 17/600 |
+   numero de KPI 30/700/-0.02em | label de KPI 13/500 | corpo 14/400 */
+h1, h2, h3 { font-family: var(--font-titulo); color: var(--text); }
+.area-topo h2 { font-size: 30px !important; font-weight: 700; letter-spacing: -0.02em !important; }
+.area-topo .desc { font-size: 14px !important; color: var(--text-2) !important; }
+.painel-topo h3, .ct-secao > h3 { font-size: 17px !important; font-weight: 600 !important; letter-spacing: -0.01em; }
+body { font-size: 14px; }
 
-/* ---- Card de KPI (padrao Ponteo): icone em chip, numero grande + badge de
-   variacao colado, label embaixo em cinza ---- */
-.stat { padding: 22px 24px !important; border-radius: 18px !important; }
+/* ---- Card de KPI: icone 40x40 em --accent SOLIDO com icone branco;
+   numero 28/700 + badge colada 8px na mesma linha; label 13/500 ---- */
+.stat { padding: 20px !important; border-radius: var(--card-radius) !important; }
 .stat .ico-chip {
-  width: 38px; height: 38px; border-radius: 12px;
-  background: var(--accent-soft); color: var(--accent-hover);
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--accent); color: var(--texto-sobre-accent);
   display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px;
 }
-.stat .ico-chip svg { width: 18px; height: 18px; }
-.stat .linha-num { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.stat .num { font-size: 30px; font-weight: 700; line-height: 1.05; letter-spacing: -0.5px; }
-.stat .lab { margin-top: 7px; }
+.stat .ico-chip svg { width: 19px; height: 19px; }
+.stat .linha-num { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.stat .num { font-size: 28px; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text); }
+.stat .lab { margin-top: 6px; font-size: 13px !important; font-weight: 500; color: var(--text-2) !important; }
 
 .ct-var {
   display: inline-flex; align-items: center; gap: 3px;
-  font-size: 11px; font-weight: 700; white-space: nowrap;
-  border-radius: var(--radius-pill); padding: 3px 9px;
+  font-size: 12px; font-weight: 600; white-space: nowrap;
+  border-radius: var(--radius-pill); padding: 3px 8px;
 }
 .ct-var.boa { color: var(--positive); background: var(--positive-soft); }
 .ct-var.ruim { color: var(--negative); background: var(--negative-soft); }
 .ct-var.neutra { color: var(--text-2); background: var(--surface-2); }
+
+/* ---- Selo "Dados de exemplo" (pill discreta ao lado do titulo) ---- */
+.selo-exemplo {
+  display: inline-flex; align-items: center;
+  background: var(--selo-exemplo-bg); color: var(--selo-exemplo-fg);
+  font-size: 12px; font-weight: 600; padding: 4px 10px;
+  border-radius: var(--radius-pill); white-space: nowrap; cursor: default;
+}
+
+/* ---- Pendencias: lista compacta sem caixas ---- */
+.pend-lista { display: flex; flex-direction: column; gap: 8px; padding: 10px 10px 14px; }
+.pend-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 10px; border-radius: 12px; cursor: pointer;
+  transition: background 150ms ease;
+}
+.pend-item:hover { background: var(--surface-2); }
+.pend-item.estatico { cursor: default; }
+.pend-item .pend-ico {
+  width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+  background: var(--pend-ico-bg); color: var(--pend-ico-fg);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.pend-item .pend-ico svg { width: 16px; height: 16px; }
+.pend-item .pend-ico.ok { background: var(--positive-soft); color: var(--positive); }
+.pend-item .pend-info { flex: 1; min-width: 0; }
+.pend-item .pend-titulo { font-size: 14px; font-weight: 600; color: var(--text); }
+.pend-item .pend-sub { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+.pend-item .seta { color: var(--text-3); font-size: 16px; }
 
 /* ---- Datebox (seletor de data estilo referencia) ---- */
 .ct-datebox {
@@ -181,30 +242,31 @@ h1, h2, h3,
 }
 .ct-progress .resto { flex: 1; text-align: right; padding-right: 12px; font-size: 11px; font-weight: 600; color: var(--text-3); }
 
-/* ---- Grafico de barras (padrao Practice Performance) ---- */
+/* ---- Grafico de barras (valores exatos do polimento) ---- */
 .ct-chart-wrap { padding: 26px 20px 14px; }
-.ct-chart { position: relative; display: flex; align-items: flex-end; gap: 10px; height: 200px; padding-top: 44px; }
+.ct-chart { position: relative; display: flex; align-items: flex-end; gap: 10px; height: 292px; padding-top: 46px; }
 .ct-chart .col { flex: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; position: relative; min-width: 0; }
 .ct-chart .barra {
-  width: 100%; max-width: 34px; min-height: 6px;
-  border-radius: var(--radius-pill);
-  background: repeating-linear-gradient(-45deg, var(--accent-soft) 0 5px, transparent 5px 10px);
-  box-shadow: inset 0 0 0 1px var(--accent-soft);
-  cursor: pointer; transition: background 150ms ease;
+  width: 100%; max-width: 28px; min-height: 8px;
+  border-radius: 8px 8px 0 0;
+  background: var(--accent); opacity: 0.18;
+  cursor: pointer; transition: opacity 150ms ease;
 }
-.ct-chart .col.ativa .barra { background: var(--accent); box-shadow: none; }
-.ct-chart .rotulo { font-size: 10.5px; color: var(--text-3); white-space: nowrap; }
-.ct-chart .col.ativa .rotulo { color: var(--accent-hover); font-weight: 700; }
-.ct-chart .media-linha { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--accent-border); pointer-events: none; z-index: 1; }
-.ct-chart .media-rotulo { position: absolute; right: 0; transform: translateY(-115%); font-size: 10px; color: var(--text-3); background: var(--surface); padding: 1px 6px; border-radius: 6px; }
+.ct-chart .col:hover .barra { opacity: 0.35; }
+.ct-chart .col.ativa .barra, .ct-chart .col.ativa:hover .barra { opacity: 1; }
+.ct-chart .rotulo { font-size: 11px; font-weight: 500; color: var(--text-3); white-space: nowrap; }
+.ct-chart .col.ativa .rotulo { color: var(--accent); font-weight: 700; }
+.ct-chart .media-linha { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--chart-media); pointer-events: none; z-index: 1; }
+.ct-chart .media-rotulo { position: absolute; right: 0; transform: translateY(-115%); font-size: 11px; color: var(--text-2); background: var(--surface); padding: 1px 6px; border-radius: 6px; }
 .ct-chart .tooltip {
   position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
-  background: var(--accent); color: var(--texto-sobre-accent);
-  padding: 7px 12px; border-radius: 10px; text-align: center;
-  font-size: 12px; font-weight: 700; white-space: nowrap; z-index: 3; pointer-events: none;
+  background: var(--tooltip-bg); color: var(--tooltip-fg);
+  padding: 8px 12px; border-radius: 10px; text-align: center;
+  font-size: 14px; font-weight: 700; white-space: nowrap; z-index: 3; pointer-events: none;
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.25), 0 2px 6px rgba(16, 24, 40, 0.18);
 }
-.ct-chart .tooltip .tsub { display: block; font-weight: 500; font-size: 10px; opacity: 0.85; margin-top: 1px; }
-.ct-chart .tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--accent); }
+.ct-chart .tooltip .tsub { display: block; font-weight: 500; font-size: 11px; color: var(--tooltip-fg2); margin-top: 1px; }
+.ct-chart .tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--tooltip-bg); }
 
 /* ---- Pill de status (fundo suave + texto na cor cheia) ----
    Estados: on = Ativo (positive) | off = Pausado/pendente (warning)
@@ -238,9 +300,11 @@ h1, h2, h3,
 [data-theme="dark"] .tema-toggle .icone-sol { display: none; }
 [data-theme="dark"] .tema-toggle .icone-lua { display: block; }
 
-/* ---- Logo: no escuro usa o fallback (marca em accent + wordmark claro) ---- */
+/* ---- Logo por tema: clara no claro, branca real no escuro ---- */
+.brand-logo-escuro { display: none; height: 30px; width: auto; max-width: 190px; object-fit: contain; }
 [data-theme="dark"] .brand-logo { display: none !important; }
-[data-theme="dark"] .brand-fallback { display: flex !important; }
+[data-theme="dark"] .brand-logo-escuro { display: block; }
+[data-theme="dark"] .brand-fallback { display: none !important; }
 
 /* ---- Grafico (padrao para quando houver): area com gradiente do accent ---- */
 .ct-grafico-area { fill: url(#ct-gradiente-accent); }

@@ -504,10 +504,6 @@
     return String(nome || "?").split(" ").map(function (p) { return p[0]; }).join("").slice(0, 2).toUpperCase();
   }
 
-  function avisoMockHtml(texto) {
-    return '<div class="ct-mock-aviso">' + esc(texto || "Dados de exemplo.") + "</div>";
-  }
-
   function linhaCacheHtml(cache, mock) {
     if (mock || !cache) return "";
     var quando = fmtData(cache.coletadoEm);
@@ -528,7 +524,9 @@
     var h =
       '<button class="ct-voltar" data-act="voltar">&lsaquo; Voltar para a visao geral</button>' +
       '<div class="filtros" style="margin:0 0 8px;align-items:center;">' +
-        '<h2 style="font-size:20px;font-weight:700;">' + esc(cliente.nome) + "</h2>" + badgeStatus(cliente.status) +
+        '<h2 style="font-size:20px;font-weight:700;">' + esc(cliente.nome) + "</h2>" +
+        '<span id="ct-selo-exemplo" class="selo-exemplo" style="display:none;">Dados de exemplo</span>' +
+        badgeStatus(cliente.status) +
         (cliente.adAccountId ? '<span class="ct-badge neutro">' + esc(cliente.adAccountId) + "</span>" : "") +
         '<span id="ct-conexao-chip">' + chipConexao(cliente) + "</span>" +
         '<button class="btn-sm" data-act="testar-conexao">Testar conexao</button>' +
@@ -664,6 +662,48 @@
       .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarSerie(cliente, moeda, false); }); });
   }
 
+  // Constroi o HTML do grafico de barras (reutilizado no dashboard e no cliente).
+  function chartHtml(dias, valores, fmtValor) {
+    var max = Math.max.apply(null, valores.concat([1]));
+    var soma = valores.reduce(function (a, b) { return a + b; }, 0);
+    var media = soma / valores.length;
+    var idxAtivo = valores.indexOf(Math.max.apply(null, valores));
+    var muitos = dias.length > 16;
+    function rotuloDe(iso, i) {
+      if (muitos && i % Math.ceil(dias.length / 12) !== 0) return "";
+      var p = iso.split("-");
+      return p[2] + "/" + p[1];
+    }
+    return '<div class="ct-chart-wrap"><div class="ct-chart">' +
+      '<div class="media-linha" style="bottom:' + ((media / max) * 220 + 24) + 'px;"><span class="media-rotulo">media ' + esc(fmtValor(Math.round(media * 100) / 100)) + "</span></div>" +
+      dias.map(function (d, i) {
+        var v = valores[i];
+        var altura = Math.max(8, Math.round((v / max) * 220));
+        var ativo = i === idxAtivo;
+        return '<div class="col' + (ativo ? " ativa" : "") + '" data-i="' + i + '">' +
+          (ativo ? '<span class="tooltip">' + esc(fmtValor(v)) + '<span class="tsub">' + d.data.split("-").reverse().join("/") + "</span></span>" : "") +
+          '<div class="barra" style="height:' + altura + 'px;" title="' + esc(fmtValor(v)) + '"></div>' +
+          '<span class="rotulo">' + rotuloDe(d.data, i) + "</span></div>";
+      }).join("") +
+      "</div></div>";
+  }
+
+  function ligarChart(container, dias, valores, fmtValor) {
+    container.querySelectorAll(".ct-chart .col").forEach(function (col) {
+      col.addEventListener("mouseenter", function () {
+        var i = Number(col.getAttribute("data-i"));
+        container.querySelectorAll(".ct-chart .col").forEach(function (c) {
+          c.classList.remove("ativa");
+          var t = c.querySelector(".tooltip");
+          if (t) t.remove();
+        });
+        col.classList.add("ativa");
+        col.insertAdjacentHTML("afterbegin",
+          '<span class="tooltip">' + esc(fmtValor(valores[i])) + '<span class="tsub">' + dias[i].data.split("-").reverse().join("/") + "</span></span>");
+      });
+    });
+  }
+
   function renderSerie(cliente, moeda) {
     var alvo = document.getElementById("ct-serie");
     if (!alvo || !serieDados) return;
@@ -674,50 +714,12 @@
     if (!dias.length) { alvo.innerHTML = '<div class="vazio">Sem dados no periodo.</div>'; return; }
 
     var valores = dias.map(function (d) { return metrica === "leads" ? d.leads : d.investimento; });
-    var max = Math.max.apply(null, valores.concat([1]));
-    var soma = valores.reduce(function (a, b) { return a + b; }, 0);
-    var media = soma / valores.length;
-    var idxAtivo = valores.indexOf(Math.max.apply(null, valores));
-    var muitos = dias.length > 16; // periodos longos: rotulos alternados
-
     function fmtValor(v) { return metrica === "leads" ? fmtNum(v) + " leads" : fmtMoeda(v, moeda); }
-    function rotuloDe(iso, i) {
-      if (muitos && i % Math.ceil(dias.length / 12) !== 0) return "";
-      var p = iso.split("-");
-      return p[2] + "/" + p[1];
-    }
 
-    var h = "";
-    if (serieDados.mock) h += '<div style="padding:14px 20px 0;">' + avisoMockHtml(serieDados.aviso) + "</div>";
-    h += '<div class="ct-chart-wrap"><div class="ct-chart">' +
-         '<div class="media-linha" style="bottom:' + ((media / max) * 156 + 26) + 'px;"><span class="media-rotulo">media ' + esc(fmtValor(Math.round(media * 100) / 100)) + "</span></div>" +
-         dias.map(function (d, i) {
-           var v = valores[i];
-           var altura = Math.max(6, Math.round((v / max) * 150));
-           var ativo = i === idxAtivo;
-           return '<div class="col' + (ativo ? " ativa" : "") + '" data-i="' + i + '">' +
-             (ativo ? '<span class="tooltip">' + esc(fmtValor(v)) + '<span class="tsub">' + d.data.split("-").reverse().join("/") + "</span></span>" : "") +
-             '<div class="barra" style="height:' + altura + 'px;" title="' + esc(fmtValor(v)) + '"></div>' +
-             '<span class="rotulo">' + rotuloDe(d.data, i) + "</span></div>";
-         }).join("") +
-         "</div></div>";
+    var h = chartHtml(dias, valores, fmtValor);
     h += '<div style="padding:0 20px 16px;">' + linhaCacheHtml(serieDados.cache, serieDados.mock) + "</div>";
     alvo.innerHTML = h;
-
-    alvo.querySelectorAll(".ct-chart .col").forEach(function (col) {
-      col.addEventListener("mouseenter", function () {
-        var i = Number(col.getAttribute("data-i"));
-        alvo.querySelectorAll(".ct-chart .col").forEach(function (c) {
-          c.classList.remove("ativa");
-          var t = c.querySelector(".tooltip");
-          if (t) t.remove();
-        });
-        col.classList.add("ativa");
-        var v = valores[i];
-        col.insertAdjacentHTML("afterbegin",
-          '<span class="tooltip">' + esc(fmtValor(v)) + '<span class="tsub">' + dias[i].data.split("-").reverse().join("/") + "</span></span>");
-      });
-    });
+    ligarChart(alvo, dias, valores, fmtValor);
     var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
     if (btnAtu) btnAtu.addEventListener("click", function () { carregarSerie(cliente, moeda, true); });
   }
@@ -862,7 +864,9 @@
       .then(function (r) {
         var t = r.totais, ant = r.totaisAnterior;
         var h = "";
-        if (r.mock) h += avisoMockHtml(r.aviso);
+        if (r.mock) {
+          h += '<div style="padding:16px 20px 0;"><span class="selo-exemplo" title="' + esc(r.aviso || "") + '">Dados de exemplo</span></div>';
+        }
         var legG = "vs " + r.rangeAnterior.label;
         var stats = [
           { ico: "dinheiro", num: fmtMoeda(t.gasto, moeda), lab: "Investimento", varr: variacaoHtml(t.gasto, ant.gasto, 0, legG) },
@@ -948,9 +952,13 @@
           { ico: "alcance", num: fmtNum(m.reach), lab: "Alcance", varr: variacaoHtml(m.reach, ant.reach, 1, leg) },
           { ico: "campanhas", num: fmtNum(r.atual.campanhasAtivas), lab: "Campanhas ativas", sub: r.atual.campanhasComAlerta + " com alerta" }
         ];
-        var h = "";
-        if (r.mock) h += avisoMockHtml(r.aviso);
-        h += '<div class="stat-grid">' + stats.map(kpiHtml).join("") + "</div>";
+        // Selo discreto no cabecalho do cliente (sem banner de largura total)
+        var selo = document.getElementById("ct-selo-exemplo");
+        if (selo) {
+          selo.style.display = r.mock ? "inline-flex" : "none";
+          if (r.aviso) selo.title = r.aviso;
+        }
+        var h = '<div class="stat-grid">' + stats.map(kpiHtml).join("") + "</div>";
         h += linhaCacheHtml(r.cache, r.mock);
         alvo.innerHTML = h;
         var db = document.getElementById("ct-datebox-texto");
@@ -997,9 +1005,7 @@
     api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/campaigns?" + queryPeriodo(refresh ? "refresh=1" : ""))
       .then(function (r) {
         if (!r.campanhas.length) { alvo.innerHTML = '<div class="vazio">Nenhuma campanha encontrada na conta.</div>'; return; }
-        var h = "";
-        if (r.mock) h += avisoMockHtml(r.aviso);
-        h += '<div class="ct-tabela-wrap"><table class="ct-tabela" id="ct-tabela-drill"><thead><tr>' +
+        var h = '<div class="ct-tabela-wrap"><table class="ct-tabela" id="ct-tabela-drill"><thead><tr>' +
              "<th>Nome</th><th>Status</th><th class=\"num\">Orcam./dia</th><th class=\"num\">Gasto</th><th class=\"num\">Leads</th>" +
              "<th class=\"num\">CPL</th><th class=\"num\">CTR</th><th class=\"num\">CPM</th><th class=\"num\">Freq.</th><th>Alertas</th></tr></thead><tbody>";
         r.campanhas.forEach(function (c) { h += linhaEntidade(c, "campaign", moeda, true); });
@@ -1110,10 +1116,11 @@
           : '<span class="ct-badge neutro">Analise deterministica (regras)</span>';
 
         var h = '<div style="padding:18px 20px;display:flex;flex-direction:column;gap:16px;">';
-        if (r.mock) h += avisoMockHtml(r.aviso);
         if (r.avisoIA) h += '<div class="ct-nota" style="margin:0;">' + esc(r.avisoIA) + "</div>";
         h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' + fonteBadge +
-             '<span class="ct-badge neutro">' + esc(r.range.label) + "</span></div>";
+             '<span class="ct-badge neutro">' + esc(r.range.label) + "</span>" +
+             (r.mock ? '<span class="selo-exemplo" title="' + esc(r.aviso || "") + '">Dados de exemplo</span>' : "") +
+             "</div>";
 
         if (ia && ia.resumoExecutivo) {
           h += '<div class="ct-diag-resumo">' + esc(ia.resumoExecutivo) + "</div>";
@@ -1283,25 +1290,110 @@
     if (btn) btn.click();
   }
 
+  var dashPeriodo = 7; // 7 | 14 | 30
+
+  // Badge de variacao com percentual ja calculado (mock do dashboard).
+  function badgeVar(pct, dir) {
+    var subiu = pct >= 0;
+    var cls = dir === 0 ? "neutra" : ((subiu ? 1 : -1) === dir ? "boa" : "ruim");
+    return '<span class="ct-var ' + cls + '">' + (subiu ? "&#8599;" : "&#8600;") + " " +
+           Math.abs(pct).toFixed(1).replace(".", ",") + "%</span>";
+  }
+
+  function rotuloRangeDash(p) {
+    function fmt(d) {
+      return String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0") + "/" + d.getFullYear();
+    }
+    var ontem = new Date(Date.now() - 86400000);
+    var inicio = new Date(Date.now() - p * 86400000);
+    return fmt(inicio) + " - " + fmt(ontem);
+  }
+
+  function renderDashPeriodo() {
+    var el = document.getElementById("dash-periodo");
+    if (!el) return;
+    el.innerHTML =
+      '<span class="ct-datebox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>' +
+      rotuloRangeDash(dashPeriodo) + "</span></span>" +
+      '<span class="ct-periodo">' + [7, 14, 30].map(function (p) {
+        return '<button data-dp="' + p + '"' + (p === dashPeriodo ? ' class="ativo"' : "") + ">" + p + "d</button>";
+      }).join("") + "</span>";
+    el.querySelectorAll("[data-dp]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        dashPeriodo = Number(b.getAttribute("data-dp"));
+        renderDashCentral();
+      });
+    });
+  }
+
+  // Gerador deterministico de dados de exemplo do dashboard (numeros realistas).
+  function rngSimples(seed) {
+    var a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function dashMockDados(periodo) {
+    var serie = [];
+    var totalInv = 0;
+    var totalLeads = 0;
+    for (var i = periodo; i >= 1; i--) {
+      var d = new Date(Date.now() - i * 86400000);
+      var iso = d.toISOString().slice(0, 10);
+      var r = rngSimples(7919 * periodo + i * 131);
+      var fds = d.getDay() === 0 || d.getDay() === 6 ? 0.55 : 1;
+      var inv = Math.round((320 + r() * 380) * fds * 100) / 100;
+      var leads = Math.round(inv / (24 + r() * 14));
+      totalInv += inv;
+      totalLeads += leads;
+      serie.push({ data: iso, investimento: inv, leads: leads });
+    }
+    var rv = rngSimples(periodo * 977);
+    return {
+      serie: serie,
+      investimento: Math.round(totalInv * 100) / 100,
+      leads: totalLeads,
+      cpl: Math.round((totalInv / Math.max(totalLeads, 1)) * 100) / 100,
+      varInv: 6 + rv() * 12,
+      varLeads: 9 + rv() * 16,
+      varCpl: -(4 + rv() * 12),
+      campanhasAtivas: 9,
+      campanhasComAlerta: 2
+    };
+  }
+
   function renderDashCentral() {
     var alvo = document.getElementById("dash-central");
     if (!alvo) return;
+    renderDashPeriodo();
     alvo.innerHTML = spinner("Carregando dados da central...");
-    Promise.all([api("/api/paid-ads/overview"), api("/api/paid-ads/concorrentes")])
+    Promise.all([api("/api/paid-ads/overview?period=" + dashPeriodo), api("/api/paid-ads/concorrentes")])
       .then(function (r) {
         var ov = r[0];
         var concs = r[1].concorrentes || [];
-        var semDados = !ov.dadosDisponiveis;
+        var exemplo = !ov.dadosDisponiveis;
+        var mockD = exemplo ? dashMockDados(dashPeriodo) : null;
 
-        var stats = [
-          { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" },
-          { ico: "dinheiro", num: semDados ? "—" : fmtMoeda(ov.investimentoTotal), lab: "Investimento (7d)" },
-          { ico: "leads", num: semDados ? "—" : fmtNum(ov.leadsTotal), lab: "Leads (7d)" },
-          { ico: "alvo", num: semDados || ov.cplMedio == null ? "—" : fmtMoeda(ov.cplMedio), lab: "CPL medio (7d)" },
-          { ico: "campanhas", num: semDados ? "—" : fmtNum(ov.campanhasAtivas), lab: "Campanhas ativas" },
-          { ico: "alerta", num: semDados ? "—" : fmtNum(ov.campanhasComAlerta), lab: "Campanhas com alerta" }
-        ];
+        // KPIs (grid uniforme de 4, como a referencia)
+        var stats = exemplo
+          ? [
+              { ico: "dinheiro", num: fmtMoeda(mockD.investimento), lab: "Investimento (" + dashPeriodo + "d)", varr: badgeVar(mockD.varInv, 0) },
+              { ico: "leads", num: fmtNum(mockD.leads), lab: "Leads (" + dashPeriodo + "d)", varr: badgeVar(mockD.varLeads, 1) },
+              { ico: "alvo", num: fmtMoeda(mockD.cpl), lab: "CPL medio", varr: badgeVar(mockD.varCpl, -1) },
+              { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" }
+            ]
+          : [
+              { ico: "dinheiro", num: fmtMoeda(ov.investimentoTotal), lab: "Investimento (" + dashPeriodo + "d)" },
+              { ico: "leads", num: fmtNum(ov.leadsTotal), lab: "Leads (" + dashPeriodo + "d)" },
+              { ico: "alvo", num: ov.cplMedio != null ? fmtMoeda(ov.cplMedio) : "—", lab: "CPL medio" },
+              { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" }
+            ];
 
+        // Pendencias
         var pendencias = [];
         if (!ov.metaConectada) pendencias.push({ area: "gestor", texto: "Meta API sem token no backend", meta: "Preencha META_ACCESS_TOKEN no .env do Gestor de Trafego" });
         var semConta = (ov.porCliente || []).filter(function (c) { return !c.contaConectada; }).length;
@@ -1310,28 +1402,47 @@
         if (naoAssoc > 0) pendencias.push({ area: "clientes", texto: naoAssoc + " concorrente(s) do Radar sem cliente associado", meta: "Associe na area Clientes" });
         if (!ov.clientesTotal) pendencias.push({ area: "clientes", texto: "Nenhum cliente cadastrado ainda", meta: "Crie o primeiro na area Clientes" });
 
-        var h = '<div class="stat-grid">' + stats.map(kpiHtml).join("") + "</div>";
-
-        if (semDados) {
-          h += '<div class="ct-nota">Resumo de trafego indisponivel: ' +
-               (ov.metaConectada ? "nenhum cliente com conta de anuncio conectada." : "Meta API sem token no backend.") +
-               " Os numeros aparecem quando houver credencial e conta conectada.</div>";
+        // Selo discreto "Dados de exemplo" ao lado do titulo (sem banner)
+        var selo = document.getElementById("dash-selo-exemplo");
+        if (selo) {
+          selo.style.display = exemplo ? "inline-flex" : "none";
+          selo.title = "Os numeros e o grafico sao ilustrativos. Conecte o META_ACCESS_TOKEN no .env do backend e as contas dos clientes para ver dados reais.";
         }
 
-        h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Pendencias</h3>' +
-             (pendencias.length ? '<span class="ct-badge alerta">' + pendencias.length + "</span>" : "") + "</div>";
+        var h = '<div class="stat-grid dash-kpis">' + stats.map(kpiHtml).join("") + "</div>";
+
+        // Bloco principal: grafico (~60%) + pendencias na coluna lateral
+        var serie = exemplo ? mockD.serie : (ov.serie || []);
+        var valores = serie.map(function (d) { return d.investimento; });
+        function fmtValor(v) { return fmtMoeda(v); }
+
+        h += '<div class="dash-principal ct-secao">';
+        h += '<div class="painel"><div class="painel-topo"><h3>Investimento por dia</h3></div>' +
+             '<div id="dash-grafico">' +
+             (serie.length ? chartHtml(serie, valores, fmtValor) : '<div class="vazio">Sem dados no periodo.</div>') +
+             "</div></div>";
+
+        var icoAlerta = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+        var icoOk = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+
+        h += '<div class="painel"><div class="painel-topo"><h3>Pendencias</h3>' +
+             (pendencias.length ? '<span class="ct-badge alerta">' + pendencias.length + "</span>" : "") + "</div>" +
+             '<div class="pend-lista">';
         if (!pendencias.length) {
-          h += '<div class="alta-row" style="cursor:default;"><span class="dot" style="background:var(--positive);"></span><div><div class="nome">Tudo em dia</div><div class="meta">Nenhuma pendencia aberta na central.</div></div></div>';
+          h += '<div class="pend-item estatico"><span class="pend-ico ok">' + icoOk + "</span>" +
+               '<div class="pend-info"><div class="pend-titulo">Tudo em dia</div><div class="pend-sub">Nenhuma pendencia aberta na central.</div></div></div>';
         } else {
           h += pendencias.map(function (p) {
-            return '<div class="alta-row" data-area-link="' + esc(p.area) + '"><span class="dot" style="background:var(--warning);"></span>' +
-                   '<div><div class="nome">' + esc(p.texto) + '</div><div class="meta">' + esc(p.meta) + "</div></div>" +
+            return '<div class="pend-item" data-area-link="' + esc(p.area) + '"><span class="pend-ico">' + icoAlerta + "</span>" +
+                   '<div class="pend-info"><div class="pend-titulo">' + esc(p.texto) + '</div><div class="pend-sub">' + esc(p.meta) + "</div></div>" +
                    '<span class="seta">&rsaquo;</span></div>';
           }).join("");
         }
-        h += "</div>";
+        h += "</div></div></div>";
 
         alvo.innerHTML = h;
+        var graf = document.getElementById("dash-grafico");
+        if (graf && serie.length) ligarChart(graf, serie, valores, fmtValor);
         alvo.querySelectorAll("[data-area-link]").forEach(function (row) {
           row.addEventListener("click", function () { irParaArea(row.getAttribute("data-area-link")); });
         });

@@ -9,6 +9,14 @@
 /* Botoes pequenos soltos em toolbars nao esticam */
 .filtros .btn-sm { flex: 0 0 auto; }
 
+/* ---------- Dashboard: bloco principal (grafico ~60% + coluna lateral) ---------- */
+.dash-principal { display: grid; grid-template-columns: 1.55fr 1fr; gap: 18px; align-items: start; }
+.dash-principal .painel { overflow: visible; }
+.dash-kpis { margin-bottom: 24px; }
+@media (max-width: 1100px) {
+  .dash-principal { grid-template-columns: 1fr; }
+}
+
 /* ---------- Banner de backend offline ---------- */
 .ct-offline {
   background: var(--warning-soft); border: 1px solid var(--warning-border); border-radius: var(--radius);
@@ -127,12 +135,6 @@
 /* ---------- Historico / changelog ---------- */
 .ct-hist-cmd { color: var(--text-2); font-size: 12.5px; max-width: 380px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ct-var-legenda { font-size: 10.5px; color: var(--text-3); font-weight: 400; }
-
-/* ---------- Aviso de dados de exemplo (mock) ---------- */
-.ct-mock-aviso {
-  background: var(--warning-soft); border: 1px dashed var(--warning-border); color: var(--warning);
-  border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12.5px; font-weight: 600; margin-bottom: 14px;
-}
 
 /* ---------- Linha de cache ---------- */
 .ct-cache-linha { margin-top: 10px; font-size: 12px; color: var(--text-3); }
