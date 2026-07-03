@@ -37,20 +37,33 @@ Semânticas ajustadas por tema para contraste AA sobre o fundo correspondente.
 Tipografia: títulos e números de KPI em **Codec Pro** (fallback Space Grotesk),
 corpo em **Inter**. KPIs 30px/700. Raio: 16px cards, 10px botões, 999px pills.
 
-## Componentes padronizados
+## Componentes padronizados (padrão da referência "Ponteo", paleta Pulsar)
 
-1. **Card de KPI**: número grande + label + badge de variação em pill
-   (`.ct-var.boa/.ruim/.neutra`), estilo "128 ↑12%".
+1. **Card de KPI** (`.stat`): ícone de linha em chip arredondado no topo, número
+   grande (Space Grotesk 700, 30px) com **badge de variação colado ao número**
+   ("R$ 28,55 ↗ 68,2%"), label embaixo em `--text-2`.
 2. **Pill de status** (`.ct-badge`): Ativo=positive, Pausado/Pendente=warning,
-   Erro/Alerta=negative, Conectado=accent, Em breve/Exemplo=neutro.
-3. **Tabelas**: hover em `--surface-2`, números à direita, drill-down preservado
-   (linhas de conjunto/anúncio em superfícies aninhadas).
-4. **Gráficos**: classes base definidas no tema (`.ct-grafico-*`, gradiente do
-   accent) para quando os gráficos entrarem — hoje não há gráfico nas telas.
-5. **Sidebar**: barra ativa 3px em accent, seções em caps pequenas, toggle no
-   rodapé. **Colapsa para ícones entre 861–1100px**; vira drawer abaixo de 860px.
-6. **Tabelas no mobile** (≤860px): viram cards empilhados com rótulo de coluna
-   (`data-th` aplicado automaticamente pelo `central.js`).
+   Erro/Alerta=negative, Conectado=accent, Em breve/Exemplo=neutro. Radius 999px.
+3. **Datebox** (`.ct-datebox`): caixa pill com ícone de calendário + intervalo
+   de datas do período ativo, no topo direito da página do cliente, ao lado do
+   grupo de pills 7d/14d/30d/Personalizado que controla a página inteira.
+4. **Gráfico de barras** (`.ct-chart`, painel "Performance diaria"): barras pill
+   com preenchimento listrado sutil; a barra ativa/hover em `--accent` sólido com
+   **tooltip flutuante** (valor + data) e seta; **linha de média pontilhada** com
+   rótulo; abas pill Investimento | Leads. Dados do endpoint `serie-diaria`
+   (reais com cache 15 min; exemplo com aviso quando sem credencial).
+5. **Listas como cards** (`.ct-lista`/`.ct-item` e `.alta-row`): linha-card com
+   avatar/inicial à esquerda, título + subtítulo, valores e pills à direita —
+   usadas em Pendências, "Radar: em alta agora" e na lista de clientes do Gestor.
+6. **Barra de progresso com % embutido** (`.ct-progress`): componente criado
+   agora; entra em uso no checklist de Tracking (Etapa 4).
+7. **Tabelas** (campanhas): linhas 52px+, hover `--surface-2`, números à direita,
+   valores fora da meta com badge negative, drill-down preservado.
+8. **Sidebar**: item ativo com fundo `--accent-soft` + barra 3px accent, seções
+   em caps pequenas, toggle no rodapé. **Colapsa para ícones entre 861–1100px**;
+   drawer abaixo de 860px.
+9. **Tabelas no mobile** (≤860px): cards empilhados com rótulo de coluna
+   (`data-th` automático via `central.js`).
 
 ## Antes / Depois
 
@@ -62,6 +75,7 @@ Screenshots em [`docs/redesign/`](./redesign):
 | Clientes | ![antes](redesign/antes-claro-clientes.png) | ![claro](redesign/depois-claro-clientes.png) | ![escuro](redesign/depois-escuro-clientes.png) |
 | Gestor (cliente) | ![antes](redesign/antes-claro-gestor-cliente.png) | ![claro](redesign/depois-claro-gestor-cliente.png) | ![escuro](redesign/depois-escuro-gestor-cliente.png) |
 | Radar (Concorrentes) | ![antes](redesign/antes-claro-radar-concorrentes.png) | ![claro](redesign/depois-claro-radar-concorrentes.png) | ![escuro](redesign/depois-escuro-radar-concorrentes.png) |
+| Gráfico Performance diária | — (não existia) | ![claro](redesign/depois-claro-grafico.png) | (mesmo componente, tokens do escuro) |
 
 As telas de Relatórios (Etapa 3) vivem dentro da página do cliente do Gestor e
 foram migradas junto (aviso de exemplo, preview WhatsApp, link público e

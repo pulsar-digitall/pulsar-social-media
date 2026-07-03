@@ -1,10 +1,10 @@
-/* Estilos das areas da Central (Clientes, Gestor de Trafego, Relatorios).
+﻿/* Estilos das areas da Central (Clientes, Gestor de Trafego, Relatorios).
    TODAS as cores vem dos tokens de central/tema.css (claro + escuro).
    Pills de status e variacao de KPI tambem vivem no tema.css. */
 
 /* ---------- Menu lateral em secoes ---------- */
 .nav-grupo + .nav-grupo { margin-top: 22px; }
-#dash-central .ct-secao { margin-bottom: 30px; }
+#dash-central .ct-secao { margin-bottom: 32px; }
 
 /* Botoes pequenos soltos em toolbars nao esticam */
 .filtros .btn-sm { flex: 0 0 auto; }
@@ -69,7 +69,7 @@
 /* ---------- Detalhe do cliente (Gestor) ---------- */
 .ct-voltar { background: transparent; border: none; color: var(--accent-hover); font-size: 13.5px; font-weight: 600; font-family: inherit; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px; }
 .ct-voltar:hover { text-decoration: underline; }
-.ct-secao { margin-bottom: 30px; }
+.ct-secao { margin-bottom: 32px; }
 .ct-secao > h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
 .ct-periodo { display: inline-flex; gap: 4px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); padding: 3px; background: var(--surface); }
 .ct-periodo button { border: none; background: transparent; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--text-2); border-radius: var(--radius-pill); padding: 6px 13px; cursor: pointer; transition: background 150ms ease, color 150ms ease; }

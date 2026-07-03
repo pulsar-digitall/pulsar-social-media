@@ -50,7 +50,7 @@
 
   /* ---- Tipografia ---- */
   --font-brand: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-titulo: "Codec Pro", "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-titulo: "Space Grotesk", "Codec Pro", "Inter", system-ui, sans-serif;
 
   /* ---- Forma (base 8px) ---- */
   --radius: 16px;
@@ -114,17 +114,97 @@ h1, h2, h3,
   letter-spacing: -0.2px;
 }
 
-/* ---- Card de KPI: numero grande + label + badge de variacao ---- */
-.stat .num { font-size: 30px; font-weight: 700; }
+/* ---- Card de KPI (padrao Ponteo): icone em chip, numero grande + badge de
+   variacao colado, label embaixo em cinza ---- */
+.stat { padding: 22px 24px !important; border-radius: 18px !important; }
+.stat .ico-chip {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: var(--accent-soft); color: var(--accent-hover);
+  display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px;
+}
+.stat .ico-chip svg { width: 18px; height: 18px; }
+.stat .linha-num { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.stat .num { font-size: 30px; font-weight: 700; line-height: 1.05; letter-spacing: -0.5px; }
+.stat .lab { margin-top: 7px; }
 
 .ct-var {
   display: inline-flex; align-items: center; gap: 3px;
   font-size: 11px; font-weight: 700; white-space: nowrap;
-  border-radius: var(--radius-pill); padding: 2px 8px;
+  border-radius: var(--radius-pill); padding: 3px 9px;
 }
 .ct-var.boa { color: var(--positive); background: var(--positive-soft); }
 .ct-var.ruim { color: var(--negative); background: var(--negative-soft); }
 .ct-var.neutra { color: var(--text-2); background: var(--surface-2); }
+
+/* ---- Datebox (seletor de data estilo referencia) ---- */
+.ct-datebox {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 9px 16px;
+  font-size: 12.5px; font-weight: 600; color: var(--text);
+  box-shadow: var(--shadow-sm); white-space: nowrap;
+}
+.ct-datebox svg { width: 15px; height: 15px; color: var(--accent-hover); flex-shrink: 0; }
+
+/* ---- Lista como cards (padrao Recent Payments): avatar + titulo/sub + lado ---- */
+.ct-lista { display: flex; flex-direction: column; gap: 10px; }
+.ct-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 13px 18px;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+.ct-item.clicavel { cursor: pointer; }
+.ct-item.clicavel:hover { border-color: var(--accent-border); background: var(--surface-2); }
+.ct-item .av {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  background: var(--accent-soft); color: var(--accent-hover);
+  font-weight: 700; font-size: 13px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.ct-item .info { flex: 1; min-width: 0; }
+.ct-item .titulo { font-weight: 600; font-size: 14px; }
+.ct-item .sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.ct-item .lado { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.ct-item .valor { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 14px; }
+.ct-item .seta { color: var(--text-3); font-size: 16px; }
+
+/* ---- Barra de progresso com percentual embutido (padrao Utilization) ---- */
+.ct-progress { display: flex; align-items: center; width: 100%; height: 28px; border-radius: var(--radius-pill); background: var(--surface-2); overflow: hidden; }
+.ct-progress .barra {
+  display: flex; align-items: center; justify-content: flex-end;
+  height: 100%; min-width: 48px; padding-right: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--accent); color: var(--texto-sobre-accent);
+  font-size: 11px; font-weight: 700;
+  transition: width 150ms ease;
+}
+.ct-progress .resto { flex: 1; text-align: right; padding-right: 12px; font-size: 11px; font-weight: 600; color: var(--text-3); }
+
+/* ---- Grafico de barras (padrao Practice Performance) ---- */
+.ct-chart-wrap { padding: 26px 20px 14px; }
+.ct-chart { position: relative; display: flex; align-items: flex-end; gap: 10px; height: 200px; padding-top: 44px; }
+.ct-chart .col { flex: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; position: relative; min-width: 0; }
+.ct-chart .barra {
+  width: 100%; max-width: 34px; min-height: 6px;
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(-45deg, var(--accent-soft) 0 5px, transparent 5px 10px);
+  box-shadow: inset 0 0 0 1px var(--accent-soft);
+  cursor: pointer; transition: background 150ms ease;
+}
+.ct-chart .col.ativa .barra { background: var(--accent); box-shadow: none; }
+.ct-chart .rotulo { font-size: 10.5px; color: var(--text-3); white-space: nowrap; }
+.ct-chart .col.ativa .rotulo { color: var(--accent-hover); font-weight: 700; }
+.ct-chart .media-linha { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--accent-border); pointer-events: none; z-index: 1; }
+.ct-chart .media-rotulo { position: absolute; right: 0; transform: translateY(-115%); font-size: 10px; color: var(--text-3); background: var(--surface); padding: 1px 6px; border-radius: 6px; }
+.ct-chart .tooltip {
+  position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: var(--texto-sobre-accent);
+  padding: 7px 12px; border-radius: 10px; text-align: center;
+  font-size: 12px; font-weight: 700; white-space: nowrap; z-index: 3; pointer-events: none;
+}
+.ct-chart .tooltip .tsub { display: block; font-weight: 500; font-size: 10px; opacity: 0.85; margin-top: 1px; }
+.ct-chart .tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--accent); }
 
 /* ---- Pill de status (fundo suave + texto na cor cheia) ----
    Estados: on = Ativo (positive) | off = Pausado/pendente (warning)

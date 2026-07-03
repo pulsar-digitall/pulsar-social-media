@@ -351,36 +351,39 @@
         var semDados = !ov.dadosDisponiveis;
         function num(v, fmt) { return semDados ? "—" : fmt(v); }
         var stats = [
-          { num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " no total" },
-          { num: num(ov.investimentoTotal, function (v) { return fmtMoeda(v); }), lab: "Investimento (7d)" },
-          { num: num(ov.leadsTotal, fmtNum), lab: "Leads (7d)" },
-          { num: semDados || ov.cplMedio == null ? "—" : fmtMoeda(ov.cplMedio), lab: "CPL medio (7d)" },
-          { num: num(ov.campanhasAtivas, fmtNum), lab: "Campanhas ativas" },
-          { num: num(ov.campanhasComAlerta, fmtNum), lab: "Campanhas com alerta" }
+          { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " no total" },
+          { ico: "dinheiro", num: num(ov.investimentoTotal, function (v) { return fmtMoeda(v); }), lab: "Investimento (7d)" },
+          { ico: "leads", num: num(ov.leadsTotal, fmtNum), lab: "Leads (7d)" },
+          { ico: "alvo", num: semDados || ov.cplMedio == null ? "—" : fmtMoeda(ov.cplMedio), lab: "CPL medio (7d)" },
+          { ico: "campanhas", num: num(ov.campanhasAtivas, fmtNum), lab: "Campanhas ativas" },
+          { ico: "alerta", num: num(ov.campanhasComAlerta, fmtNum), lab: "Campanhas com alerta" }
         ];
-        h += '<div class="stat-grid">' + stats.map(function (s) {
-          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" + (s.sub ? '<div class="ct-stat-sub">' + s.sub + "</div>" : "") + "</div>";
-        }).join("") + "</div>";
+        h += '<div class="stat-grid">' + stats.map(kpiHtml).join("") + "</div>";
 
-        // Lista de clientes
-        h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Clientes</h3></div>';
+        // Lista de clientes (line-cards, padrao da referencia)
+        h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Clientes</h3></div><div style="padding:16px 18px 18px;">';
         if (!ov.porCliente.length) {
           h += '<div class="vazio">Nenhum cliente cadastrado. Crie na area Clientes.</div>';
         } else {
-          h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
-               "<th>Cliente</th><th>Status</th><th>Conta</th><th class=\"num\">Investimento</th><th class=\"num\">Leads</th><th class=\"num\">CPL</th><th class=\"num\">Alertas</th></tr></thead><tbody>";
-          ov.porCliente.forEach(function (c) {
+          h += '<div class="ct-lista">' + ov.porCliente.map(function (c) {
             var m = c.metrics;
-            var cpl = m && m.costPerLead != null ? fmtMoeda(m.costPerLead) : "—";
-            var alertas = m ? (c.campanhasComAlerta > 0 ? '<span class="ct-badge alerta">' + c.campanhasComAlerta + "</span>" : '<span class="ct-badge on">ok</span>') : "—";
-            h += '<tr class="clicavel" data-id="' + esc(c.id) + '"><td class="nome-obj">' + esc(c.nome) + "</td><td>" + badgeStatus(c.status) + "</td>" +
-                 "<td>" + (c.contaConectada ? '<span class="ct-badge on">conectada</span>' : '<span class="ct-badge off">pendente</span>') + "</td>" +
-                 '<td class="num">' + (m ? fmtMoeda(m.spend) : "—") + '</td><td class="num">' + (m ? fmtNum(m.leads) : "—") + "</td>" +
-                 '<td class="num">' + cpl + '</td><td class="num">' + alertas + "</td></tr>";
-          });
-          h += "</tbody></table></div>";
+            var lado = "";
+            if (m) {
+              lado += '<span class="valor">' + fmtMoeda(m.spend) + "</span>" +
+                      '<span class="ct-badge neutro">' + fmtNum(m.leads) + " leads</span>" +
+                      (m.costPerLead != null ? '<span class="ct-badge neutro">CPL ' + fmtMoeda(m.costPerLead) + "</span>" : "") +
+                      (c.campanhasComAlerta > 0 ? '<span class="ct-badge alerta">' + c.campanhasComAlerta + " alerta(s)</span>" : '<span class="ct-badge on">ok</span>');
+            } else {
+              lado += c.contaConectada ? '<span class="ct-badge neutro">sem dados</span>' : '<span class="ct-badge off">Pendente</span>';
+            }
+            return '<div class="ct-item clicavel" data-id="' + esc(c.id) + '">' +
+              '<span class="av">' + esc(iniciaisDe(c.nome)) + "</span>" +
+              '<div class="info"><div class="titulo">' + esc(c.nome) + '</div><div class="sub">' +
+                esc(c.status) + (c.contaConectada ? " · conta conectada" : " · conta pendente") + "</div></div>" +
+              '<div class="lado">' + lado + '<span class="seta">&rsaquo;</span></div></div>';
+          }).join("") + "</div>";
         }
-        h += "</div>";
+        h += "</div></div>";
 
         // Ultimas otimizacoes
         h += '<div class="painel"><div class="painel-topo"><h3>Ultimas otimizacoes</h3></div>';
@@ -399,10 +402,10 @@
         h += "</div>";
 
         rootGestor.innerHTML = h;
-        rootGestor.querySelectorAll("tr.clicavel[data-id]").forEach(function (tr) {
-          tr.addEventListener("click", function () {
+        rootGestor.querySelectorAll(".ct-item.clicavel[data-id]").forEach(function (item) {
+          item.addEventListener("click", function () {
             estado.gestor.view = "cliente";
-            estado.gestor.clienteId = tr.getAttribute("data-id");
+            estado.gestor.clienteId = item.getAttribute("data-id");
             estado.gestor.planoAtual = null;
             renderGestorCliente();
           });
@@ -459,16 +462,46 @@
   }
 
   // Variacao vs periodo anterior. dir: 1 = subir e bom, -1 = descer e bom, 0 = neutro.
-  function variacaoHtml(atual, anterior, dir) {
+  function variacaoHtml(atual, anterior, dir, legenda) {
+    var titulo = legenda ? ' title="' + esc(legenda) + '"' : "";
     if (atual == null || anterior == null || !isFinite(atual) || !isFinite(anterior) || anterior === 0) {
-      return '<span class="ct-var neutra">&mdash;</span>';
+      return '<span class="ct-var neutra"' + titulo + ">&mdash;</span>";
     }
     var pct = ((atual - anterior) / Math.abs(anterior)) * 100;
-    if (!isFinite(pct)) return '<span class="ct-var neutra">&mdash;</span>';
+    if (!isFinite(pct)) return '<span class="ct-var neutra"' + titulo + ">&mdash;</span>";
     var subiu = pct >= 0;
     var cls = dir === 0 ? "neutra" : ((subiu ? 1 : -1) === dir ? "boa" : "ruim");
-    return '<span class="ct-var ' + cls + '">' + (subiu ? "&#9650;" : "&#9660;") + " " +
+    return '<span class="ct-var ' + cls + '"' + titulo + ">" + (subiu ? "&#8599;" : "&#8600;") + " " +
            Math.abs(pct).toFixed(1).replace(".", ",") + "%</span>";
+  }
+
+  // ---------- Card de KPI (icone em chip + numero + badge + label) ----------
+  var ICONES_KPI = {
+    dinheiro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>',
+    leads: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>',
+    alvo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>',
+    clique: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 9 5 12 1.8-5.2L21 14z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/></svg>',
+    grafico: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+    frequencia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+    alcance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></svg>',
+    campanhas: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+    olho: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+    conversao: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    alerta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    clientes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+  };
+
+  function kpiHtml(o) {
+    return '<div class="stat">' +
+      (o.ico && ICONES_KPI[o.ico] ? '<span class="ico-chip">' + ICONES_KPI[o.ico] + "</span>" : "") +
+      '<div class="linha-num"><span class="num">' + o.num + "</span>" + (o.varr || "") + "</div>" +
+      '<div class="lab">' + o.lab + "</div>" +
+      (o.sub ? '<div class="ct-stat-sub">' + o.sub + "</div>" : "") +
+      "</div>";
+  }
+
+  function iniciaisDe(nome) {
+    return String(nome || "?").split(" ").map(function (p) { return p[0]; }).join("").slice(0, 2).toUpperCase();
   }
 
   function avisoMockHtml(texto) {
@@ -499,11 +532,20 @@
         (cliente.adAccountId ? '<span class="ct-badge neutro">' + esc(cliente.adAccountId) + "</span>" : "") +
         '<span id="ct-conexao-chip">' + chipConexao(cliente) + "</span>" +
         '<button class="btn-sm" data-act="testar-conexao">Testar conexao</button>' +
-        '<div class="contador">' + seletorPeriodo() + "</div>" +
+        '<div class="contador" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' +
+          '<span class="ct-datebox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="ct-datebox-texto">...</span></span>' +
+          seletorPeriodo() +
+        "</div>" +
       "</div>" +
       '<div id="ct-conexao-resultado"></div>' +
       '<div class="ct-canal-titulo">Meta Ads</div>' +
       '<div class="ct-secao" id="ct-resumo">' + spinner("Carregando resumo...") + "</div>" +
+      '<div class="painel ct-secao"><div class="painel-topo"><h3>Performance diaria</h3>' +
+        '<span class="contador"><span class="ct-periodo" id="ct-serie-metrica">' +
+          '<button data-metrica="investimento" class="ativo">Investimento</button>' +
+          '<button data-metrica="leads">Leads</button>' +
+        "</span></span></div>" +
+        '<div id="ct-serie">' + spinner("Carregando grafico...") + "</div></div>" +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas</h3><span class="contador" style="font-size:12px;color:var(--text-3);">clique numa linha para abrir conjuntos e anuncios</span></div><div id="ct-campanhas">' + spinner("Carregando campanhas...") + "</div></div>" +
       '<div class="ct-canal-titulo">Google Ads <span class="ct-badge neutro">somente leitura</span></div>' +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas Google</h3></div><div id="ct-google">' + spinner("Carregando Google Ads...") + "</div></div>" +
@@ -590,13 +632,94 @@
 
     rootGestor.querySelector('[data-act="rel-whatsapp"]').addEventListener("click", function () { gerarRelatorio(cliente, "whatsapp"); });
     rootGestor.querySelector('[data-act="rel-pdf"]').addEventListener("click", function () { gerarRelatorio(cliente, "pdf"); });
+    rootGestor.querySelectorAll("#ct-serie-metrica [data-metrica]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        rootGestor.querySelectorAll("#ct-serie-metrica button").forEach(function (x) { x.classList.remove("ativo"); });
+        b.classList.add("ativo");
+        renderSerie(cliente, moeda);
+      });
+    });
 
     carregarResumo(cliente, moeda, false);
+    carregarSerie(cliente, moeda, false);
     carregarCampanhas(cliente, moeda, false);
     carregarGoogleAds(cliente, moeda, false);
     carregarLinkPublico(cliente);
     carregarHistoricoRelatorios(cliente);
     carregarChangelog(cliente, "30");
+  }
+
+  // ---------- Grafico de barras: performance diaria ----------
+  var serieDados = null; // ultimo payload da serie diaria
+
+  function carregarSerie(cliente, moeda, refresh) {
+    var alvo = document.getElementById("ct-serie");
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Carregando grafico...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/serie-diaria?" + queryPeriodo(refresh ? "refresh=1" : ""))
+      .then(function (r) {
+        serieDados = r;
+        renderSerie(cliente, moeda);
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarSerie(cliente, moeda, false); }); });
+  }
+
+  function renderSerie(cliente, moeda) {
+    var alvo = document.getElementById("ct-serie");
+    if (!alvo || !serieDados) return;
+    var metrica = (document.querySelector("#ct-serie-metrica button.ativo") || {}).getAttribute
+      ? (document.querySelector("#ct-serie-metrica button.ativo").getAttribute("data-metrica") || "investimento")
+      : "investimento";
+    var dias = serieDados.dias || [];
+    if (!dias.length) { alvo.innerHTML = '<div class="vazio">Sem dados no periodo.</div>'; return; }
+
+    var valores = dias.map(function (d) { return metrica === "leads" ? d.leads : d.investimento; });
+    var max = Math.max.apply(null, valores.concat([1]));
+    var soma = valores.reduce(function (a, b) { return a + b; }, 0);
+    var media = soma / valores.length;
+    var idxAtivo = valores.indexOf(Math.max.apply(null, valores));
+    var muitos = dias.length > 16; // periodos longos: rotulos alternados
+
+    function fmtValor(v) { return metrica === "leads" ? fmtNum(v) + " leads" : fmtMoeda(v, moeda); }
+    function rotuloDe(iso, i) {
+      if (muitos && i % Math.ceil(dias.length / 12) !== 0) return "";
+      var p = iso.split("-");
+      return p[2] + "/" + p[1];
+    }
+
+    var h = "";
+    if (serieDados.mock) h += '<div style="padding:14px 20px 0;">' + avisoMockHtml(serieDados.aviso) + "</div>";
+    h += '<div class="ct-chart-wrap"><div class="ct-chart">' +
+         '<div class="media-linha" style="bottom:' + ((media / max) * 156 + 26) + 'px;"><span class="media-rotulo">media ' + esc(fmtValor(Math.round(media * 100) / 100)) + "</span></div>" +
+         dias.map(function (d, i) {
+           var v = valores[i];
+           var altura = Math.max(6, Math.round((v / max) * 150));
+           var ativo = i === idxAtivo;
+           return '<div class="col' + (ativo ? " ativa" : "") + '" data-i="' + i + '">' +
+             (ativo ? '<span class="tooltip">' + esc(fmtValor(v)) + '<span class="tsub">' + d.data.split("-").reverse().join("/") + "</span></span>" : "") +
+             '<div class="barra" style="height:' + altura + 'px;" title="' + esc(fmtValor(v)) + '"></div>' +
+             '<span class="rotulo">' + rotuloDe(d.data, i) + "</span></div>";
+         }).join("") +
+         "</div></div>";
+    h += '<div style="padding:0 20px 16px;">' + linhaCacheHtml(serieDados.cache, serieDados.mock) + "</div>";
+    alvo.innerHTML = h;
+
+    alvo.querySelectorAll(".ct-chart .col").forEach(function (col) {
+      col.addEventListener("mouseenter", function () {
+        var i = Number(col.getAttribute("data-i"));
+        alvo.querySelectorAll(".ct-chart .col").forEach(function (c) {
+          c.classList.remove("ativa");
+          var t = c.querySelector(".tooltip");
+          if (t) t.remove();
+        });
+        col.classList.add("ativa");
+        var v = valores[i];
+        col.insertAdjacentHTML("afterbegin",
+          '<span class="tooltip">' + esc(fmtValor(v)) + '<span class="tsub">' + dias[i].data.split("-").reverse().join("/") + "</span></span>");
+      });
+    });
+    var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+    if (btnAtu) btnAtu.addEventListener("click", function () { carregarSerie(cliente, moeda, true); });
   }
 
   // ---------- Relatorios (WhatsApp / PDF) ----------
@@ -740,19 +863,17 @@
         var t = r.totais, ant = r.totaisAnterior;
         var h = "";
         if (r.mock) h += avisoMockHtml(r.aviso);
+        var legG = "vs " + r.rangeAnterior.label;
         var stats = [
-          { num: fmtMoeda(t.gasto, moeda), lab: "Investimento", varr: variacaoHtml(t.gasto, ant.gasto, 0) },
-          { num: fmtNum(t.conversoes), lab: "Conversoes", varr: variacaoHtml(t.conversoes, ant.conversoes, 1) },
-          { num: t.custoPorConversao != null ? fmtMoeda(t.custoPorConversao, moeda) : "—", lab: "Custo/conversao", varr: variacaoHtml(t.custoPorConversao, ant.custoPorConversao, -1) },
-          { num: fmtNum(t.cliques), lab: "Cliques", varr: variacaoHtml(t.cliques, ant.cliques, 1) },
-          { num: fmtNum(t.impressoes), lab: "Impressoes", varr: variacaoHtml(t.impressoes, ant.impressoes, 1) },
-          { num: fmtDec(t.ctr, 2) + "%", lab: "CTR", varr: variacaoHtml(t.ctr, ant.ctr, 1) },
-          { num: fmtMoeda(t.cpc, moeda), lab: "CPC", varr: variacaoHtml(t.cpc, ant.cpc, -1) }
+          { ico: "dinheiro", num: fmtMoeda(t.gasto, moeda), lab: "Investimento", varr: variacaoHtml(t.gasto, ant.gasto, 0, legG) },
+          { ico: "conversao", num: fmtNum(t.conversoes), lab: "Conversoes", varr: variacaoHtml(t.conversoes, ant.conversoes, 1, legG) },
+          { ico: "alvo", num: t.custoPorConversao != null ? fmtMoeda(t.custoPorConversao, moeda) : "—", lab: "Custo/conversao", varr: variacaoHtml(t.custoPorConversao, ant.custoPorConversao, -1, legG) },
+          { ico: "clique", num: fmtNum(t.cliques), lab: "Cliques", varr: variacaoHtml(t.cliques, ant.cliques, 1, legG) },
+          { ico: "olho", num: fmtNum(t.impressoes), lab: "Impressoes", varr: variacaoHtml(t.impressoes, ant.impressoes, 1, legG) },
+          { ico: "grafico", num: fmtDec(t.ctr, 2) + "%", lab: "CTR", varr: variacaoHtml(t.ctr, ant.ctr, 1, legG) },
+          { ico: "dinheiro", num: fmtMoeda(t.cpc, moeda), lab: "CPC", varr: variacaoHtml(t.cpc, ant.cpc, -1, legG) }
         ];
-        h += '<div style="padding:18px 20px 0;"><div class="stat-grid" style="margin-bottom:18px;">' + stats.map(function (s) {
-          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" +
-                 '<div class="ct-stat-sub">' + s.varr + ' <span class="ct-var-legenda">vs ' + esc(r.rangeAnterior.label) + "</span></div></div>";
-        }).join("") + "</div></div>";
+        h += '<div style="padding:18px 20px 0;"><div class="stat-grid" style="margin-bottom:18px;">' + stats.map(kpiHtml).join("") + "</div></div>";
 
         if (!r.campanhas.length) {
           h += '<div class="vazio">Nenhuma campanha Google no periodo.</div>';
@@ -815,26 +936,25 @@
       .then(function (r) {
         var m = r.atual.metrics;
         var ant = r.anterior.metrics;
+        var leg = "vs " + r.rangeAnterior.label;
         // dir: 1 = subir e bom, -1 = descer e bom, 0 = neutro
         var stats = [
-          { num: fmtMoeda(m.spend, moeda), lab: "Investimento", varr: variacaoHtml(m.spend, ant.spend, 0) },
-          { num: fmtNum(m.leads), lab: "Leads", varr: variacaoHtml(m.leads, ant.leads, 1) },
-          { num: m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—", lab: "CPL", varr: variacaoHtml(m.costPerLead, ant.costPerLead, -1) },
-          { num: fmtDec(m.ctr, 2) + "%", lab: "CTR", varr: variacaoHtml(m.ctr, ant.ctr, 1) },
-          { num: fmtMoeda(m.cpm, moeda), lab: "CPM", varr: variacaoHtml(m.cpm, ant.cpm, -1) },
-          { num: fmtDec(m.frequency, 2), lab: "Frequencia", varr: variacaoHtml(m.frequency, ant.frequency, -1) },
-          { num: fmtNum(m.reach), lab: "Alcance", varr: variacaoHtml(m.reach, ant.reach, 1) },
-          { num: fmtNum(r.atual.campanhasAtivas), lab: "Campanhas ativas", sub: r.atual.campanhasComAlerta + " com alerta" }
+          { ico: "dinheiro", num: fmtMoeda(m.spend, moeda), lab: "Investimento", varr: variacaoHtml(m.spend, ant.spend, 0, leg) },
+          { ico: "leads", num: fmtNum(m.leads), lab: "Leads", varr: variacaoHtml(m.leads, ant.leads, 1, leg) },
+          { ico: "alvo", num: m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—", lab: "CPL", varr: variacaoHtml(m.costPerLead, ant.costPerLead, -1, leg) },
+          { ico: "clique", num: fmtDec(m.ctr, 2) + "%", lab: "CTR", varr: variacaoHtml(m.ctr, ant.ctr, 1, leg) },
+          { ico: "grafico", num: fmtMoeda(m.cpm, moeda), lab: "CPM", varr: variacaoHtml(m.cpm, ant.cpm, -1, leg) },
+          { ico: "frequencia", num: fmtDec(m.frequency, 2), lab: "Frequencia", varr: variacaoHtml(m.frequency, ant.frequency, -1, leg) },
+          { ico: "alcance", num: fmtNum(m.reach), lab: "Alcance", varr: variacaoHtml(m.reach, ant.reach, 1, leg) },
+          { ico: "campanhas", num: fmtNum(r.atual.campanhasAtivas), lab: "Campanhas ativas", sub: r.atual.campanhasComAlerta + " com alerta" }
         ];
         var h = "";
         if (r.mock) h += avisoMockHtml(r.aviso);
-        h += '<div class="stat-grid">' + stats.map(function (s) {
-          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" +
-                 (s.varr ? '<div class="ct-stat-sub">' + s.varr + ' <span class="ct-var-legenda">vs ' + esc(r.rangeAnterior.label) + "</span></div>" : "") +
-                 (s.sub ? '<div class="ct-stat-sub">' + s.sub + "</div>" : "") + "</div>";
-        }).join("") + "</div>";
+        h += '<div class="stat-grid">' + stats.map(kpiHtml).join("") + "</div>";
         h += linhaCacheHtml(r.cache, r.mock);
         alvo.innerHTML = h;
+        var db = document.getElementById("ct-datebox-texto");
+        if (db) db.textContent = r.range.since.split("-").reverse().join("/") + " - " + r.range.until.split("-").reverse().join("/");
         var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
         if (btnAtu) btnAtu.addEventListener("click", function () {
           carregarResumo(cliente, moeda, true);
@@ -999,12 +1119,12 @@
           h += '<div class="ct-diag-resumo">' + esc(ia.resumoExecutivo) + "</div>";
         }
 
-        h += '<div class="stat-grid" style="margin:0;">' +
-             '<div class="stat"><div class="num">' + fmtMoeda(m.spend, moeda) + '</div><div class="lab">Investimento no periodo</div></div>' +
-             '<div class="stat"><div class="num">' + fmtNum(m.leads) + '</div><div class="lab">Leads</div></div>' +
-             '<div class="stat"><div class="num">' + (m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—") + '</div><div class="lab">CPL</div></div>' +
-             '<div class="stat"><div class="num">' + fmtNum(r.activeCampaigns) + '</div><div class="lab">Campanhas ativas</div></div>' +
-             "</div>";
+        h += '<div class="stat-grid" style="margin:0;">' + [
+          { ico: "dinheiro", num: fmtMoeda(m.spend, moeda), lab: "Investimento no periodo" },
+          { ico: "leads", num: fmtNum(m.leads), lab: "Leads" },
+          { ico: "alvo", num: m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—", lab: "CPL" },
+          { ico: "campanhas", num: fmtNum(r.activeCampaigns), lab: "Campanhas ativas" }
+        ].map(kpiHtml).join("") + "</div>";
 
         var bem = ia ? ia.oQueEstaBem : r.deterministico.workingWell;
         var problemas = ia ? ia.problemas : r.deterministico.problems;
@@ -1174,12 +1294,12 @@
         var semDados = !ov.dadosDisponiveis;
 
         var stats = [
-          { num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" },
-          { num: semDados ? "—" : fmtMoeda(ov.investimentoTotal), lab: "Investimento (7d)" },
-          { num: semDados ? "—" : fmtNum(ov.leadsTotal), lab: "Leads (7d)" },
-          { num: semDados || ov.cplMedio == null ? "—" : fmtMoeda(ov.cplMedio), lab: "CPL medio (7d)" },
-          { num: semDados ? "—" : fmtNum(ov.campanhasAtivas), lab: "Campanhas ativas" },
-          { num: semDados ? "—" : fmtNum(ov.campanhasComAlerta), lab: "Campanhas com alerta" }
+          { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" },
+          { ico: "dinheiro", num: semDados ? "—" : fmtMoeda(ov.investimentoTotal), lab: "Investimento (7d)" },
+          { ico: "leads", num: semDados ? "—" : fmtNum(ov.leadsTotal), lab: "Leads (7d)" },
+          { ico: "alvo", num: semDados || ov.cplMedio == null ? "—" : fmtMoeda(ov.cplMedio), lab: "CPL medio (7d)" },
+          { ico: "campanhas", num: semDados ? "—" : fmtNum(ov.campanhasAtivas), lab: "Campanhas ativas" },
+          { ico: "alerta", num: semDados ? "—" : fmtNum(ov.campanhasComAlerta), lab: "Campanhas com alerta" }
         ];
 
         var pendencias = [];
@@ -1190,9 +1310,7 @@
         if (naoAssoc > 0) pendencias.push({ area: "clientes", texto: naoAssoc + " concorrente(s) do Radar sem cliente associado", meta: "Associe na area Clientes" });
         if (!ov.clientesTotal) pendencias.push({ area: "clientes", texto: "Nenhum cliente cadastrado ainda", meta: "Crie o primeiro na area Clientes" });
 
-        var h = '<div class="stat-grid">' + stats.map(function (s) {
-          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" + (s.sub ? '<div class="ct-stat-sub">' + s.sub + "</div>" : "") + "</div>";
-        }).join("") + "</div>";
+        var h = '<div class="stat-grid">' + stats.map(kpiHtml).join("") + "</div>";
 
         if (semDados) {
           h += '<div class="ct-nota">Resumo de trafego indisponivel: ' +
