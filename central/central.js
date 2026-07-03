@@ -149,10 +149,10 @@
 
     // Concorrentes do Espiao (associados e nao associados)
     var naoAssociados = estado.concorrentes.filter(function (r) { return !r.clienteId; });
-    h += '<div class="painel"><div class="painel-topo"><h3>Concorrentes do Espiao</h3>' +
+    h += '<div class="painel"><div class="painel-topo"><h3>Concorrentes do Radar</h3>' +
          (naoAssociados.length ? '<span class="ct-badge alerta">' + naoAssociados.length + " nao associado(s)</span>" : "") + "</div>";
     if (!estado.concorrentes.length) {
-      h += '<div class="vazio">Nenhum concorrente no catalogo. Rode o scraper do Espiao para coletar.</div>';
+      h += '<div class="vazio">Nenhum concorrente no catalogo ainda. Rode o scraper do Radar para coletar.</div>';
     } else {
       h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
            "<th>Concorrente</th><th>Page ID</th><th class=\"num\">Anuncios coletados</th><th>Cliente</th><th></th></tr></thead><tbody>";
@@ -215,7 +215,7 @@
           campo("CPM maximo (R$)", "maxCpm", m.maxCpm, "number") +
           campo("Leads minimos", "minLeads", m.minLeads, "number") +
         "</div>" +
-        '<div class="secao">Concorrentes monitorados (Espiao)</div>' +
+        '<div class="secao">Concorrentes monitorados (Radar)</div>' +
         '<div class="ct-conc-lista">' + (checks || '<span style="color:var(--text-3);font-size:13px;">Nenhum concorrente no catalogo ainda.</span>') + "</div>" +
         '<div class="secao">Observacoes</div>' +
         '<div class="campo"><textarea name="observacoes">' + esc(c.observacoes || "") + "</textarea></div>" +
@@ -753,7 +753,7 @@
         var semConta = (ov.porCliente || []).filter(function (c) { return !c.contaConectada; }).length;
         if (semConta > 0) pendencias.push({ area: "clientes", texto: semConta + " cliente(s) sem conta de anuncio conectada", meta: "Conecte o adAccountId na area Clientes" });
         var naoAssoc = concs.filter(function (c) { return !c.clienteId; }).length;
-        if (naoAssoc > 0) pendencias.push({ area: "clientes", texto: naoAssoc + " concorrente(s) do Espiao sem cliente associado", meta: "Associe na area Clientes" });
+        if (naoAssoc > 0) pendencias.push({ area: "clientes", texto: naoAssoc + " concorrente(s) do Radar sem cliente associado", meta: "Associe na area Clientes" });
         if (!ov.clientesTotal) pendencias.push({ area: "clientes", texto: "Nenhum cliente cadastrado ainda", meta: "Crie o primeiro na area Clientes" });
 
         var h = '<div class="stat-grid">' + stats.map(function (s) {

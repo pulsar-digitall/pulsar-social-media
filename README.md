@@ -7,8 +7,10 @@ Módulos no menu lateral:
   (Meta Ads). Consomem a API do backend `PULSAR GESTOR DE TRÁFEGO` — suba com
   `npm run server` na pasta do backend (porta 3001, configurável no `config.js` daqui).
   Sem o backend no ar, essas áreas mostram o aviso "Backend offline".
-- **Social Media**: Espião (anúncios de concorrentes) e Swipe (acervo curado).
-  Copywriter e Orgânico em breve.
+- **Radar**: Concorrentes (anúncios ativos dos concorrentes monitorados, antigo Espião)
+  e Swipe de Anúncios (acervo curado de referências de anúncio pago).
+- **Social Media**: Planejamento, Redator IA, Designer IA, Swipe Orgânico e
+  Biblioteca — em breve.
 - **Entregas**: Relatórios e Tracking em breve.
 
 Skills:
@@ -17,7 +19,7 @@ Skills:
 
 ## Ver o app (front-end)
 
-O app é um shell com sidebar em `index.html` (na raiz). A área Espião carrega a galeria
+O app é um shell com sidebar em `index.html` (na raiz). A área Concorrentes (Radar) carrega a galeria
 de criativos a partir de `swipe/cards.js` (via `<script>`, nunca por fetch).
 Alguns navegadores bloqueiam vídeo local via `file://`, então use o servidor estático:
 
@@ -30,7 +32,7 @@ Depois abra: http://localhost:8000/
 O `serve.bat` usa `python -m http.server` na raiz (apenas serve arquivos, não é backend),
 deixando o `index.html` e os vídeos em `swipe/` acessíveis juntos.
 
-## Espião: listar anúncios ativos de um concorrente (scraper)
+## Radar (Concorrentes): listar anúncios ativos de um concorrente (scraper)
 
 Usa Playwright com o Google Chrome instalado (o Chromium empacotado falha nesta máquina).
 
@@ -46,7 +48,7 @@ Flags do `listar_ativos.py`:
 - `--max-seg N`: tempo máximo de rolagem (padrão 180).
 - `--sem-midia`: não baixa nada (só lista).
 
-Isso gera `swipe/cards_espiao.js`, que o Espião exibe automaticamente. No app: clicar num
+Isso gera `swipe/cards_espiao.js`, que a área Concorrentes exibe automaticamente. No app: clicar num
 card abre o player; o botão "Baixar" salva o criativo. As mídias ficam locais, então não
 dependem do token do Facebook (que expira). Veja o `REVIEW.md` para o estado atual.
 
