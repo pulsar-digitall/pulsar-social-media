@@ -2046,6 +2046,198 @@
       .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarLogDisparos(dias); }); });
   }
 
+  // =====================================================================
+  // REDATOR IA (Etapa 5.1): carrossel, reel, legenda e ideias por pilar
+  // =====================================================================
+  var redInfo = null; // GET /redator (tipos, disponibilidade)
+  var redTipo = "carrossel";
+  var redUltimo = null; // ultima geracao (para salvar na Biblioteca)
+
+  function renderRedator() {
+    var root = document.getElementById("redator-root");
+    var topo = document.getElementById("redator-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Redator IA...");
+    Promise.all([api("/api/paid-ads/redator"), api("/api/paid-ads/clients")])
+      .then(function (r) {
+        redInfo = r[0];
+        estado.clientes = r[1].clientes || [];
+        if (topo) {
+          topo.innerHTML = redInfo.disponivel
+            ? '<span class="ct-badge conectado">IA: ' + esc(redInfo.provider || "?") + "</span>"
+            : '<span class="ct-badge off" title="' + esc(redInfo.aviso || "") + '">IA nao configurada</span>';
+        }
+        var h = "";
+        if (!redInfo.disponivel) {
+          h += '<div class="ct-nota">' + esc(redInfo.aviso || "Configure a chave de IA no backend.") + "</div>";
+        }
+        h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Briefing</h3>' +
+             '<span class="contador"><span class="ct-periodo" id="red-tipos">' +
+             redInfo.tipos.map(function (t) {
+               return '<button data-tipo="' + t.id + '"' + (t.id === redTipo ? ' class="ativo"' : "") + ' title="' + esc(t.descricao) + '">' + esc(t.titulo) + "</button>";
+             }).join("") + "</span></span></div>" +
+             '<div style="padding:18px 20px;">' +
+               '<div class="ct-form-grid">' +
+                 '<div class="campo"><label>Cliente</label><div class="select-wrap"><select id="red-cliente">' +
+                   '<option value="">— sem cliente —</option>' +
+                   estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
+                 "</select></div></div>" +
+                 '<div class="campo"><label>Nicho</label><div class="select-wrap"><select id="red-nicho">' +
+                   ["medica", "estetica", "odonto", "outro"].map(function (n) { return '<option value="' + n + '">' + n + "</option>"; }).join("") +
+                 "</select></div></div>" +
+                 '<div class="campo"><label>Tom</label><input type="text" id="red-tom" placeholder="Ex.: proximo, confiante, sem jargao" /></div>' +
+               "</div>" +
+               '<div class="campo" style="margin-bottom:14px;"><label>Objetivo do post *</label><input type="text" id="red-objetivo" placeholder=\'Ex.: "gerar agendamentos de avaliacao de implante" ou "quebrar a objecao de dor"\' style="width:100%;" /></div>' +
+               '<div class="campo" style="margin-bottom:16px;"><label>Referencia (opcional — cole um texto ou o conteudo de um card do Radar)</label><textarea id="red-referencia" placeholder="Cole aqui uma referencia de estrutura ou angulo..."></textarea></div>' +
+               '<button class="btn-toolbar" data-act="red-gerar"' + (redInfo.disponivel ? "" : " disabled") + ">Gerar conteudo</button>" +
+             "</div></div>" +
+             '<div id="red-resultado"></div>';
+        root.innerHTML = h;
+
+        root.querySelectorAll("#red-tipos [data-tipo]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            redTipo = b.getAttribute("data-tipo");
+            root.querySelectorAll("#red-tipos button").forEach(function (x) { x.classList.remove("ativo"); });
+            b.classList.add("ativo");
+          });
+        });
+        var btnGerar = root.querySelector('[data-act="red-gerar"]');
+        if (btnGerar) btnGerar.addEventListener("click", gerarConteudoRedator);
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderRedator);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function gerarConteudoRedator() {
+    var alvo = document.getElementById("red-resultado");
+    var objetivo = (document.getElementById("red-objetivo") || {}).value || "";
+    if (!objetivo.trim()) {
+      alvo.innerHTML = '<div class="ct-resultado erro">Preencha o objetivo do post antes de gerar.</div>';
+      return;
+    }
+    alvo.innerHTML = spinner("Gerando conteudo com IA (pode levar ate 1 minuto)...");
+    redUltimo = null;
+    api("/api/paid-ads/redator", {
+      method: "POST",
+      timeoutMs: 120000,
+      body: {
+        tipo: redTipo,
+        clienteId: (document.getElementById("red-cliente") || {}).value || "",
+        nicho: (document.getElementById("red-nicho") || {}).value || "",
+        tom: (document.getElementById("red-tom") || {}).value || "",
+        objetivo: objetivo,
+        referencia: (document.getElementById("red-referencia") || {}).value || ""
+      }
+    })
+      .then(function (r) {
+        redUltimo = r;
+        renderResultadoRedator(alvo, r);
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, gerarConteudoRedator); });
+  }
+
+  function hashtagsHtml(tags) {
+    if (!tags || !tags.length) return "";
+    return '<div class="tags" style="margin-top:10px;">' + tags.map(function (t) { return '<span class="tag">#' + esc(t) + "</span>"; }).join("") + "</div>";
+  }
+
+  function blocoTexto(rotulo, texto) {
+    return '<div class="ct-diag-bloco" style="margin-top:12px;"><h4 style="color:var(--accent-hover);">' + esc(rotulo) + '</h4><p style="white-space:pre-wrap;font-size:13.5px;color:var(--text-2);">' + esc(texto) + "</p></div>";
+  }
+
+  function textoParaCopiar(tipo, c) {
+    var linhas = [];
+    if (tipo === "carrossel") {
+      linhas.push("CAPA: " + c.capa.titulo, c.capa.subtitulo, "");
+      c.slides.forEach(function (s) { linhas.push("SLIDE " + s.numero + " — " + s.titulo, s.texto, ""); });
+      linhas.push("CTA: " + c.cta, "", "LEGENDA:", c.legenda);
+    } else if (tipo === "reel") {
+      linhas.push("GANCHO: " + c.gancho, "");
+      c.cenas.forEach(function (s) { linhas.push("[" + s.tempo + "] FALA: " + s.fala, "TEXTO NA TELA: " + s.textoNaTela, ""); });
+      linhas.push("CTA: " + c.cta, "", "LEGENDA:", c.legenda);
+    } else if (tipo === "legenda") {
+      linhas.push(c.legenda, "", "CTA: " + c.cta);
+    } else {
+      (c.pilares || []).forEach(function (p) {
+        linhas.push("PILAR: " + p.pilar);
+        p.ideias.forEach(function (i) { linhas.push("- [" + i.formato + "] " + i.titulo + ": " + i.descricao); });
+        linhas.push("");
+      });
+    }
+    if (c.hashtags && c.hashtags.length) linhas.push("", c.hashtags.map(function (t) { return "#" + t; }).join(" "));
+    return linhas.join("\n").trim();
+  }
+
+  function renderResultadoRedator(alvo, r) {
+    var c = r.conteudo;
+    var corpo = "";
+
+    if (r.tipo === "carrossel") {
+      corpo += '<div class="ct-diag-bloco"><h4 style="color:var(--accent-hover);">Capa</h4>' +
+        '<p style="font-size:16px;font-weight:700;color:var(--text);">' + esc(c.capa.titulo) + "</p>" +
+        '<p style="font-size:13px;color:var(--text-2);margin-top:4px;">' + esc(c.capa.subtitulo) + "</p></div>" +
+        '<div class="red-slides">' + c.slides.map(function (s) {
+          return '<div class="red-slide"><span class="red-num">' + s.numero + "</span>" +
+            '<div class="red-slide-titulo">' + esc(s.titulo) + '</div><div class="red-slide-texto">' + esc(s.texto) + "</div></div>";
+        }).join("") + "</div>" +
+        blocoTexto("CTA (slide final)", c.cta) +
+        blocoTexto("Legenda", c.legenda) + hashtagsHtml(c.hashtags);
+    } else if (r.tipo === "reel") {
+      corpo += '<div class="ct-diag-resumo" style="margin-bottom:12px;"><b>Gancho:</b> ' + esc(c.gancho) + "</div>" +
+        '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr><th>Tempo</th><th>Fala</th><th>Texto na tela</th></tr></thead><tbody>' +
+        c.cenas.map(function (s) {
+          return '<tr><td style="white-space:nowrap;">' + esc(s.tempo) + "</td><td>" + esc(s.fala) + '</td><td style="color:var(--text-2);">' + esc(s.textoNaTela) + "</td></tr>";
+        }).join("") + "</tbody></table></div>" +
+        blocoTexto("CTA", c.cta) + blocoTexto("Legenda", c.legenda) + hashtagsHtml(c.hashtags);
+    } else if (r.tipo === "legenda") {
+      corpo += blocoTexto("Legenda", c.legenda) + blocoTexto("CTA", c.cta) + hashtagsHtml(c.hashtags);
+    } else {
+      corpo += '<div class="ct-diag-grid">' + (c.pilares || []).map(function (p) {
+        return '<div class="ct-diag-bloco plano"><h4>' + esc(p.pilar) + "</h4><ul>" +
+          p.ideias.map(function (i) {
+            return "<li><b>" + esc(i.titulo) + "</b> <span class=\"ct-badge neutro\">" + esc(i.formato) + "</span><br/><span style=\"font-size:12.5px;\">" + esc(i.descricao) + "</span></li>";
+          }).join("") + "</ul></div>";
+      }).join("") + "</div>";
+    }
+
+    var titulo = c.titulo || (redInfo.tipos.filter(function (t) { return t.id === r.tipo; })[0] || {}).titulo || r.tipo;
+    alvo.innerHTML =
+      '<div class="painel"><div class="painel-topo"><h3>' + esc(titulo) + "</h3>" +
+      '<span class="contador"><span class="ct-badge conectado">IA: ' + esc(r.provider) + "</span>" +
+      (r.clienteNome ? ' <span class="ct-badge neutro">' + esc(r.clienteNome) + "</span>" : "") + "</span></div>" +
+      '<div style="padding:18px 20px;">' + corpo +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">' +
+        '<button class="btn-toolbar" data-act="red-copiar">Copiar tudo</button>' +
+        '<button class="ct-btn-sec" data-act="red-salvar">Salvar na Biblioteca (rascunho)</button>' +
+        '<button class="ct-btn-sec" data-act="red-salvar-aprovado">Salvar como aprovado</button>' +
+      "</div>" +
+      '<div id="red-salvo" style="margin-top:8px;"></div>' +
+      "</div></div>";
+
+    alvo.querySelector('[data-act="red-copiar"]').addEventListener("click", function () {
+      copiarTexto(textoParaCopiar(r.tipo, c), this);
+    });
+    function salvar(status, btn) {
+      btn.disabled = true;
+      api("/api/paid-ads/biblioteca", {
+        method: "POST",
+        body: { clienteId: r.clienteId || "", tipo: r.tipo, titulo: titulo, conteudo: c, status: status }
+      })
+        .then(function () {
+          document.getElementById("red-salvo").innerHTML =
+            '<div class="ct-resultado ok">Salvo na Biblioteca como <b>' + status + "</b>. A area Biblioteca (5.2) vai listar tudo.</div>";
+        })
+        .catch(function (err) {
+          btn.disabled = false;
+          document.getElementById("red-salvo").innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+        });
+    }
+    alvo.querySelector('[data-act="red-salvar"]').addEventListener("click", function () { salvar("rascunho", this); });
+    alvo.querySelector('[data-act="red-salvar-aprovado"]').addEventListener("click", function () { salvar("aprovado", this); });
+  }
+
   // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
@@ -2056,6 +2248,7 @@
       if (id === "gestor") carregarGestor();
       if (id === "tracking") renderTracking();
       if (id === "automacoes") renderAutomacoes();
+      if (id === "redator") renderRedator();
     }
   };
 
