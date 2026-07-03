@@ -13,7 +13,9 @@
     gestor: {
       view: "dash", // "dash" | "cliente"
       clienteId: null,
-      periodo: 7,
+      periodo: 7, // 7 | 14 | 30 | "custom"
+      desde: "", // YYYY-MM-DD (periodo custom)
+      ate: "",
       planoAtual: null // { planId, plan, safety }
     }
   };
@@ -135,8 +137,8 @@
            "<th>Cliente</th><th>Status</th><th>Conta de anuncio</th><th>Concorrentes</th><th></th></tr></thead><tbody>";
       estado.clientes.forEach(function (c) {
         var conta = c.adAccountId
-          ? '<span class="ct-badge on">conectada</span> <span style="color:var(--text-3);font-size:12px;">' + esc(c.adAccountId) + "</span>"
-          : '<span class="ct-badge off">pendente</span>';
+          ? chipConexao(c) + ' <span style="color:var(--text-3);font-size:12px;">' + esc(c.adAccountId) + "</span>"
+          : '<span class="ct-badge off">Pendente</span>';
         var concs = (c.concorrentes || []).map(function (r) { return esc(r.nome); }).join(", ") || '<span style="color:var(--text-3);">nenhum</span>';
         h += "<tr><td class=\"nome-obj\">" + esc(c.nome) + "</td><td>" + badgeStatus(c.status) + "</td><td>" + conta + "</td>" +
              "<td style=\"max-width:280px;\">" + concs + "</td>" +
@@ -430,26 +432,78 @@
       });
   }
 
+  // ---------- Periodo (7/14/30 e personalizado) ----------
+  function queryPeriodo(extra) {
+    var g = estado.gestor;
+    var q = g.periodo === "custom"
+      ? "since=" + encodeURIComponent(g.desde) + "&until=" + encodeURIComponent(g.ate)
+      : "period=" + g.periodo;
+    return extra ? q + "&" + extra : q;
+  }
+
   function seletorPeriodo() {
-    return '<span class="ct-periodo">' + [7, 14, 30].map(function (p) {
-      return '<button data-periodo="' + p + '"' + (estado.gestor.periodo === p ? ' class="ativo"' : "") + ">" + p + "d</button>";
-    }).join("") + "</span>";
+    var g = estado.gestor;
+    var h = '<span class="ct-periodo">' + [7, 14, 30].map(function (p) {
+      return '<button data-periodo="' + p + '"' + (g.periodo === p ? ' class="ativo"' : "") + ">" + p + "d</button>";
+    }).join("") +
+    '<button data-periodo="custom"' + (g.periodo === "custom" ? ' class="ativo"' : "") + ">Personalizado</button></span>";
+    if (g.periodo === "custom") {
+      h += '<span class="ct-datas"><input type="date" id="ct-data-de" value="' + esc(g.desde) + '" /> ate ' +
+           '<input type="date" id="ct-data-ate" value="' + esc(g.ate) + '" /> ' +
+           '<button class="btn-sm salvar" data-act="aplicar-datas">Aplicar</button></span>';
+    }
+    return h;
+  }
+
+  // Variacao vs periodo anterior. dir: 1 = subir e bom, -1 = descer e bom, 0 = neutro.
+  function variacaoHtml(atual, anterior, dir) {
+    if (atual == null || anterior == null || !isFinite(atual) || !isFinite(anterior) || anterior === 0) {
+      return '<span class="ct-var neutra">&mdash;</span>';
+    }
+    var pct = ((atual - anterior) / Math.abs(anterior)) * 100;
+    if (!isFinite(pct)) return '<span class="ct-var neutra">&mdash;</span>';
+    var subiu = pct >= 0;
+    var cls = dir === 0 ? "neutra" : ((subiu ? 1 : -1) === dir ? "boa" : "ruim");
+    return '<span class="ct-var ' + cls + '">' + (subiu ? "&#9650;" : "&#9660;") + " " +
+           Math.abs(pct).toFixed(1).replace(".", ",") + "%</span>";
+  }
+
+  function avisoMockHtml(texto) {
+    return '<div class="ct-mock-aviso">' + esc(texto || "Dados de exemplo.") + "</div>";
+  }
+
+  function linhaCacheHtml(cache, mock) {
+    if (mock || !cache) return "";
+    var quando = fmtData(cache.coletadoEm);
+    return '<div class="ct-cache-linha">Dados coletados em ' + quando +
+           (cache.doCache ? " (cache " + cache.ttlMinutos + " min)" : " (agora)") +
+           ' &middot; <button class="ct-link" data-act="atualizar-agora">Atualizar agora</button></div>';
+  }
+
+  function chipConexao(cliente) {
+    var cx = cliente.conexaoMeta;
+    if (cx && cx.status === "conectado") return '<span class="ct-badge on" title="' + esc(cx.detalhe) + '">Conectado</span>';
+    if (cx && cx.status === "erro") return '<span class="ct-badge alerta" title="' + esc(cx.detalhe) + '">Erro</span>';
+    return '<span class="ct-badge off" title="' + esc(cx ? cx.detalhe : "Conexao ainda nao testada") + '">Pendente</span>';
   }
 
   function montarPaginaCliente(cliente) {
     var moeda = cliente.moeda || "BRL";
     var h =
       '<button class="ct-voltar" data-act="voltar">&lsaquo; Voltar para a visao geral</button>' +
-      '<div class="filtros" style="margin:0 0 24px;align-items:center;">' +
+      '<div class="filtros" style="margin:0 0 8px;align-items:center;">' +
         '<h2 style="font-size:20px;font-weight:700;">' + esc(cliente.nome) + "</h2>" + badgeStatus(cliente.status) +
-        (cliente.adAccountId ? '<span class="ct-badge on">' + esc(cliente.adAccountId) + "</span>" : '<span class="ct-badge off">conta pendente</span>') +
+        (cliente.adAccountId ? '<span class="ct-badge neutro">' + esc(cliente.adAccountId) + "</span>" : "") +
+        '<span id="ct-conexao-chip">' + chipConexao(cliente) + "</span>" +
+        '<button class="btn-sm" data-act="testar-conexao">Testar conexao</button>' +
         '<div class="contador">' + seletorPeriodo() + "</div>" +
       "</div>" +
+      '<div id="ct-conexao-resultado"></div>' +
       '<div class="ct-secao" id="ct-resumo">' + spinner("Carregando resumo...") + "</div>" +
-      '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas</h3></div><div id="ct-campanhas">' + spinner("Carregando campanhas...") + "</div></div>" +
+      '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas</h3><span class="contador" style="font-size:12px;color:var(--text-3);">clique numa linha para abrir conjuntos e anuncios</span></div><div id="ct-campanhas">' + spinner("Carregando campanhas...") + "</div></div>" +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Diagnostico IA</h3>' +
-        '<span class="contador"><button class="btn-toolbar" data-act="diagnosticar">Gerar diagnostico (' + estado.gestor.periodo + "d)</button></span></div>" +
-        '<div id="ct-diagnostico"><div class="ct-msg">Clique em "Gerar diagnostico" para analisar a conta no periodo selecionado.</div></div></div>' +
+        '<span class="contador"><button class="btn-toolbar" data-act="diagnosticar">Gerar diagnostico</button></span></div>' +
+        '<div id="ct-diagnostico"><div class="ct-msg">Clique em "Gerar diagnostico" para analisar a conta no periodo selecionado. O diagnostico e informativo: nunca executa nada sozinho.</div></div></div>' +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Comando em linguagem natural</h3></div>' +
         '<div style="padding:18px 20px;">' +
           '<div class="ct-cmd"><input type="text" id="ct-cmd-input" placeholder=\'Ex.: "pause os anuncios com gasto acima de R$50 e zero leads"\' />' +
@@ -461,17 +515,46 @@
           "</div>" +
           '<div id="ct-cmd-resultado"></div>' +
         "</div></div>" +
-      '<div class="painel"><div class="painel-topo"><h3>Historico de otimizacoes</h3></div><div id="ct-historico">' + spinner("Carregando historico...") + "</div></div>";
+      '<div class="painel"><div class="painel-topo"><h3>Changelog do cliente</h3>' +
+        '<span class="contador"><span class="ct-periodo" id="ct-changelog-filtro">' +
+          [["7", "7d"], ["30", "30d"], ["90", "90d"], ["", "Tudo"]].map(function (op) {
+            return '<button data-chl="' + op[0] + '"' + (op[0] === "30" ? ' class="ativo"' : "") + ">" + op[1] + "</button>";
+          }).join("") +
+        "</span></span></div>" +
+        '<div id="ct-changelog">' + spinner("Carregando changelog...") + "</div></div>";
 
     rootGestor.innerHTML = h;
 
     rootGestor.querySelector('[data-act="voltar"]').addEventListener("click", renderGestorDash);
     rootGestor.querySelectorAll("[data-periodo]").forEach(function (b) {
       b.addEventListener("click", function () {
-        estado.gestor.periodo = Number(b.getAttribute("data-periodo"));
-        montarPaginaCliente(cliente);
+        var v = b.getAttribute("data-periodo");
+        if (v === "custom") {
+          if (estado.gestor.periodo !== "custom") {
+            var hoje = new Date();
+            var ontem = new Date(hoje.getTime() - 86400000);
+            var inicio = new Date(hoje.getTime() - 7 * 86400000);
+            estado.gestor.ate = ontem.toISOString().slice(0, 10);
+            estado.gestor.desde = inicio.toISOString().slice(0, 10);
+            estado.gestor.periodo = "custom";
+            montarPaginaCliente(cliente);
+          }
+        } else {
+          estado.gestor.periodo = Number(v);
+          montarPaginaCliente(cliente);
+        }
       });
     });
+    var btnDatas = rootGestor.querySelector('[data-act="aplicar-datas"]');
+    if (btnDatas) btnDatas.addEventListener("click", function () {
+      var de = (document.getElementById("ct-data-de") || {}).value || "";
+      var ate = (document.getElementById("ct-data-ate") || {}).value || "";
+      if (!de || !ate || de > ate) { window.alert("Escolha um intervalo valido (data inicial ate data final)."); return; }
+      estado.gestor.desde = de;
+      estado.gestor.ate = ate;
+      montarPaginaCliente(cliente);
+    });
+    rootGestor.querySelector('[data-act="testar-conexao"]').addEventListener("click", function () { testarConexao(cliente); });
     rootGestor.querySelector('[data-act="diagnosticar"]').addEventListener("click", function () { gerarDiagnostico(cliente); });
     var cmdInput = document.getElementById("ct-cmd-input");
     rootGestor.querySelector('[data-act="comando"]').addEventListener("click", function () { enviarComando(cliente); });
@@ -479,10 +562,36 @@
     rootGestor.querySelectorAll("[data-exemplo]").forEach(function (t) {
       t.addEventListener("click", function () { cmdInput.value = t.getAttribute("data-exemplo"); cmdInput.focus(); });
     });
+    rootGestor.querySelectorAll("#ct-changelog-filtro [data-chl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        rootGestor.querySelectorAll("#ct-changelog-filtro button").forEach(function (x) { x.classList.remove("ativo"); });
+        b.classList.add("ativo");
+        carregarChangelog(cliente, b.getAttribute("data-chl"));
+      });
+    });
 
-    carregarResumo(cliente, moeda);
-    carregarCampanhas(cliente, moeda);
-    carregarHistorico(cliente);
+    carregarResumo(cliente, moeda, false);
+    carregarCampanhas(cliente, moeda, false);
+    carregarChangelog(cliente, "30");
+  }
+
+  function testarConexao(cliente) {
+    var chip = document.getElementById("ct-conexao-chip");
+    var alvo = document.getElementById("ct-conexao-resultado");
+    alvo.innerHTML = spinner("Testando conexao com a Meta API...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/testar-conexao", { method: "POST" })
+      .then(function (r) {
+        cliente.conexaoMeta = r.conexao;
+        if (chip) chip.innerHTML = chipConexao(cliente);
+        var cls = r.conexao.status === "conectado" ? "ok" : "erro";
+        alvo.innerHTML = '<div class="ct-resultado ' + cls + '" style="margin:0 0 18px;">' +
+          "<b>" + (r.conexao.status === "conectado" ? "Conectado" : r.conexao.status === "erro" ? "Erro na conexao" : "Pendente") + ":</b> " +
+          esc(r.conexao.detalhe) + "</div>";
+      })
+      .catch(function (err) {
+        if (err.offline) { alvo.innerHTML = htmlOffline(); ligarRetry(alvo, function () { testarConexao(cliente); }); }
+        else alvo.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
   }
 
   function erroBloco(err, aoTentar) {
@@ -490,71 +599,161 @@
     return '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
   }
 
-  function carregarResumo(cliente, moeda) {
+  function carregarResumo(cliente, moeda, refresh) {
     var alvo = document.getElementById("ct-resumo");
-    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/summary?period=" + estado.gestor.periodo)
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Carregando resumo...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/summary?" + queryPeriodo(refresh ? "refresh=1" : ""))
       .then(function (r) {
-        var m = r.metrics;
+        var m = r.atual.metrics;
+        var ant = r.anterior.metrics;
+        // dir: 1 = subir e bom, -1 = descer e bom, 0 = neutro
         var stats = [
-          { num: fmtMoeda(m.spend, moeda), lab: "Investimento" },
-          { num: fmtNum(m.leads), lab: "Leads" },
-          { num: m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—", lab: "CPL" },
-          { num: fmtDec(m.ctr, 2) + "%", lab: "CTR" },
-          { num: fmtMoeda(m.cpm, moeda), lab: "CPM" },
-          { num: fmtDec(m.frequency, 2), lab: "Frequencia" },
-          { num: fmtNum(r.campanhasAtivas), lab: "Campanhas ativas", sub: r.campanhasTotal + " no total" },
-          { num: fmtNum(r.campanhasComAlerta), lab: "Com alerta" }
+          { num: fmtMoeda(m.spend, moeda), lab: "Investimento", varr: variacaoHtml(m.spend, ant.spend, 0) },
+          { num: fmtNum(m.leads), lab: "Leads", varr: variacaoHtml(m.leads, ant.leads, 1) },
+          { num: m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—", lab: "CPL", varr: variacaoHtml(m.costPerLead, ant.costPerLead, -1) },
+          { num: fmtDec(m.ctr, 2) + "%", lab: "CTR", varr: variacaoHtml(m.ctr, ant.ctr, 1) },
+          { num: fmtMoeda(m.cpm, moeda), lab: "CPM", varr: variacaoHtml(m.cpm, ant.cpm, -1) },
+          { num: fmtDec(m.frequency, 2), lab: "Frequencia", varr: variacaoHtml(m.frequency, ant.frequency, -1) },
+          { num: fmtNum(m.reach), lab: "Alcance", varr: variacaoHtml(m.reach, ant.reach, 1) },
+          { num: fmtNum(r.atual.campanhasAtivas), lab: "Campanhas ativas", sub: r.atual.campanhasComAlerta + " com alerta" }
         ];
-        alvo.innerHTML = '<div class="stat-grid">' + stats.map(function (s) {
-          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" + (s.sub ? '<div class="ct-stat-sub">' + s.sub + "</div>" : "") + "</div>";
+        var h = "";
+        if (r.mock) h += avisoMockHtml(r.aviso);
+        h += '<div class="stat-grid">' + stats.map(function (s) {
+          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" +
+                 (s.varr ? '<div class="ct-stat-sub">' + s.varr + ' <span class="ct-var-legenda">vs ' + esc(r.rangeAnterior.label) + "</span></div>" : "") +
+                 (s.sub ? '<div class="ct-stat-sub">' + s.sub + "</div>" : "") + "</div>";
         }).join("") + "</div>";
+        h += linhaCacheHtml(r.cache, r.mock);
+        alvo.innerHTML = h;
+        var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+        if (btnAtu) btnAtu.addEventListener("click", function () {
+          carregarResumo(cliente, moeda, true);
+          carregarCampanhas(cliente, moeda, true);
+        });
       })
-      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarResumo(cliente, moeda); }); });
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarResumo(cliente, moeda, false); }); });
   }
 
-  function carregarCampanhas(cliente, moeda) {
+  // ---------- Campanhas com drill-down (campanha -> conjuntos -> anuncios) ----------
+  function celulasMetricas(e, moeda) {
+    var m = e.metrics || {};
+    return '<td class="num">' + (e.dailyBudget != null ? fmtMoeda(e.dailyBudget, moeda) : "—") + "</td>" +
+           '<td class="num">' + fmtMoeda(m.spend, moeda) + '</td><td class="num">' + fmtNum(m.leads) + "</td>" +
+           '<td class="num">' + (m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—") + "</td>" +
+           '<td class="num">' + fmtDec(m.ctr, 2) + '%</td><td class="num">' + fmtMoeda(m.cpm, moeda) + "</td>" +
+           '<td class="num">' + fmtDec(m.frequency, 2) + "</td>" +
+           '<td style="max-width:220px;">' + (e.alertas || []).map(function (a) { return '<span class="ct-badge alerta" title="' + esc(a) + '">' + esc(a) + "</span>"; }).join(" ") + "</td>";
+  }
+
+  function statusHtml(e) {
+    return (e.effectiveStatus || e.status) === "ACTIVE"
+      ? '<span class="ct-badge on">ativa</span>'
+      : '<span class="ct-badge neutro">' + esc(String(e.effectiveStatus || e.status || "").toLowerCase()) + "</span>";
+  }
+
+  function linhaEntidade(e, nivel, moeda, expansivel) {
+    var recuo = nivel === "adset" ? "ct-row-adset" : nivel === "ad" ? "ct-row-ad" : "";
+    var seta = expansivel ? '<button class="ct-chevron" data-expand="' + esc(e.id) + '" data-nivel="' + nivel + '" aria-label="Expandir">&rsaquo;</button>' : '<span class="ct-chevron-vazio"></span>';
+    return '<tr class="ct-nivel ' + recuo + '" data-id="' + esc(e.id) + '"' + (e.parentId ? ' data-parent="' + esc(e.parentId) + '"' : "") + ">" +
+           '<td class="nome-obj"><span class="ct-drill-nome">' + seta + esc(e.name) + "</span></td>" +
+           "<td>" + statusHtml(e) + "</td>" + celulasMetricas(e, moeda) + "</tr>";
+  }
+
+  function carregarCampanhas(cliente, moeda, refresh) {
     var alvo = document.getElementById("ct-campanhas");
-    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/campaigns?period=" + estado.gestor.periodo)
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Carregando campanhas...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/campaigns?" + queryPeriodo(refresh ? "refresh=1" : ""))
       .then(function (r) {
         if (!r.campanhas.length) { alvo.innerHTML = '<div class="vazio">Nenhuma campanha encontrada na conta.</div>'; return; }
-        var h = '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
-                "<th>Campanha</th><th>Status</th><th class=\"num\">Orcamento/dia</th><th class=\"num\">Gasto</th><th class=\"num\">Leads</th>" +
-                "<th class=\"num\">CPL</th><th class=\"num\">CTR</th><th class=\"num\">CPM</th><th class=\"num\">Freq.</th><th>Alertas</th></tr></thead><tbody>";
-        r.campanhas.forEach(function (c) {
-          var m = c.metrics || {};
-          var st = (c.effectiveStatus || c.status) === "ACTIVE"
-            ? '<span class="ct-badge on">ativa</span>'
-            : '<span class="ct-badge neutro">' + esc((c.effectiveStatus || c.status || "").toLowerCase()) + "</span>";
-          var alertas = (c.alertas || []).map(function (a) { return '<span class="ct-badge alerta" title="' + esc(a) + '">' + esc(a) + "</span>"; }).join(" ") || "";
-          h += '<tr><td class="nome-obj">' + esc(c.name) + "</td><td>" + st + "</td>" +
-               '<td class="num">' + (c.dailyBudget != null ? fmtMoeda(c.dailyBudget, moeda) : "—") + "</td>" +
-               '<td class="num">' + fmtMoeda(m.spend, moeda) + '</td><td class="num">' + fmtNum(m.leads) + "</td>" +
-               '<td class="num">' + (m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—") + "</td>" +
-               '<td class="num">' + fmtDec(m.ctr, 2) + '%</td><td class="num">' + fmtMoeda(m.cpm, moeda) + "</td>" +
-               '<td class="num">' + fmtDec(m.frequency, 2) + '</td><td style="max-width:240px;">' + alertas + "</td></tr>";
+        var h = "";
+        if (r.mock) h += avisoMockHtml(r.aviso);
+        h += '<div class="ct-tabela-wrap"><table class="ct-tabela" id="ct-tabela-drill"><thead><tr>' +
+             "<th>Nome</th><th>Status</th><th class=\"num\">Orcam./dia</th><th class=\"num\">Gasto</th><th class=\"num\">Leads</th>" +
+             "<th class=\"num\">CPL</th><th class=\"num\">CTR</th><th class=\"num\">CPM</th><th class=\"num\">Freq.</th><th>Alertas</th></tr></thead><tbody>";
+        r.campanhas.forEach(function (c) { h += linhaEntidade(c, "campaign", moeda, true); });
+        h += "</tbody></table></div>";
+        h += linhaCacheHtml(r.cache, r.mock);
+        alvo.innerHTML = h;
+
+        var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+        if (btnAtu) btnAtu.addEventListener("click", function () {
+          carregarResumo(cliente, moeda, true);
+          carregarCampanhas(cliente, moeda, true);
         });
-        alvo.innerHTML = h + "</tbody></table></div>";
+
+        var tbody = alvo.querySelector("#ct-tabela-drill tbody");
+        tbody.addEventListener("click", function (ev) {
+          var btn = ev.target.closest("[data-expand]");
+          if (!btn) return;
+          var id = btn.getAttribute("data-expand");
+          var nivel = btn.getAttribute("data-nivel");
+          var linha = btn.closest("tr");
+          if (btn.classList.contains("aberto")) {
+            btn.classList.remove("aberto");
+            removerFilhos(tbody, id);
+            return;
+          }
+          btn.classList.add("aberto");
+          var carregando = document.createElement("tr");
+          carregando.setAttribute("data-parent", id);
+          carregando.innerHTML = '<td colspan="10">' + spinner(nivel === "campaign" ? "Carregando conjuntos..." : "Carregando anuncios...") + "</td>";
+          linha.after(carregando);
+          var rota = nivel === "campaign"
+            ? "/adsets?" + queryPeriodo("campaignId=" + encodeURIComponent(id))
+            : "/ads?" + queryPeriodo("adsetId=" + encodeURIComponent(id));
+          api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + rota)
+            .then(function (rr) {
+              var filhos = nivel === "campaign" ? rr.conjuntos : rr.anuncios;
+              var htmlFilhos = filhos.length
+                ? filhos.map(function (f) { return linhaEntidade(f, nivel === "campaign" ? "adset" : "ad", moeda, nivel === "campaign"); }).join("")
+                : '<tr data-parent="' + esc(id) + '"><td colspan="10" class="ct-drill-vazio">' + (nivel === "campaign" ? "Nenhum conjunto nesta campanha." : "Nenhum anuncio neste conjunto.") + "</td></tr>";
+              carregando.outerHTML = htmlFilhos;
+            })
+            .catch(function (err) {
+              carregando.innerHTML = '<td colspan="10"><div class="ct-resultado erro" style="margin:6px 0;">' + esc(err.offline ? "Backend offline." : err.message) + "</div></td>";
+            });
+        });
       })
-      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarCampanhas(cliente, moeda); }); });
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarCampanhas(cliente, moeda, false); }); });
   }
 
-  function carregarHistorico(cliente) {
-    var alvo = document.getElementById("ct-historico");
-    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/logs")
+  function removerFilhos(tbody, id) {
+    tbody.querySelectorAll('tr[data-parent="' + id + '"]').forEach(function (tr) {
+      var subId = tr.getAttribute("data-id");
+      if (subId) removerFilhos(tbody, subId);
+      tr.remove();
+    });
+  }
+
+  // ---------- Changelog (execucoes, simulacoes e diagnosticos) ----------
+  function carregarChangelog(cliente, dias) {
+    var alvo = document.getElementById("ct-changelog");
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Carregando changelog...");
+    var q = "";
+    if (dias) {
+      var desde = new Date(Date.now() - Number(dias) * 86400000).toISOString().slice(0, 10);
+      q = "?since=" + desde;
+    }
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/changelog" + q)
       .then(function (r) {
-        if (!r.records.length) { alvo.innerHTML = '<div class="vazio">Nenhuma otimizacao registrada para este cliente.</div>'; return; }
+        if (!r.entradas.length) { alvo.innerHTML = '<div class="vazio">Nada registrado neste periodo.</div>'; return; }
+        var rotulo = { execucao: "Execucao", simulacao: "Simulacao", diagnostico: "Diagnostico" };
+        var classe = { execucao: "on", simulacao: "neutro", diagnostico: "onboarding" };
         var h = '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
-                "<th>Quando</th><th>Modo</th><th>Comando</th><th class=\"num\">Mudancas propostas</th><th class=\"num\">Aplicadas</th><th></th></tr></thead><tbody>";
-        r.records.forEach(function (rec) {
-          var aplicadas = rec.executedResults.filter(function (e) { return e.status === "success"; }).length;
-          h += "<tr><td>" + fmtData(rec.timestamp) + '</td><td><span class="ct-badge neutro">' + esc(rec.mode) + "</span></td>" +
-               '<td class="ct-hist-cmd" title="' + esc(rec.command) + '">' + esc(rec.command) + "</td>" +
-               '<td class="num">' + fmtNum(rec.proposedChanges.length) + '</td><td class="num">' + fmtNum(aplicadas) + "</td>" +
-               "<td>" + (rec.rolledBack ? '<span class="ct-badge off">revertida</span>' : "") + "</td></tr>";
+                "<th>Quando</th><th>Tipo</th><th>O que</th><th>Detalhe</th></tr></thead><tbody>";
+        r.entradas.forEach(function (e) {
+          h += "<tr><td style=\"white-space:nowrap;\">" + fmtData(e.timestamp) + "</td>" +
+               '<td><span class="ct-badge ' + (classe[e.tipo] || "neutro") + '">' + (rotulo[e.tipo] || e.tipo) + "</span>" + (e.mock ? ' <span class="ct-badge neutro" title="Gerado com dados de exemplo">exemplo</span>' : "") + "</td>" +
+               '<td class="ct-hist-cmd" title="' + esc(e.titulo) + '">' + esc(e.titulo) + "</td>" +
+               '<td style="max-width:420px;font-size:12.5px;color:var(--text-2);">' + esc(e.detalhe) + "</td></tr>";
         });
         alvo.innerHTML = h + "</tbody></table></div>";
       })
-      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarHistorico(cliente); }); });
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarChangelog(cliente, dias); }); });
   }
 
   function ligarRetry(alvo, fn) {
@@ -565,39 +764,65 @@
   // ---------- Diagnostico IA ----------
   function gerarDiagnostico(cliente) {
     var alvo = document.getElementById("ct-diagnostico");
-    alvo.innerHTML = spinner("Analisando a conta (" + estado.gestor.periodo + " dias)...");
-    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/diagnose", { method: "POST", body: { period: estado.gestor.periodo } })
+    var g = estado.gestor;
+    alvo.innerHTML = spinner("Analisando a conta" + (iaLabel() ? " com IA" : "") + "...");
+    var body = g.periodo === "custom" ? { since: g.desde, until: g.ate } : { period: g.periodo };
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/diagnose", { method: "POST", body: body, timeoutMs: 90000 })
       .then(function (r) {
-        var d = r.diagnosis;
-        var m = d.account;
         var moeda = cliente.moeda || "BRL";
+        var m = r.account;
         function lista(itens, vazio) {
           if (!itens || !itens.length) return '<span class="nada">' + vazio + "</span>";
           return "<ul>" + itens.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul>";
         }
-        var recomendacoes = (d.plan || []).concat(d.flags || []).map(function (c) {
-          return c.entityName + " — " + c.reason + (c.expectedImpact ? " (" + c.expectedImpact + ")" : "");
-        });
-        var riscos = (r.safety && r.safety.warnings) || [];
-        var h =
-          '<div style="padding:18px 20px;display:flex;flex-direction:column;gap:16px;">' +
-            '<div class="stat-grid" style="margin:0;">' +
-              '<div class="stat"><div class="num">' + fmtMoeda(m.spend, moeda) + '</div><div class="lab">Investimento no periodo</div></div>' +
-              '<div class="stat"><div class="num">' + fmtNum(m.leads) + '</div><div class="lab">Leads</div></div>' +
-              '<div class="stat"><div class="num">' + (m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—") + '</div><div class="lab">CPL</div></div>' +
-              '<div class="stat"><div class="num">' + fmtNum(d.activeCampaigns) + '</div><div class="lab">Campanhas ativas</div></div>' +
-            "</div>" +
-            '<div class="ct-diag-grid">' +
-              '<div class="ct-diag-bloco bom"><h4>O que esta funcionando</h4>' + lista(d.workingWell, "Nada de destaque no periodo.") + "</div>" +
-              '<div class="ct-diag-bloco ruim"><h4>Problemas encontrados</h4>' + lista(d.problems, "Nenhum problema encontrado.") + "</div>" +
-              '<div class="ct-diag-bloco plano"><h4>Recomendacoes e plano</h4>' + lista(recomendacoes, "Nenhuma acao proposta.") + "</div>" +
-              '<div class="ct-diag-bloco risco"><h4>Riscos e avisos</h4>' + lista(riscos, "Nenhum risco sinalizado.") + "</div>" +
-            "</div>" +
-            ((d.plan || []).length ? '<div class="ct-nota" style="margin:0;">Para aplicar essas acoes, use o campo de comando abaixo (ex.: "faca uma otimizacao geral") — o plano sempre passa por DRY RUN e confirmacao antes de executar.</div>' : "") +
-          "</div>";
+        var ia = r.ia;
+        var fonteBadge = r.fonte === "ia"
+          ? '<span class="ct-badge onboarding">IA: ' + esc(r.provider || "?") + (r.modelo ? " (" + esc(r.modelo) + ")" : "") + "</span>"
+          : '<span class="ct-badge neutro">Analise deterministica (regras)</span>';
+
+        var h = '<div style="padding:18px 20px;display:flex;flex-direction:column;gap:16px;">';
+        if (r.mock) h += avisoMockHtml(r.aviso);
+        if (r.avisoIA) h += '<div class="ct-nota" style="margin:0;">' + esc(r.avisoIA) + "</div>";
+        h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' + fonteBadge +
+             '<span class="ct-badge neutro">' + esc(r.range.label) + "</span></div>";
+
+        if (ia && ia.resumoExecutivo) {
+          h += '<div class="ct-diag-resumo">' + esc(ia.resumoExecutivo) + "</div>";
+        }
+
+        h += '<div class="stat-grid" style="margin:0;">' +
+             '<div class="stat"><div class="num">' + fmtMoeda(m.spend, moeda) + '</div><div class="lab">Investimento no periodo</div></div>' +
+             '<div class="stat"><div class="num">' + fmtNum(m.leads) + '</div><div class="lab">Leads</div></div>' +
+             '<div class="stat"><div class="num">' + (m.costPerLead != null ? fmtMoeda(m.costPerLead, moeda) : "—") + '</div><div class="lab">CPL</div></div>' +
+             '<div class="stat"><div class="num">' + fmtNum(r.activeCampaigns) + '</div><div class="lab">Campanhas ativas</div></div>' +
+             "</div>";
+
+        var bem = ia ? ia.oQueEstaBem : r.deterministico.workingWell;
+        var problemas = ia ? ia.problemas : r.deterministico.problems;
+        var plano = ia ? ia.sugestaoPlano : r.deterministico.planResumo;
+        h += '<div class="ct-diag-grid">' +
+             '<div class="ct-diag-bloco bom"><h4>O que esta bem</h4>' + lista(bem, "Nada de destaque no periodo.") + "</div>" +
+             '<div class="ct-diag-bloco ruim"><h4>Problemas</h4>' + lista(problemas, "Nenhum problema encontrado.") + "</div>" +
+             (ia ? '<div class="ct-diag-bloco plano"><h4>Oportunidades</h4>' + lista(ia.oportunidades, "Nenhuma oportunidade mapeada.") + "</div>" : "") +
+             '<div class="ct-diag-bloco plano"><h4>Sugestao de plano</h4>' + lista(plano, "Nenhuma acao proposta.") + "</div>" +
+             (ia ? '<div class="ct-diag-bloco risco"><h4>Riscos</h4>' + lista(ia.riscos, "Nenhum risco sinalizado.") + "</div>" : "") +
+             "</div>";
+
+        h += '<div class="ct-nota" style="margin:0;">O diagnostico e informativo e fica registrado no changelog. ' +
+             'Para aplicar acoes, use o campo de comando abaixo — todo plano passa por DRY RUN e confirmacao explicita.</div></div>';
         alvo.innerHTML = h;
+        carregarChangelog(cliente, filtroChangelogAtual());
       })
       .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { gerarDiagnostico(cliente); }); });
+  }
+
+  function iaLabel() {
+    return true; // rotulo informativo; o backend decide IA ou deterministico
+  }
+
+  function filtroChangelogAtual() {
+    var ativo = document.querySelector("#ct-changelog-filtro button.ativo");
+    return ativo ? ativo.getAttribute("data-chl") : "30";
   }
 
   // ---------- Comando + plano + execucao ----------
@@ -620,8 +845,8 @@
       return;
     }
     if (r.kind === "history") {
-      carregarHistorico(cliente);
-      alvo.innerHTML = '<div class="ct-resultado ok">Historico atualizado na secao abaixo.</div>';
+      carregarChangelog(cliente, filtroChangelogAtual());
+      alvo.innerHTML = '<div class="ct-resultado ok">Changelog atualizado na secao abaixo.</div>';
       return;
     }
     if (r.kind === "comparison") {
@@ -710,9 +935,9 @@
     api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/execute", { method: "POST", body: { planId: planId, confirmacao: confirmacao } })
       .then(function (r) {
         alvo.innerHTML = '<div class="ct-resultado ok">Execucao concluida: ' + r.aplicadas + " aplicada(s), " + r.comErro + " com erro. Registro " + esc(r.recordId) + ".</div>";
-        carregarHistorico(cliente);
-        carregarCampanhas(cliente, cliente.moeda || "BRL");
-        carregarResumo(cliente, cliente.moeda || "BRL");
+        carregarChangelog(cliente, filtroChangelogAtual());
+        carregarCampanhas(cliente, cliente.moeda || "BRL", true);
+        carregarResumo(cliente, cliente.moeda || "BRL", true);
       })
       .catch(function (err) {
         btn.disabled = false;

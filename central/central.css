@@ -128,8 +128,57 @@
 .ct-carregando .spin { width: 14px; height: 14px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: ct-girar 0.8s linear infinite; }
 @keyframes ct-girar { to { transform: rotate(360deg); } }
 
-/* ---------- Historico ---------- */
+/* ---------- Historico / changelog ---------- */
 .ct-hist-cmd { color: var(--text-2); font-size: 12.5px; max-width: 380px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- Variacao vs periodo anterior ---------- */
+.ct-var { font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.ct-var.boa { color: #15803D; }
+.ct-var.ruim { color: #B91C1C; }
+.ct-var.neutra { color: var(--text-3); }
+.ct-var-legenda { font-size: 10.5px; color: var(--text-3); font-weight: 400; }
+
+/* ---------- Aviso de dados de exemplo (mock) ---------- */
+.ct-mock-aviso {
+  background: rgba(180, 83, 9, 0.06); border: 1px dashed rgba(180, 83, 9, 0.45); color: #92400E;
+  border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12.5px; font-weight: 600; margin-bottom: 14px;
+}
+
+/* ---------- Linha de cache ---------- */
+.ct-cache-linha { margin-top: 10px; font-size: 12px; color: var(--text-3); }
+.ct-link { background: none; border: none; padding: 0; color: var(--accent-hover); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.ct-link:hover { text-decoration: underline; }
+
+/* ---------- Periodo personalizado ---------- */
+.ct-datas { display: inline-flex; align-items: center; gap: 7px; margin-left: 10px; font-size: 12.5px; color: var(--text-2); }
+.ct-datas input[type="date"] {
+  background: var(--surface); color: var(--text); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); padding: 7px 9px; font-size: 12.5px; font-family: inherit; outline: none;
+}
+.ct-datas input[type="date"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* ---------- Drill-down campanhas -> conjuntos -> anuncios ---------- */
+.ct-drill-nome { display: inline-flex; align-items: center; gap: 7px; }
+.ct-chevron {
+  background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 6px;
+  width: 22px; height: 22px; line-height: 1; font-size: 15px; color: var(--text-2); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: transform 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.ct-chevron:hover { color: var(--accent-hover); border-color: var(--accent-border); }
+.ct-chevron.aberto { transform: rotate(90deg); color: var(--accent-hover); border-color: var(--accent-border); }
+.ct-chevron-vazio { display: inline-block; width: 22px; flex-shrink: 0; }
+.ct-row-adset td:first-child { padding-left: 38px; }
+.ct-row-adset { background: rgba(41, 171, 226, 0.035); }
+.ct-row-ad td:first-child { padding-left: 66px; }
+.ct-row-ad { background: rgba(17, 17, 26, 0.02); }
+.ct-drill-vazio { color: var(--text-3); font-size: 12.5px; padding-left: 38px !important; }
+
+/* ---------- Diagnostico: resumo executivo ---------- */
+.ct-diag-resumo {
+  background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--text);
+}
 
 @media (max-width: 860px) {
   .ct-diag-grid { grid-template-columns: 1fr; }
