@@ -507,6 +507,18 @@
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas</h3><span class="contador" style="font-size:12px;color:var(--text-3);">clique numa linha para abrir conjuntos e anuncios</span></div><div id="ct-campanhas">' + spinner("Carregando campanhas...") + "</div></div>" +
       '<div class="ct-canal-titulo">Google Ads <span class="ct-badge neutro">somente leitura</span></div>' +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas Google</h3></div><div id="ct-google">' + spinner("Carregando Google Ads...") + "</div></div>" +
+      '<div class="ct-canal-titulo">Entregas</div>' +
+      '<div class="painel ct-secao"><div class="painel-topo"><h3>Relatorios</h3>' +
+        '<span class="contador" style="font-size:12px;color:var(--text-3);">usa o periodo selecionado no topo</span></div>' +
+        '<div style="padding:18px 20px;">' +
+          '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
+            '<button class="btn-toolbar" data-act="rel-whatsapp">Gerar relatorio WhatsApp</button>' +
+            '<button class="ct-btn-sec" data-act="rel-pdf">Gerar PDF</button>' +
+          "</div>" +
+          '<div id="ct-rel-resultado"></div>' +
+          '<div id="ct-link-publico" style="margin-top:20px;">' + spinner("Verificando link publico...") + "</div>" +
+          '<div id="ct-rel-historico" style="margin-top:20px;">' + spinner("Carregando historico de relatorios...") + "</div>" +
+        "</div></div>" +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Diagnostico IA</h3>' +
         '<span class="contador"><button class="btn-toolbar" data-act="diagnosticar">Gerar diagnostico</button></span></div>' +
         '<div id="ct-diagnostico"><div class="ct-msg">Clique em "Gerar diagnostico" para analisar a conta no periodo selecionado. O diagnostico e informativo: nunca executa nada sozinho.</div></div></div>' +
@@ -576,10 +588,146 @@
       });
     });
 
+    rootGestor.querySelector('[data-act="rel-whatsapp"]').addEventListener("click", function () { gerarRelatorio(cliente, "whatsapp"); });
+    rootGestor.querySelector('[data-act="rel-pdf"]').addEventListener("click", function () { gerarRelatorio(cliente, "pdf"); });
+
     carregarResumo(cliente, moeda, false);
     carregarCampanhas(cliente, moeda, false);
     carregarGoogleAds(cliente, moeda, false);
+    carregarLinkPublico(cliente);
+    carregarHistoricoRelatorios(cliente);
     carregarChangelog(cliente, "30");
+  }
+
+  // ---------- Relatorios (WhatsApp / PDF) ----------
+  function bodyPeriodo() {
+    var g = estado.gestor;
+    return g.periodo === "custom" ? { since: g.desde, until: g.ate } : { period: g.periodo };
+  }
+
+  function copiarTexto(texto, btn) {
+    function feito() {
+      if (!btn) return;
+      var t = btn.textContent;
+      btn.textContent = "Copiado!";
+      setTimeout(function () { btn.textContent = t; }, 1600);
+    }
+    function alternativa() {
+      var ta = document.createElement("textarea");
+      ta.value = texto;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); feito(); } catch (e) { window.alert("Nao foi possivel copiar automaticamente. Copie manualmente."); }
+      ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(feito, alternativa);
+    } else {
+      alternativa();
+    }
+  }
+
+  function avisosHtml(avisos) {
+    if (!avisos || !avisos.length) return "";
+    return avisos.map(function (a) { return '<div class="ct-nota" style="margin:12px 0 0;">' + esc(a) + "</div>"; }).join("");
+  }
+
+  function gerarRelatorio(cliente, tipo) {
+    var alvo = document.getElementById("ct-rel-resultado");
+    alvo.innerHTML = spinner(tipo === "pdf" ? "Gerando PDF..." : "Gerando relatorio WhatsApp...");
+    var body = bodyPeriodo();
+    body.tipo = tipo;
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/relatorio", { method: "POST", body: body, timeoutMs: 90000 })
+      .then(function (r) {
+        var h = avisosHtml(r.avisos);
+        if (tipo === "whatsapp") {
+          h += '<div class="ct-preview-wa"><textarea readonly id="ct-wa-texto">' + esc(r.conteudo) + "</textarea>" +
+               '<div style="display:flex;gap:10px;margin-top:10px;">' +
+               '<button class="btn-toolbar" data-act="copiar-wa">Copiar</button>' +
+               '<span style="font-size:12px;color:var(--text-3);align-self:center;">Revise os campos em branco antes de enviar ao cliente.</span></div></div>';
+        } else {
+          h += '<div style="margin-top:14px;"><a class="btn-toolbar" style="text-decoration:none;display:inline-flex;" href="' + esc(API + r.downloadUrl) + '" target="_blank" rel="noopener">Baixar PDF</a></div>';
+        }
+        alvo.innerHTML = h;
+        var btnCp = alvo.querySelector('[data-act="copiar-wa"]');
+        if (btnCp) btnCp.addEventListener("click", function () { copiarTexto(document.getElementById("ct-wa-texto").value, btnCp); });
+        carregarHistoricoRelatorios(cliente);
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { gerarRelatorio(cliente, tipo); }); });
+  }
+
+  // ---------- Link publico ----------
+  function carregarLinkPublico(cliente) {
+    var alvo = document.getElementById("ct-link-publico");
+    if (!alvo) return;
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/public-link", { method: "POST", body: { acao: "status" } })
+      .then(function (r) { renderLinkPublico(cliente, r.link); })
+      .catch(function () { alvo.innerHTML = ""; });
+  }
+
+  function renderLinkPublico(cliente, link) {
+    var alvo = document.getElementById("ct-link-publico");
+    var h = '<div class="secao" style="font-size:10.5px;text-transform:uppercase;letter-spacing:1.4px;color:var(--text-3);margin-bottom:10px;">Dashboard publico por link</div>';
+    if (link) {
+      var url = API + link.caminho;
+      h += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+           '<input type="text" readonly value="' + esc(url) + '" id="ct-link-url" style="flex:1;min-width:260px;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:9px 12px;font-size:12.5px;font-family:inherit;color:var(--text-2);" />' +
+           '<button class="btn-sm salvar" data-act="link-copiar">Copiar</button>' +
+           '<button class="btn-sm" data-act="link-revogar">Revogar</button></div>' +
+           '<div style="font-size:12px;color:var(--text-3);margin-top:8px;">Somente leitura, sem login. Hoje o backend e local: o link so abre nesta maquina. Com o backend publico (Etapa 7), o mesmo link funciona na internet.</div>';
+    } else {
+      h += '<button class="ct-btn-sec" data-act="link-gerar">Gerar link publico</button>' +
+           '<span style="font-size:12px;color:var(--text-3);margin-left:10px;">Resumo somente leitura para o cliente, revogavel a qualquer momento.</span>';
+    }
+    alvo.innerHTML = h;
+    var bg = alvo.querySelector('[data-act="link-gerar"]');
+    if (bg) bg.addEventListener("click", function () { acaoLinkPublico(cliente, "gerar"); });
+    var bc = alvo.querySelector('[data-act="link-copiar"]');
+    if (bc) bc.addEventListener("click", function () { copiarTexto(document.getElementById("ct-link-url").value, bc); });
+    var br = alvo.querySelector('[data-act="link-revogar"]');
+    if (br) br.addEventListener("click", function () {
+      if (window.confirm("Revogar o link publico? Quem tiver o link perdera o acesso na hora.")) acaoLinkPublico(cliente, "revogar");
+    });
+  }
+
+  function acaoLinkPublico(cliente, acao) {
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/public-link", { method: "POST", body: { acao: acao } })
+      .then(function (r) { renderLinkPublico(cliente, acao === "revogar" ? null : r.link); })
+      .catch(function (err) { window.alert("Erro: " + err.message); });
+  }
+
+  // ---------- Historico de relatorios ----------
+  function carregarHistoricoRelatorios(cliente) {
+    var alvo = document.getElementById("ct-rel-historico");
+    if (!alvo) return;
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/relatorios")
+      .then(function (r) {
+        var h = '<div class="secao" style="font-size:10.5px;text-transform:uppercase;letter-spacing:1.4px;color:var(--text-3);margin-bottom:10px;">Historico de relatorios</div>';
+        if (!r.relatorios.length) {
+          h += '<div style="font-size:13px;color:var(--text-3);">Nenhum relatorio gerado ainda.</div>';
+          alvo.innerHTML = h;
+          return;
+        }
+        h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr><th>Quando</th><th>Tipo</th><th>Periodo</th><th></th></tr></thead><tbody>';
+        r.relatorios.forEach(function (rel, i) {
+          var acao = rel.tipo === "pdf"
+            ? '<a class="btn-sm" style="text-decoration:none;display:inline-block;" href="' + esc(API + "/api/paid-ads/relatorios/" + rel.id + "/pdf") + '" target="_blank" rel="noopener">Baixar</a>'
+            : '<button class="btn-sm salvar" data-rel-copiar="' + i + '">Copiar</button>';
+          h += "<tr><td>" + fmtData(rel.timestamp) + '</td><td><span class="ct-badge ' + (rel.tipo === "pdf" ? "neutro" : "onboarding") + '">' + esc(rel.tipo) + "</span></td>" +
+               "<td>" + esc(rel.range.label) + '</td><td class="num">' + acao + "</td></tr>";
+        });
+        h += "</tbody></table></div>";
+        alvo.innerHTML = h;
+        alvo.querySelectorAll("[data-rel-copiar]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var rel = r.relatorios[Number(btn.getAttribute("data-rel-copiar"))];
+            copiarTexto(rel.conteudo || "", btn);
+          });
+        });
+      })
+      .catch(function () { alvo.innerHTML = ""; });
   }
 
   // ---------- Google Ads (somente leitura) ----------
