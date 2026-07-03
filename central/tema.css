@@ -1,0 +1,174 @@
+/* ============================================================================
+   TEMA PULSAR CENTRAL OPERACIONAL
+   Arquivo unico de tema: todos os tokens dos dois temas (claro padrao, escuro)
+   + componentes base. REGRA: nenhum componente usa hex direto — toda cor vem
+   de CSS variable daqui. O toggle troca data-theme no <html>.
+   ========================================================================== */
+
+:root {
+  /* ---- Tema CLARO (padrao) ---- */
+  --bg: #F6F8FA;
+  --surface: #FFFFFF;
+  --surface-2: #F0F3F6;
+  --surface-3: #EAEEF2;            /* hover/aninhamento mais profundo */
+  --border: #E4E8EC;
+  --border-strong: #D5DAE0;
+  --border-hover: #C6CCD4;
+  --text: #16181B;
+  --text-2: #6B7178;
+  --text-3: #8F959C;
+
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 14px rgba(16, 24, 40, 0.07), 0 14px 30px -14px rgba(16, 24, 40, 0.12);
+
+  --scrollbar: #D2D5DC;
+  --scrollbar-hover: #BCC0CA;
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-forte: rgba(255, 255, 255, 0.92);
+  --area-topo-bg: rgba(246, 248, 250, 0.90);
+  --overlay: rgba(10, 10, 11, 0.42);
+  --overlay-midia: rgba(10, 10, 11, 0.45);
+  --media-bg: #EFF2F5;
+  --media-player: #000000;
+
+  /* ---- Acento (unico protagonista de cor) ---- */
+  --accent: #29ABE2;
+  --accent-hover: #1A8AC4;
+  --accent-soft: rgba(41, 171, 226, 0.12);
+  --accent-border: rgba(41, 171, 226, 0.45);
+  --texto-sobre-accent: #FFFFFF;
+
+  /* ---- Semanticas (AA sobre --surface do tema claro) ---- */
+  --positive: #1F9D68;
+  --positive-soft: rgba(52, 201, 142, 0.14);
+  --negative: #D9435C;
+  --negative-soft: rgba(240, 82, 106, 0.12);
+  --negative-hover: #C13049;
+  --warning: #A87A16;
+  --warning-soft: rgba(245, 185, 61, 0.16);
+  --warning-border: rgba(245, 185, 61, 0.55);
+
+  /* ---- Tipografia ---- */
+  --font-brand: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-titulo: "Codec Pro", "Space Grotesk", "Inter", system-ui, sans-serif;
+
+  /* ---- Forma (base 8px) ---- */
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+  --sidebar-w: 252px;
+}
+
+[data-theme="dark"] {
+  /* ---- Tema ESCURO ---- */
+  --bg: #0B0C0E;
+  --surface: #15171A;
+  --surface-2: #1D2024;
+  --surface-3: #23272C;
+  --border: #26292E;
+  --border-strong: #31353B;
+  --border-hover: #3D424A;
+  --text: #F2F4F6;
+  --text-2: #9BA1A8;
+  --text-3: #767C84;
+
+  /* Sem sombra no escuro: elevacao por borda + superficie */
+  --shadow-sm: 0 0 0 0 transparent;
+  --shadow-md: 0 0 0 0 transparent;
+
+  --scrollbar: #2E3238;
+  --scrollbar-hover: #3B4048;
+  --glass: rgba(21, 23, 26, 0.85);
+  --glass-forte: rgba(21, 23, 26, 0.92);
+  --area-topo-bg: rgba(11, 12, 14, 0.90);
+  --overlay: rgba(0, 0, 0, 0.58);
+  --overlay-midia: rgba(0, 0, 0, 0.5);
+  --media-bg: #1D2024;
+
+  --accent-hover: #4FC0EE;
+  --accent-soft: rgba(41, 171, 226, 0.16);
+  --accent-border: rgba(41, 171, 226, 0.5);
+
+  /* Semanticas ajustadas para contraste AA sobre fundo escuro */
+  --positive: #43D69A;
+  --positive-soft: rgba(52, 201, 142, 0.14);
+  --negative: #FF7186;
+  --negative-soft: rgba(240, 82, 106, 0.16);
+  --negative-hover: #FF8B9C;
+  --warning: #F5C244;
+  --warning-soft: rgba(245, 185, 61, 0.13);
+  --warning-border: rgba(245, 185, 61, 0.4);
+}
+
+/* ============================================================================
+   COMPONENTES BASE
+   ========================================================================== */
+
+/* ---- Titulos usam a fonte de titulo ---- */
+h1, h2, h3,
+.stat .num,
+.brand-fallback .wordmark,
+.mt-brand,
+.grupo-head .gnome {
+  font-family: var(--font-titulo);
+  letter-spacing: -0.2px;
+}
+
+/* ---- Card de KPI: numero grande + label + badge de variacao ---- */
+.stat .num { font-size: 30px; font-weight: 700; }
+
+.ct-var {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+  border-radius: var(--radius-pill); padding: 2px 8px;
+}
+.ct-var.boa { color: var(--positive); background: var(--positive-soft); }
+.ct-var.ruim { color: var(--negative); background: var(--negative-soft); }
+.ct-var.neutra { color: var(--text-2); background: var(--surface-2); }
+
+/* ---- Pill de status (fundo suave + texto na cor cheia) ----
+   Estados: on = Ativo (positive) | off = Pausado/pendente (warning)
+   alerta = Erro/Alerta (negative) | conectado/onboarding = accent
+   neutro = Em breve / Dados de exemplo */
+.ct-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600;
+  border-radius: var(--radius-pill); padding: 4px 11px;
+  border: 1px solid transparent;
+  color: var(--text-2); background: var(--surface-2); white-space: nowrap;
+}
+.ct-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.75; }
+.ct-badge.ativo, .ct-badge.on { color: var(--positive); background: var(--positive-soft); }
+.ct-badge.pausado, .ct-badge.off { color: var(--warning); background: var(--warning-soft); }
+.ct-badge.alerta { color: var(--negative); background: var(--negative-soft); }
+.ct-badge.conectado, .ct-badge.onboarding { color: var(--accent-hover); background: var(--accent-soft); }
+.ct-badge.neutro::before { display: none; }
+
+/* ---- Toggle de tema (sidebar) ---- */
+.tema-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; flex-shrink: 0; cursor: pointer;
+  background: var(--surface-2); color: var(--text-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+.tema-toggle:hover { color: var(--accent-hover); border-color: var(--accent-border); }
+.tema-toggle svg { width: 17px; height: 17px; }
+.tema-toggle .icone-lua { display: none; }
+[data-theme="dark"] .tema-toggle .icone-sol { display: none; }
+[data-theme="dark"] .tema-toggle .icone-lua { display: block; }
+
+/* ---- Logo: no escuro usa o fallback (marca em accent + wordmark claro) ---- */
+[data-theme="dark"] .brand-logo { display: none !important; }
+[data-theme="dark"] .brand-fallback { display: flex !important; }
+
+/* ---- Grafico (padrao para quando houver): area com gradiente do accent ---- */
+.ct-grafico-area { fill: url(#ct-gradiente-accent); }
+.ct-grafico-linha { stroke: var(--accent); stroke-width: 2; fill: none; }
+.ct-grafico-grid { stroke: var(--border); opacity: 0.5; }
+.ct-grafico-anotacao { stroke: var(--accent); stroke-dasharray: 2 4; }
+
+/* ---- Transicao suave na troca de tema ---- */
+body, .painel, .stat, aside.sidebar, .area-topo, .card {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}

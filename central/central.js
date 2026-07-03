@@ -485,7 +485,7 @@
 
   function chipConexao(cliente) {
     var cx = cliente.conexaoMeta;
-    if (cx && cx.status === "conectado") return '<span class="ct-badge on" title="' + esc(cx.detalhe) + '">Conectado</span>';
+    if (cx && cx.status === "conectado") return '<span class="ct-badge conectado" title="' + esc(cx.detalhe) + '">Conectado</span>';
     if (cx && cx.status === "erro") return '<span class="ct-badge alerta" title="' + esc(cx.detalhe) + '">Erro</span>';
     return '<span class="ct-badge off" title="' + esc(cx ? cx.detalhe : "Conexao ainda nao testada") + '">Pendente</span>';
   }
@@ -763,7 +763,9 @@
           r.campanhas.forEach(function (c) {
             var st = c.status === "ENABLED"
               ? '<span class="ct-badge on">ativa</span>'
-              : '<span class="ct-badge neutro">' + esc(String(c.status || "").toLowerCase()) + "</span>";
+              : c.status === "PAUSED"
+                ? '<span class="ct-badge off">pausada</span>'
+                : '<span class="ct-badge neutro">' + esc(String(c.status || "").toLowerCase()) + "</span>";
             h += '<tr><td class="nome-obj">' + esc(c.nome) + "</td><td>" + st + "</td>" +
                  '<td class="num">' + (c.orcamentoDia != null ? fmtMoeda(c.orcamentoDia, moeda) : "—") + "</td>" +
                  '<td class="num">' + fmtMoeda(c.gasto, moeda) + '</td><td class="num">' + fmtNum(c.cliques) + "</td>" +
@@ -854,9 +856,10 @@
   }
 
   function statusHtml(e) {
-    return (e.effectiveStatus || e.status) === "ACTIVE"
-      ? '<span class="ct-badge on">ativa</span>'
-      : '<span class="ct-badge neutro">' + esc(String(e.effectiveStatus || e.status || "").toLowerCase()) + "</span>";
+    var st = String(e.effectiveStatus || e.status || "");
+    if (st === "ACTIVE") return '<span class="ct-badge on">ativa</span>';
+    if (st === "PAUSED") return '<span class="ct-badge off">pausada</span>';
+    return '<span class="ct-badge neutro">' + esc(st.toLowerCase()) + "</span>";
   }
 
   function linhaEntidade(e, nivel, moeda, expansivel) {
@@ -1200,10 +1203,10 @@
         h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Pendencias</h3>' +
              (pendencias.length ? '<span class="ct-badge alerta">' + pendencias.length + "</span>" : "") + "</div>";
         if (!pendencias.length) {
-          h += '<div class="alta-row" style="cursor:default;"><span class="dot" style="background:#15803D;"></span><div><div class="nome">Tudo em dia</div><div class="meta">Nenhuma pendencia aberta na central.</div></div></div>';
+          h += '<div class="alta-row" style="cursor:default;"><span class="dot" style="background:var(--positive);"></span><div><div class="nome">Tudo em dia</div><div class="meta">Nenhuma pendencia aberta na central.</div></div></div>';
         } else {
           h += pendencias.map(function (p) {
-            return '<div class="alta-row" data-area-link="' + esc(p.area) + '"><span class="dot" style="background:#EA580C;"></span>' +
+            return '<div class="alta-row" data-area-link="' + esc(p.area) + '"><span class="dot" style="background:var(--warning);"></span>' +
                    '<div><div class="nome">' + esc(p.texto) + '</div><div class="meta">' + esc(p.meta) + "</div></div>" +
                    '<span class="seta">&rsaquo;</span></div>';
           }).join("");
@@ -1220,6 +1223,25 @@
         else alvo.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
       });
   }
+
+  // ---------------------------------------------------------------------
+  // Tabelas responsivas: copia o texto do cabecalho para data-th de cada
+  // celula (o CSS mobile usa attr(data-th) como rotulo do card empilhado).
+  // ---------------------------------------------------------------------
+  function rotularTabelas(raiz) {
+    if (!raiz) return;
+    raiz.querySelectorAll("table.ct-tabela").forEach(function (tb) {
+      var ths = Array.prototype.map.call(tb.querySelectorAll("thead th"), function (th) { return th.textContent.trim(); });
+      tb.querySelectorAll("tbody tr").forEach(function (tr) {
+        Array.prototype.forEach.call(tr.children, function (td, i) {
+          if (ths[i] && !td.hasAttribute("data-th")) td.setAttribute("data-th", ths[i]);
+        });
+      });
+    });
+  }
+  var raizesTabelas = [rootClientes, rootGestor, document.getElementById("dash-central")];
+  var observadorTabelas = new MutationObserver(function () { raizesTabelas.forEach(rotularTabelas); });
+  raizesTabelas.forEach(function (r) { if (r) observadorTabelas.observe(r, { childList: true, subtree: true }); });
 
   // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
