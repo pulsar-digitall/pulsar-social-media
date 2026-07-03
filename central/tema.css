@@ -301,7 +301,7 @@ body { font-size: 14px; }
 [data-theme="dark"] .tema-toggle .icone-lua { display: block; }
 
 /* ---- Logo por tema: clara no claro, branca real no escuro ---- */
-.brand-logo-escuro { display: none; height: 30px; width: auto; max-width: 190px; object-fit: contain; }
+.brand-logo-escuro { display: none; height: 30px; width: auto; max-width: 190px; object-fit: contain; object-position: left center; }
 [data-theme="dark"] .brand-logo { display: none !important; }
 [data-theme="dark"] .brand-logo-escuro { display: block; }
 [data-theme="dark"] .brand-fallback { display: none !important; }
