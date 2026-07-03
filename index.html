@@ -402,6 +402,20 @@
         </div>
       </section>
 
+      <!-- AREA: AUTOMACOES (Etapa 4.5) -->
+      <section class="area" id="area-automacoes" data-area="automacoes">
+        <div class="area-topo">
+          <div class="titulo-linha" style="justify-content: space-between; flex-wrap: wrap; row-gap: 12px;">
+            <div>
+              <h2>Automacoes</h2>
+              <div class="desc" style="margin-top: 2px;">O app detecta as condicoes e dispara webhooks; a entrega acontece no destino (GHL, n8n, Make).</div>
+            </div>
+            <div id="automacoes-topo" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
+          </div>
+        </div>
+        <div class="area-corpo" id="automacoes-root"></div>
+      </section>
+
       <!-- AREA: CONCORRENTES (Radar; id interno "espiao" preservado para dados e funcoes) -->
       <section class="area" id="area-espiao" data-area="espiao">
         <div class="area-topo">
@@ -592,6 +606,7 @@
         biblioteca: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
         clientes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
         gestor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+        automacoes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
         relatorios: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
         tracking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'
       };
@@ -600,7 +615,8 @@
         { titulo: "Operacao", areas: [
           { id: "dashboard", rotulo: "Dashboard" },
           { id: "clientes", rotulo: "Clientes" },
-          { id: "gestor", rotulo: "Gestor de Trafego" }
+          { id: "gestor", rotulo: "Gestor de Trafego" },
+          { id: "automacoes", rotulo: "Automacoes" }
         ] },
         { titulo: "Radar", areas: [
           { id: "espiao", rotulo: "Concorrentes" },

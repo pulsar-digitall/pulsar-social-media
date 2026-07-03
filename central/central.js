@@ -1396,8 +1396,10 @@
               { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" }
             ];
 
-        // Pendencias
-        var pendencias = [];
+        // Pendencias (alertas das automacoes primeiro: ultimas 24h)
+        var pendencias = (ov.alertasAutomacao || []).map(function (a) {
+          return { area: "automacoes", texto: a.texto, meta: a.meta };
+        });
         if (!ov.metaConectada) pendencias.push({ area: "gestor", texto: "Meta API sem token no backend", meta: "Preencha META_ACCESS_TOKEN no .env do Gestor de Trafego" });
         var semConta = (ov.porCliente || []).filter(function (c) { return !c.contaConectada; }).length;
         if (semConta > 0) pendencias.push({ area: "clientes", texto: semConta + " cliente(s) sem conta de anuncio conectada", meta: "Conecte o adAccountId na area Clientes" });
@@ -1703,6 +1705,347 @@
       .catch(function () { strip.style.display = "none"; });
   }
 
+  // =====================================================================
+  // AUTOMACOES (Etapa 4.5): regras -> webhooks (GHL / n8n / Make / outro)
+  // =====================================================================
+  var autFormId = null; // null = fechado, "" = nova, "id" = editando
+  var autDados = null; // ultimo GET /automacoes
+
+  var ROTULO_PLAT = { ghl: "GHL", n8n: "n8n", make: "Make", outro: "Outro" };
+
+  function gatilhoInfo(id) {
+    if (!autDados) return null;
+    for (var i = 0; i < autDados.gatilhos.length; i++) if (autDados.gatilhos[i].id === id) return autDados.gatilhos[i];
+    return null;
+  }
+
+  function condicaoResumo(regra) {
+    var info = gatilhoInfo(regra.gatilho);
+    if (!info || !info.params.length) return "";
+    return info.params.map(function (p) {
+      return p.rotulo + ": " + (regra.parametros[p.k] != null ? regra.parametros[p.k] : p.def);
+    }).join(" · ");
+  }
+
+  function renderAutomacoes() {
+    var root = document.getElementById("automacoes-root");
+    var topo = document.getElementById("automacoes-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando automacoes...");
+    Promise.all([api("/api/paid-ads/automacoes"), api("/api/paid-ads/clients")])
+      .then(function (r) {
+        autDados = r[0];
+        estado.clientes = r[1].clientes || [];
+        if (topo) {
+          var ultima = autDados.estado.ultimaVerificacao ? fmtData(autDados.estado.ultimaVerificacao) : "nunca";
+          topo.innerHTML =
+            '<span style="font-size:12px;color:var(--text-3);">Verificacoes as ' + esc(autDados.estado.horarios.join(" e ")) +
+            ' · ultima: ' + esc(ultima) + "</span>" +
+            '<button class="btn-toolbar" data-act="verificar-agora">Verificar agora</button>';
+          topo.querySelector('[data-act="verificar-agora"]').addEventListener("click", verificarAgora);
+        }
+        renderAutomacoesCorpo();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderAutomacoes);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function verificarAgora() {
+    var topo = document.getElementById("automacoes-topo");
+    var btn = topo ? topo.querySelector('[data-act="verificar-agora"]') : null;
+    if (btn) { btn.disabled = true; btn.textContent = "Verificando..."; }
+    api("/api/paid-ads/automacoes-verificar", { method: "POST", timeoutMs: 180000 })
+      .then(function (r) {
+        window.alert("Verificacao concluida: " + r.resumo.disparos + " disparo(s) em " + r.resumo.combinacoes +
+          " combinacao(oes) avaliada(s)." + (r.resumo.erros.length ? "\nErros: " + r.resumo.erros.join(" | ") : ""));
+        renderAutomacoes();
+      })
+      .catch(function (err) {
+        window.alert("Erro na verificacao: " + err.message);
+        if (btn) { btn.disabled = false; btn.textContent = "Verificar agora"; }
+      });
+  }
+
+  function renderAutomacoesCorpo() {
+    var root = document.getElementById("automacoes-root");
+    var h = '<div class="filtros" style="margin:0 0 22px;">' +
+      '<button class="btn-toolbar" data-act="nova-regra"><span class="mais">+</span> Nova regra</button>' +
+      '<div class="contador"><b>' + autDados.regras.length + "</b> regra(s)</div></div>";
+
+    if (autFormId !== null) h += htmlFormRegra();
+
+    // Lista de regras
+    h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Regras</h3></div>';
+    if (!autDados.regras.length) {
+      h += '<div class="vazio">Nenhuma regra criada. As condicoes sao avaliadas 2x ao dia e disparam webhooks para GHL, n8n ou Make.<br/><br/>' +
+           '<button class="btn-toolbar" data-act="nova-regra-2"><span class="mais">+</span> Criar a primeira regra</button></div>';
+    } else {
+      h += '<div style="padding:16px 18px 18px;"><div class="ct-lista">' + autDados.regras.map(function (regra) {
+        var info = gatilhoInfo(regra.gatilho);
+        var clientesTxt = regra.clientes.length
+          ? regra.clientes.map(function (id) { var c = buscarCliente(id); return c ? c.nome : id; }).join(", ")
+          : "Todos os clientes";
+        var cond = condicaoResumo(regra);
+        var hooks = regra.webhooks.length
+          ? regra.webhooks.map(function (w) { return '<span class="ct-badge neutro" title="' + esc(w.url) + '">' + (ROTULO_PLAT[w.plataforma] || w.plataforma) + "</span>"; }).join(" ")
+          : '<span class="ct-badge off" title="Sem webhook: o disparo vira so pendencia no Dashboard">sem webhook</span>';
+        return '<div class="ct-item">' +
+          '<span class="av" style="border-radius:12px;">' + (ICONES_KPI.alerta || "") + "</span>" +
+          '<div class="info"><div class="titulo">' + esc(regra.nome) + "</div>" +
+          '<div class="sub">' + esc(info ? info.titulo : regra.gatilho) + (cond ? " · " + esc(cond) : "") + " · " + esc(clientesTxt) + "</div></div>" +
+          '<div class="lado">' + hooks +
+          '<span class="ct-badge ' + (regra.ativa ? "on" : "off") + '" style="cursor:pointer;" data-toggle="' + esc(regra.id) + '" title="Clique para ' + (regra.ativa ? "pausar" : "ativar") + '">' + (regra.ativa ? "Ativa" : "Pausada") + "</span>" +
+          '<button class="btn-sm" data-testar="' + esc(regra.id) + '">Testar disparo</button>' +
+          '<button class="btn-sm" data-editar-regra="' + esc(regra.id) + '">Editar</button>' +
+          '<button class="btn-sm" data-excluir="' + esc(regra.id) + '">Excluir</button>' +
+          "</div></div>";
+      }).join("") + "</div></div>";
+    }
+    h += "</div>";
+
+    // Log de disparos
+    h += '<div class="painel"><div class="painel-topo"><h3>Log de disparos</h3>' +
+         '<span class="contador"><span class="ct-periodo" id="aut-log-filtro">' +
+         [["7", "7d"], ["30", "30d"], ["", "Tudo"]].map(function (op) {
+           return '<button data-dias="' + op[0] + '"' + (op[0] === "7" ? ' class="ativo"' : "") + ">" + op[1] + "</button>";
+         }).join("") + "</span></span></div>" +
+         '<div id="aut-log">' + spinner("Carregando log...") + "</div></div>";
+
+    root.innerHTML = h;
+
+    root.querySelectorAll('[data-act="nova-regra"], [data-act="nova-regra-2"]').forEach(function (b) {
+      b.addEventListener("click", function () { autFormId = ""; renderAutomacoesCorpo(); });
+    });
+    root.querySelectorAll("[data-toggle]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var regra = regraPorId(b.getAttribute("data-toggle"));
+        if (!regra) return;
+        salvarRegra({ id: regra.id, nome: regra.nome, gatilho: regra.gatilho, parametros: regra.parametros, clientes: regra.clientes, webhooks: regra.webhooks, ativa: !regra.ativa });
+      });
+    });
+    root.querySelectorAll("[data-editar-regra]").forEach(function (b) {
+      b.addEventListener("click", function () { autFormId = b.getAttribute("data-editar-regra"); renderAutomacoesCorpo(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+    });
+    root.querySelectorAll("[data-excluir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var regra = regraPorId(b.getAttribute("data-excluir"));
+        if (!regra) return;
+        if (!window.confirm('Excluir a regra "' + regra.nome + '"? O log de disparos e mantido.')) return;
+        api("/api/paid-ads/automacoes-acao", { method: "POST", body: { id: regra.id, acao: "excluir" } })
+          .then(renderAutomacoes)
+          .catch(function (err) { window.alert("Erro: " + err.message); });
+      });
+    });
+    root.querySelectorAll("[data-testar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        b.disabled = true;
+        b.textContent = "Enviando...";
+        api("/api/paid-ads/automacoes-acao", { method: "POST", body: { id: b.getAttribute("data-testar"), acao: "testar" }, timeoutMs: 60000 })
+          .then(function () { carregarLogDisparos(filtroLogAtual()); b.disabled = false; b.textContent = "Testar disparo"; })
+          .catch(function (err) { window.alert("Erro no teste: " + err.message); b.disabled = false; b.textContent = "Testar disparo"; });
+      });
+    });
+    root.querySelectorAll("#aut-log-filtro [data-dias]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        root.querySelectorAll("#aut-log-filtro button").forEach(function (x) { x.classList.remove("ativo"); });
+        b.classList.add("ativo");
+        carregarLogDisparos(b.getAttribute("data-dias"));
+      });
+    });
+    ligarFormRegra();
+    carregarLogDisparos("7");
+  }
+
+  function regraPorId(id) {
+    for (var i = 0; i < autDados.regras.length; i++) if (autDados.regras[i].id === id) return autDados.regras[i];
+    return null;
+  }
+
+  function filtroLogAtual() {
+    var a = document.querySelector("#aut-log-filtro button.ativo");
+    return a ? a.getAttribute("data-dias") : "7";
+  }
+
+  function htmlFormRegra() {
+    var editando = autFormId ? regraPorId(autFormId) : null;
+    var r = autRascunho || editando || { nome: "", gatilho: autDados.gatilhos[0].id, parametros: {}, clientes: [], webhooks: [], ativa: true };
+    var info = gatilhoInfo(r.gatilho) || autDados.gatilhos[0];
+
+    var opsGatilho = autDados.gatilhos.map(function (g) {
+      return '<option value="' + g.id + '"' + (g.id === r.gatilho ? " selected" : "") + ">" + esc(g.titulo) + "</option>";
+    }).join("");
+
+    var paramsHtml = info.params.map(function (p) {
+      var v = r.parametros[p.k] != null ? r.parametros[p.k] : p.def;
+      return '<div class="campo"><label>' + esc(p.rotulo) + '</label><input type="number" step="any" min="0" name="param-' + p.k + '" value="' + v + '" /></div>';
+    }).join("");
+
+    var clientesHtml = estado.clientes.length
+      ? '<label class="ct-conc-check' + (!r.clientes.length ? " marcado" : "") + '"><input type="checkbox" name="aut-todos"' + (!r.clientes.length ? " checked" : "") + " />Todos os clientes</label>" +
+        estado.clientes.map(function (c) {
+          var marcado = r.clientes.indexOf(c.id) >= 0;
+          return '<label class="ct-conc-check' + (marcado ? " marcado" : "") + '"><input type="checkbox" name="aut-cliente" value="' + esc(c.id) + '"' + (marcado ? " checked" : "") + " />" + esc(c.nome) + "</label>";
+        }).join("")
+      : '<span style="color:var(--text-3);font-size:13px;">Nenhum cliente cadastrado (a regra vale para todos quando existirem).</span>';
+
+    var hooks = r.webhooks.length ? r.webhooks : [{ url: "", plataforma: "outro" }];
+    var hooksHtml = hooks.map(function (w, i) {
+      return '<div class="aut-webhook" data-hook="' + i + '">' +
+        '<input type="text" class="aut-hook-url" placeholder="https://..." value="' + esc(w.url) + '" />' +
+        '<div class="select-wrap"><select class="aut-hook-plat">' +
+          ["ghl", "n8n", "make", "outro"].map(function (p) { return '<option value="' + p + '"' + (w.plataforma === p ? " selected" : "") + ">" + ROTULO_PLAT[p] + "</option>"; }).join("") +
+        "</select></div>" +
+        '<button class="btn-sm" data-remover-hook="' + i + '">Remover</button></div>';
+    }).join("");
+
+    return '<div class="ct-form" id="aut-form">' +
+      "<h3>" + (editando ? "Editar regra" : "Nova regra") + "</h3>" +
+      '<div class="ct-form-grid">' +
+        '<div class="campo"><label>Nome *</label><input type="text" name="aut-nome" value="' + esc(r.nome) + '" placeholder="Ex.: CPL estourado" /></div>' +
+        '<div class="campo"><label>Gatilho</label><div class="select-wrap"><select name="aut-gatilho">' + opsGatilho + "</select></div></div>" +
+        paramsHtml +
+      "</div>" +
+      '<div class="secao">Clientes aplicaveis</div>' +
+      '<div class="ct-conc-lista">' + clientesHtml + "</div>" +
+      '<div class="secao">Webhooks de destino (URL generica; a etiqueta e so visual)</div>' +
+      '<div id="aut-hooks">' + hooksHtml + "</div>" +
+      '<button class="ct-btn-sec" data-act="add-hook" style="margin-top:10px;">+ Adicionar webhook</button>' +
+      '<div class="ct-form-acoes">' +
+        '<button class="btn-toolbar" data-act="salvar-regra">Salvar regra</button>' +
+        '<button class="ct-btn-sec" data-act="cancelar-regra">Cancelar</button>' +
+        '<label class="ct-conc-check' + (r.ativa ? " marcado" : "") + '" style="margin-left:auto;"><input type="checkbox" name="aut-ativa"' + (r.ativa ? " checked" : "") + " />Regra ativa</label>" +
+      "</div>" +
+      '<div class="ct-erro-form" id="aut-erro"></div>' +
+    "</div>";
+  }
+
+  function ligarFormRegra() {
+    var form = document.getElementById("aut-form");
+    if (!form) return;
+
+    form.querySelector('[name="aut-gatilho"]').addEventListener("change", function () {
+      // Regenera o form preservando nome/hooks digitados ate agora
+      var rascunho = coletarFormRegra(form);
+      rascunho.gatilho = this.value;
+      autRascunho = rascunho;
+      renderAutomacoesCorpo();
+      autRascunho = null;
+    });
+    form.querySelector('[data-act="cancelar-regra"]').addEventListener("click", function () { autFormId = null; renderAutomacoesCorpo(); });
+    form.querySelector('[data-act="salvar-regra"]').addEventListener("click", function () {
+      var payload = coletarFormRegra(form);
+      salvarRegra(payload, function (msg) {
+        var alvo = document.getElementById("aut-erro");
+        if (alvo) alvo.textContent = msg;
+      });
+    });
+    form.querySelector('[data-act="add-hook"]').addEventListener("click", function () {
+      var cont = document.getElementById("aut-hooks");
+      var i = cont.querySelectorAll(".aut-webhook").length;
+      var div = document.createElement("div");
+      div.className = "aut-webhook";
+      div.setAttribute("data-hook", String(i));
+      div.innerHTML = '<input type="text" class="aut-hook-url" placeholder="https://..." />' +
+        '<div class="select-wrap"><select class="aut-hook-plat">' +
+        ["ghl", "n8n", "make", "outro"].map(function (p) { return '<option value="' + p + '">' + ROTULO_PLAT[p] + "</option>"; }).join("") +
+        "</select></div>" +
+        '<button class="btn-sm" data-remover-hook="' + i + '">Remover</button>';
+      cont.appendChild(div);
+      div.querySelector("[data-remover-hook]").addEventListener("click", function () { div.remove(); });
+    });
+    form.querySelectorAll("[data-remover-hook]").forEach(function (b) {
+      b.addEventListener("click", function () { b.closest(".aut-webhook").remove(); });
+    });
+    // "Todos" desmarca individuais e vice-versa
+    var todos = form.querySelector('[name="aut-todos"]');
+    if (todos) todos.addEventListener("change", function () {
+      if (todos.checked) form.querySelectorAll('[name="aut-cliente"]').forEach(function (c) { c.checked = false; c.closest(".ct-conc-check").classList.remove("marcado"); });
+      todos.closest(".ct-conc-check").classList.toggle("marcado", todos.checked);
+    });
+    form.querySelectorAll('[name="aut-cliente"]').forEach(function (c) {
+      c.addEventListener("change", function () {
+        c.closest(".ct-conc-check").classList.toggle("marcado", c.checked);
+        if (c.checked && todos) { todos.checked = false; todos.closest(".ct-conc-check").classList.remove("marcado"); }
+      });
+    });
+    var ativa = form.querySelector('[name="aut-ativa"]');
+    if (ativa) ativa.addEventListener("change", function () { ativa.closest(".ct-conc-check").classList.toggle("marcado", ativa.checked); });
+  }
+
+  var autRascunho = null;
+
+  function coletarFormRegra(form) {
+    if (autRascunho) return autRascunho;
+    var parametros = {};
+    form.querySelectorAll('input[name^="param-"]').forEach(function (inp) {
+      parametros[inp.name.replace("param-", "")] = parseFloat(String(inp.value).replace(",", "."));
+    });
+    var clientes = [];
+    var todos = form.querySelector('[name="aut-todos"]');
+    if (!todos || !todos.checked) {
+      form.querySelectorAll('[name="aut-cliente"]:checked').forEach(function (c) { clientes.push(c.value); });
+    }
+    var webhooks = [];
+    form.querySelectorAll(".aut-webhook").forEach(function (row) {
+      var url = row.querySelector(".aut-hook-url").value.trim();
+      if (url) webhooks.push({ url: url, plataforma: row.querySelector(".aut-hook-plat").value });
+    });
+    return {
+      id: autFormId || undefined,
+      nome: form.querySelector('[name="aut-nome"]').value.trim(),
+      gatilho: form.querySelector('[name="aut-gatilho"]').value,
+      parametros: parametros,
+      clientes: clientes,
+      webhooks: webhooks,
+      ativa: form.querySelector('[name="aut-ativa"]') ? form.querySelector('[name="aut-ativa"]').checked : true
+    };
+  }
+
+  function salvarRegra(payload, aoErro) {
+    api("/api/paid-ads/automacoes", { method: "POST", body: payload })
+      .then(function () { autFormId = null; renderAutomacoes(); })
+      .catch(function (err) {
+        if (aoErro) aoErro(err.offline ? "Backend offline." : err.message);
+        else window.alert("Erro ao salvar: " + err.message);
+      });
+  }
+
+  function carregarLogDisparos(dias) {
+    var alvo = document.getElementById("aut-log");
+    if (!alvo) return;
+    var q = "";
+    if (dias) q = "?since=" + new Date(Date.now() - Number(dias) * 86400000).toISOString().slice(0, 10);
+    api("/api/paid-ads/automacoes-disparos" + q)
+      .then(function (r) {
+        if (!r.disparos.length) { alvo.innerHTML = '<div class="vazio">Nenhum disparo registrado neste periodo.</div>'; return; }
+        var h = '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
+                "<th>Quando</th><th>Regra</th><th>Cliente</th><th>Tipo</th><th>Entrega</th></tr></thead><tbody>";
+        r.disparos.forEach(function (d, i) {
+          var entrega = d.resultados.length
+            ? d.resultados.map(function (res) {
+                var badge = res.ok ? '<span class="ct-badge on">' + (res.status || "ok") + "</span>" : '<span class="ct-badge alerta" title="' + esc(res.erro || "") + '">' + (res.status || "falha") + (res.tentativas > 1 ? " (retry)" : "") + "</span>";
+                return '<span title="' + esc(res.url) + '">' + (ROTULO_PLAT[res.plataforma] || res.plataforma) + " " + badge + "</span>";
+              }).join(" &nbsp; ")
+            : '<span class="ct-badge neutro">so pendencia</span>';
+          h += '<tr class="clicavel" data-disp="' + i + '"><td style="white-space:nowrap;">' + fmtData(d.timestamp) + "</td>" +
+               '<td class="nome-obj">' + esc(d.regraNome) + "</td><td>" + esc(d.clienteNome) + "</td>" +
+               "<td>" + (d.teste ? '<span class="ct-badge neutro">teste</span>' : '<span class="ct-badge conectado">real</span>') + "</td>" +
+               "<td>" + entrega + "</td></tr>" +
+               '<tr class="aut-payload" data-payload="' + i + '" style="display:none;"><td colspan="5"><pre>' + esc(JSON.stringify(d.payload, null, 2)) + "</pre></td></tr>";
+        });
+        alvo.innerHTML = h + "</tbody></table></div>";
+        alvo.querySelectorAll("tr[data-disp]").forEach(function (tr) {
+          tr.addEventListener("click", function () {
+            var p = alvo.querySelector('tr[data-payload="' + tr.getAttribute("data-disp") + '"]');
+            if (p) p.style.display = p.style.display === "none" ? "" : "none";
+          });
+        });
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarLogDisparos(dias); }); });
+  }
+
   // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
@@ -1712,10 +2055,21 @@
       if (id === "clientes") carregarClientes();
       if (id === "gestor") carregarGestor();
       if (id === "tracking") renderTracking();
+      if (id === "automacoes") renderAutomacoes();
     }
   };
 
   // O app abre no Dashboard antes deste arquivo carregar: renderiza o bloco
   // consolidado na primeira carga tambem.
   renderDashCentral();
+
+  // linkPainel dos webhooks: ?cliente=<id> abre direto a pagina do cliente.
+  try {
+    var paramCliente = new URLSearchParams(window.location.search).get("cliente");
+    if (paramCliente) {
+      estado.gestor.view = "cliente";
+      estado.gestor.clienteId = paramCliente;
+      irParaArea("gestor");
+    }
+  } catch (e) {}
 })();
