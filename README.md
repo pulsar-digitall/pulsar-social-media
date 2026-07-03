@@ -1,6 +1,15 @@
-# Pulsar Social Media Agente
+# PULSAR CENTRAL OPERACIONAL
 
-Agente de social media da Pulsar. Projeto standalone (não depende do Agency OS).
+Central de operação da Pulsar Negócios Digitais. Projeto standalone (não depende do Agency OS).
+
+Módulos no menu lateral:
+- **Operação**: Dashboard consolidado, Clientes (cadastro único) e Gestor de Tráfego
+  (Meta Ads). Consomem a API do backend `PULSAR GESTOR DE TRÁFEGO` — suba com
+  `npm run server` na pasta do backend (porta 3001, configurável no `config.js` daqui).
+  Sem o backend no ar, essas áreas mostram o aviso "Backend offline".
+- **Social Media**: Espião (anúncios de concorrentes) e Swipe (acervo curado).
+  Copywriter e Orgânico em breve.
+- **Entregas**: Relatórios e Tracking em breve.
 
 Skills:
 - `swipe-criativos`: analisa um reel local, monta um card de criativo e gera 3 variações

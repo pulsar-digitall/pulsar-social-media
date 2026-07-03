@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pulsar Social Media Agente</title>
+  <meta name="description" content="PULSAR CENTRAL OPERACIONAL — central de operacao da Pulsar Negocios Digitais: trafego pago, social media e entregas." />
+  <title>PULSAR CENTRAL OPERACIONAL</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%2329ABE2'%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(0 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(60 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(120 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(180 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(240 50 50) rotate(22 50 25)'/%3E%3Crect x='44.5' y='10' width='11' height='30' rx='5' transform='rotate(300 50 50) rotate(22 50 25)'/%3E%3C/g%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="central/central.css" />
   <style>
     :root {
       --bg: #F6F7F9;
@@ -340,13 +342,10 @@
           </svg>
           <span class="wordmark">Pulsar<i>.</i></span>
         </div>
-        <div class="sub">Social Media Agente</div>
+        <div class="sub">Central Operacional</div>
       </div>
 
-      <div class="nav-grupo">
-        <div class="titulo">Areas</div>
-        <nav class="areas" id="nav-areas"></nav>
-      </div>
+      <div id="nav-grupos"></div>
 
       <div class="rodape">
         <div class="org">Pulsar</div>
@@ -357,16 +356,17 @@
     <!-- ===================== CONTEUDO ===================== -->
     <div class="conteudo">
 
-      <!-- AREA: DASHBOARD -->
+      <!-- AREA: DASHBOARD (visao consolidada da central) -->
       <section class="area" id="area-dashboard" data-area="dashboard">
         <div class="area-topo">
-          <div class="titulo-linha"><h2>Dashboard</h2><span class="selo-mock">Mock</span></div>
-          <div class="desc">Resumo geral do que esta acontecendo.</div>
+          <div class="titulo-linha"><h2>Dashboard</h2></div>
+          <div class="desc">Visao consolidada da central: clientes, trafego, Espiao e pendencias.</div>
         </div>
         <div class="area-corpo">
+          <div id="dash-central"></div>
           <div class="stat-grid" id="dash-stats"></div>
           <div class="painel">
-            <div class="painel-topo"><h3>Em alta agora</h3></div>
+            <div class="painel-topo"><h3>Espiao: em alta agora</h3></div>
             <div id="dash-alta"></div>
           </div>
         </div>
@@ -409,6 +409,24 @@
         </div>
       </section>
 
+      <!-- AREA: CLIENTES (Central Pulsar) -->
+      <section class="area" id="area-clientes" data-area="clientes">
+        <div class="area-topo">
+          <div class="titulo-linha"><h2>Clientes</h2></div>
+          <div class="desc">Cadastro unico de clientes, compartilhado por Espiao, Social Media e Paid Ads.</div>
+        </div>
+        <div class="area-corpo" id="clientes-root"></div>
+      </section>
+
+      <!-- AREA: GESTOR DE TRAFEGO (Central Pulsar) -->
+      <section class="area" id="area-gestor" data-area="gestor">
+        <div class="area-topo">
+          <div class="titulo-linha"><h2>Gestor de Trafego</h2></div>
+          <div class="desc">Meta Ads dos clientes: performance, diagnostico IA e otimizacao com plano e confirmacao.</div>
+        </div>
+        <div class="area-corpo" id="gestor-root"></div>
+      </section>
+
       <!-- AREA: COPYWRITER (placeholder) -->
       <section class="area" id="area-copywriter" data-area="copywriter">
         <div class="area-topo"><h2>Copywriter</h2><div class="desc">Escreve anuncios e reels no tom da Pulsar.</div></div>
@@ -433,9 +451,32 @@
         </div>
       </section>
 
+      <!-- AREA: RELATORIOS (placeholder) -->
+      <section class="area" id="area-relatorios" data-area="relatorios">
+        <div class="area-topo"><h2>Relatorios</h2><div class="desc">Relatorios de performance para os clientes.</div></div>
+        <div class="area-corpo">
+          <div class="em-construcao">
+            <span class="selo"><span class="ponto"></span>Em construcao</span>
+            <p>Esta area vai gerar relatorios de performance (WhatsApp e PDF) a partir dos dados do Gestor de Trafego.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AREA: TRACKING (placeholder) -->
+      <section class="area" id="area-tracking" data-area="tracking">
+        <div class="area-topo"><h2>Tracking</h2><div class="desc">GTM, Meta CAPI e qualidade de rastreamento.</div></div>
+        <div class="area-corpo">
+          <div class="em-construcao">
+            <span class="selo"><span class="ponto"></span>Em construcao</span>
+            <p>Esta area vai acompanhar a saude do rastreamento de cada cliente: GTM, Meta CAPI e eventos de MQL.</p>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
 
+  <script src="config.js"></script>
   <script src="swipe/cards.js"></script>
   <script src="swipe/cards_espiao.js"></script>
   <script>
@@ -479,15 +520,29 @@
         espiao: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
         swipe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
         copywriter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
-        organico: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>'
+        organico: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>',
+        clientes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        gestor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+        relatorios: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+        tracking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'
       };
 
-      var AREAS = [
-        { id: "dashboard", rotulo: "Dashboard" },
-        { id: "espiao", rotulo: "Espiao" },
-        { id: "swipe", rotulo: "Swipe" },
-        { id: "copywriter", rotulo: "Copywriter", badge: "Em breve" },
-        { id: "organico", rotulo: "Organico", badge: "Em breve" }
+      var GRUPOS = [
+        { titulo: "Operacao", areas: [
+          { id: "dashboard", rotulo: "Dashboard" },
+          { id: "clientes", rotulo: "Clientes" },
+          { id: "gestor", rotulo: "Gestor de Trafego" }
+        ] },
+        { titulo: "Social Media", areas: [
+          { id: "espiao", rotulo: "Espiao" },
+          { id: "swipe", rotulo: "Swipe" },
+          { id: "copywriter", rotulo: "Copywriter", badge: "Em breve" },
+          { id: "organico", rotulo: "Organico", badge: "Em breve" }
+        ] },
+        { titulo: "Entregas", areas: [
+          { id: "relatorios", rotulo: "Relatorios", badge: "Em breve" },
+          { id: "tracking", rotulo: "Tracking", badge: "Em breve" }
+        ] }
       ];
       var AREA_INICIAL = "dashboard";
 
@@ -503,22 +558,33 @@
       document.addEventListener("keydown", function (e) { if (e.key === "Escape") fecharNav(); });
 
       // ---------- Navegacao ----------
-      var nav = document.getElementById("nav-areas");
+      var navGrupos = document.getElementById("nav-grupos");
       function selecionarArea(id) {
         document.querySelectorAll(".area").forEach(function (s) { s.classList.toggle("ativa", s.getAttribute("data-area") === id); });
-        nav.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("ativo", b.getAttribute("data-area") === id); });
+        navGrupos.querySelectorAll(".nav-item").forEach(function (b) { b.classList.toggle("ativo", b.getAttribute("data-area") === id); });
         // Re-renderiza areas que dependem do estado salvo (localStorage).
         if (id === "swipe") renderSwipe();
         if (id === "dashboard") renderDashboard();
+        // Areas da Central (Dashboard consolidado / Clientes / Gestor) carregam via API.
+        if (window.PulsarCentral) window.PulsarCentral.onArea(id);
         fecharNav(); // no mobile, fecha o drawer ao trocar de area
       }
-      AREAS.forEach(function (a) {
-        var btn = document.createElement("button");
-        btn.className = "nav-item";
-        btn.setAttribute("data-area", a.id);
-        btn.innerHTML = '<span class="ico">' + (ICONES[a.id] || "") + '</span><span>' + a.rotulo + '</span>' + (a.badge ? '<span class="badge">' + a.badge + '</span>' : '');
-        btn.addEventListener("click", function () { selecionarArea(a.id); });
-        nav.appendChild(btn);
+      GRUPOS.forEach(function (g) {
+        var wrap = document.createElement("div");
+        wrap.className = "nav-grupo";
+        wrap.innerHTML = '<div class="titulo">' + g.titulo + '</div>';
+        var nav = document.createElement("nav");
+        nav.className = "areas";
+        g.areas.forEach(function (a) {
+          var btn = document.createElement("button");
+          btn.className = "nav-item";
+          btn.setAttribute("data-area", a.id);
+          btn.innerHTML = '<span class="ico">' + (ICONES[a.id] || "") + '</span><span>' + a.rotulo + '</span>' + (a.badge ? '<span class="badge">' + a.badge + '</span>' : '');
+          btn.addEventListener("click", function () { selecionarArea(a.id); });
+          nav.appendChild(btn);
+        });
+        wrap.appendChild(nav);
+        navGrupos.appendChild(wrap);
       });
 
       // ---------- Helpers ----------
@@ -687,8 +753,7 @@
         var stats = [
           { num: String(ativosMonitorados), lab: "Anuncios ativos monitorados", mock: !temReal },
           { num: String(concorrentes), lab: "Concorrentes monitorados", mock: !temReal },
-          { num: String(noSwipe), lab: "Criativos no Swipe", mock: false },
-          { num: "5", lab: "Anuncios em alta", mock: true }
+          { num: String(noSwipe), lab: "Criativos no Swipe", mock: false }
         ];
         document.getElementById("dash-stats").innerHTML = stats.map(function (s) {
           return '<div class="stat">' + (s.mock ? '<span class="mini-mock">Mock</span>' : '') + '<div class="num">' + s.num + '</div><div class="lab">' + s.lab + '</div></div>';
@@ -833,5 +898,6 @@
       selecionarArea(AREA_INICIAL);
     })();
   </script>
+  <script src="central/central.js"></script>
 </body>
 </html>
