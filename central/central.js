@@ -202,7 +202,8 @@
           '<div class="campo"><label>Status</label><div class="select-wrap"><select name="status">' +
             ["ativo", "pausado", "onboarding"].map(function (s) { return '<option value="' + s + '"' + (c.status === s ? " selected" : "") + ">" + s + "</option>"; }).join("") +
           "</select></div></div>" +
-          campo("Conta de anuncio", "adAccountId", c.adAccountId, "text", "act_123456789") +
+          campo("Conta Meta Ads", "adAccountId", c.adAccountId, "text", "act_123456789") +
+          campo("Google Ads Customer ID", "googleAdsCustomerId", c.googleAdsCustomerId, "text", "1234567890") +
           campo("Page ID (Facebook)", "pageId", c.pageId) +
           campo("Instagram ID", "instagramId", c.instagramId) +
           campo("Pixel ID", "pixelId", c.pixelId) +
@@ -268,6 +269,7 @@
       nome: v("nome"),
       status: v("status") || "ativo",
       adAccountId: v("adAccountId"),
+      googleAdsCustomerId: v("googleAdsCustomerId"),
       pageId: v("pageId"),
       instagramId: v("instagramId"),
       pixelId: v("pixelId"),
@@ -304,7 +306,8 @@
   function salvarVinculo(cliente, lista) {
     var payload = {
       id: cliente.id, nome: cliente.nome, status: cliente.status,
-      adAccountId: cliente.adAccountId || "", pageId: cliente.pageId || "",
+      adAccountId: cliente.adAccountId || "", googleAdsCustomerId: cliente.googleAdsCustomerId || "",
+      pageId: cliente.pageId || "",
       instagramId: cliente.instagramId || "", pixelId: cliente.pixelId || "",
       moeda: cliente.moeda, timezone: cliente.timezone, metas: cliente.metas || {},
       concorrentesMonitorados: lista, observacoes: cliente.observacoes || ""
@@ -499,8 +502,11 @@
         '<div class="contador">' + seletorPeriodo() + "</div>" +
       "</div>" +
       '<div id="ct-conexao-resultado"></div>' +
+      '<div class="ct-canal-titulo">Meta Ads</div>' +
       '<div class="ct-secao" id="ct-resumo">' + spinner("Carregando resumo...") + "</div>" +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas</h3><span class="contador" style="font-size:12px;color:var(--text-3);">clique numa linha para abrir conjuntos e anuncios</span></div><div id="ct-campanhas">' + spinner("Carregando campanhas...") + "</div></div>" +
+      '<div class="ct-canal-titulo">Google Ads <span class="ct-badge neutro">somente leitura</span></div>' +
+      '<div class="painel ct-secao"><div class="painel-topo"><h3>Campanhas Google</h3></div><div id="ct-google">' + spinner("Carregando Google Ads...") + "</div></div>" +
       '<div class="painel ct-secao"><div class="painel-topo"><h3>Diagnostico IA</h3>' +
         '<span class="contador"><button class="btn-toolbar" data-act="diagnosticar">Gerar diagnostico</button></span></div>' +
         '<div id="ct-diagnostico"><div class="ct-msg">Clique em "Gerar diagnostico" para analisar a conta no periodo selecionado. O diagnostico e informativo: nunca executa nada sozinho.</div></div></div>' +
@@ -572,7 +578,59 @@
 
     carregarResumo(cliente, moeda, false);
     carregarCampanhas(cliente, moeda, false);
+    carregarGoogleAds(cliente, moeda, false);
     carregarChangelog(cliente, "30");
+  }
+
+  // ---------- Google Ads (somente leitura) ----------
+  function carregarGoogleAds(cliente, moeda, refresh) {
+    var alvo = document.getElementById("ct-google");
+    if (!alvo) return;
+    alvo.innerHTML = spinner("Carregando Google Ads...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/google-ads?" + queryPeriodo(refresh ? "refresh=1" : ""))
+      .then(function (r) {
+        var t = r.totais, ant = r.totaisAnterior;
+        var h = "";
+        if (r.mock) h += avisoMockHtml(r.aviso);
+        var stats = [
+          { num: fmtMoeda(t.gasto, moeda), lab: "Investimento", varr: variacaoHtml(t.gasto, ant.gasto, 0) },
+          { num: fmtNum(t.conversoes), lab: "Conversoes", varr: variacaoHtml(t.conversoes, ant.conversoes, 1) },
+          { num: t.custoPorConversao != null ? fmtMoeda(t.custoPorConversao, moeda) : "—", lab: "Custo/conversao", varr: variacaoHtml(t.custoPorConversao, ant.custoPorConversao, -1) },
+          { num: fmtNum(t.cliques), lab: "Cliques", varr: variacaoHtml(t.cliques, ant.cliques, 1) },
+          { num: fmtNum(t.impressoes), lab: "Impressoes", varr: variacaoHtml(t.impressoes, ant.impressoes, 1) },
+          { num: fmtDec(t.ctr, 2) + "%", lab: "CTR", varr: variacaoHtml(t.ctr, ant.ctr, 1) },
+          { num: fmtMoeda(t.cpc, moeda), lab: "CPC", varr: variacaoHtml(t.cpc, ant.cpc, -1) }
+        ];
+        h += '<div style="padding:18px 20px 0;"><div class="stat-grid" style="margin-bottom:18px;">' + stats.map(function (s) {
+          return '<div class="stat"><div class="num">' + s.num + '</div><div class="lab">' + s.lab + "</div>" +
+                 '<div class="ct-stat-sub">' + s.varr + ' <span class="ct-var-legenda">vs ' + esc(r.rangeAnterior.label) + "</span></div></div>";
+        }).join("") + "</div></div>";
+
+        if (!r.campanhas.length) {
+          h += '<div class="vazio">Nenhuma campanha Google no periodo.</div>';
+        } else {
+          h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
+               "<th>Campanha</th><th>Status</th><th class=\"num\">Orcam./dia</th><th class=\"num\">Gasto</th><th class=\"num\">Cliques</th>" +
+               "<th class=\"num\">Impressoes</th><th class=\"num\">CTR</th><th class=\"num\">CPC</th><th class=\"num\">Conversoes</th><th class=\"num\">Custo/conv.</th></tr></thead><tbody>";
+          r.campanhas.forEach(function (c) {
+            var st = c.status === "ENABLED"
+              ? '<span class="ct-badge on">ativa</span>'
+              : '<span class="ct-badge neutro">' + esc(String(c.status || "").toLowerCase()) + "</span>";
+            h += '<tr><td class="nome-obj">' + esc(c.nome) + "</td><td>" + st + "</td>" +
+                 '<td class="num">' + (c.orcamentoDia != null ? fmtMoeda(c.orcamentoDia, moeda) : "—") + "</td>" +
+                 '<td class="num">' + fmtMoeda(c.gasto, moeda) + '</td><td class="num">' + fmtNum(c.cliques) + "</td>" +
+                 '<td class="num">' + fmtNum(c.impressoes) + '</td><td class="num">' + fmtDec(c.ctr, 2) + "%</td>" +
+                 '<td class="num">' + fmtMoeda(c.cpc, moeda) + '</td><td class="num">' + fmtNum(c.conversoes) + "</td>" +
+                 '<td class="num">' + (c.custoPorConversao != null ? fmtMoeda(c.custoPorConversao, moeda) : "—") + "</td></tr>";
+          });
+          h += "</tbody></table></div>";
+        }
+        h += '<div style="padding:0 20px 16px;">' + linhaCacheHtml(r.cache, r.mock) + "</div>";
+        alvo.innerHTML = h;
+        var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+        if (btnAtu) btnAtu.addEventListener("click", function () { carregarGoogleAds(cliente, moeda, true); });
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarGoogleAds(cliente, moeda, false); }); });
   }
 
   function testarConexao(cliente) {
