@@ -2788,6 +2788,254 @@
   }
 
   // ---------------------------------------------------------------------
+  // AREA: SWIPE ORGANICO (Etapa 5.5)
+  // Referencias de conteudo organico: link, midia opcional, transcricao
+  // via Gemini e tags por nicho e formato.
+  // ---------------------------------------------------------------------
+  var orgInfo = null; // GET /swipe-organico
+  var orgItens = [];
+  var orgFiltro = { formato: "", busca: "" };
+  var orgFormAberto = false;
+
+  var ROTULOS_FORMATO_ORG = { reel: "Reel", post: "Post", carrossel: "Carrossel", story: "Story" };
+
+  function urlMidiaOrganico(m) {
+    return API + "/api/paid-ads/swipe-organico-midia/" + encodeURIComponent(m.arquivo);
+  }
+
+  function renderSwipeOrganico() {
+    var root = document.getElementById("swipeorganico-root");
+    var topo = document.getElementById("swipeorganico-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Swipe Organico...");
+    api("/api/paid-ads/swipe-organico")
+      .then(function (r) {
+        orgInfo = r;
+        orgItens = r.itens || [];
+        if (topo) {
+          topo.innerHTML = (r.transcricaoDisponivel
+            ? '<span class="ct-badge conectado">Transcricao: gemini</span>'
+            : '<span class="ct-badge off" title="' + esc(r.avisoTranscricao || "") + '">Transcricao indisponivel</span>') +
+            '<button class="btn-toolbar" data-act="org-novo"><span class="mais">+</span> Nova referencia</button>';
+          topo.querySelector('[data-act="org-novo"]').addEventListener("click", function () {
+            orgFormAberto = !orgFormAberto;
+            renderSwipeOrganicoCorpo();
+          });
+        }
+        renderSwipeOrganicoCorpo();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderSwipeOrganico);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function renderSwipeOrganicoCorpo() {
+    var root = document.getElementById("swipeorganico-root");
+    if (!root) return;
+
+    var busca = orgFiltro.busca.toLowerCase();
+    var filtrados = orgItens.filter(function (i) {
+      if (orgFiltro.formato && i.formato !== orgFiltro.formato) return false;
+      if (busca) {
+        var texto = (i.origem + " " + i.nicho + " " + (i.tags || []).join(" ") + " " + (i.transcricao || "") + " " + (i.observacao || "")).toLowerCase();
+        if (texto.indexOf(busca) === -1) return false;
+      }
+      return true;
+    });
+
+    var h = "";
+    if (orgFormAberto) h += htmlFormOrganico();
+
+    h += '<div class="filtros" style="margin:0 0 22px;">' +
+      '<div class="campo"><label>Buscar</label><input type="search" id="org-f-busca" placeholder="Origem, tag, nicho, transcricao..." value="' + esc(orgFiltro.busca) + '" /></div>' +
+      '<div class="campo"><label>Formato</label><span class="ct-periodo">' +
+        '<button data-org-formato=""' + (!orgFiltro.formato ? ' class="ativo"' : "") + ">Todos</button>" +
+        Object.keys(ROTULOS_FORMATO_ORG).map(function (f) {
+          return '<button data-org-formato="' + f + '"' + (orgFiltro.formato === f ? ' class="ativo"' : "") + ">" + ROTULOS_FORMATO_ORG[f] + "</button>";
+        }).join("") +
+      "</span></div>" +
+      '<div class="contador"><b>' + filtrados.length + "</b> referencia(s)</div></div>";
+
+    if (!filtrados.length) {
+      h += '<div class="painel"><div class="vazio">Nenhuma referencia ' + (orgItens.length ? "com esses filtros" : "no Swipe Organico ainda") +
+           '.<br/><br/>Clique em <b>+ Nova referencia</b> para salvar um reel ou post de concorrente/criador.</div></div>';
+    } else {
+      h += '<div class="galeria">' + filtrados.map(function (item, idx) {
+        var visual;
+        if (item.midia && item.midia.mime.indexOf("video/") === 0) {
+          visual = '<div class="media"><video controls preload="metadata" src="' + esc(urlMidiaOrganico(item.midia)) + '"></video></div>';
+        } else if (item.midia) {
+          visual = '<div class="media"><img src="' + esc(urlMidiaOrganico(item.midia)) + '" alt="' + esc(item.origem) + '" loading="lazy" /></div>';
+        } else {
+          visual = '<div class="media bib-sem-midia"><span class="bib-tipo-icone">' + esc(ROTULOS_FORMATO_ORG[item.formato] || item.formato) + "</span></div>";
+        }
+        var temVideo = item.midia && item.midia.mime.indexOf("video/") === 0;
+        return '<article class="card" data-org="' + idx + '">' + visual +
+          '<div class="corpo">' +
+            '<div class="tags"><span class="tag nicho">' + esc(ROTULOS_FORMATO_ORG[item.formato] || item.formato) + "</span>" +
+              (item.nicho ? '<span class="tag">' + esc(item.nicho) + "</span>" : "") +
+              (item.transcricao ? '<span class="ct-badge on">transcrito</span>' : "") +
+              (item.tags || []).slice(0, 4).map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
+            "</div>" +
+            '<div class="hook" style="font-size:15px;">' + esc(item.origem) + "</div>" +
+            '<div class="hook-meta">' + fmtData(item.criadoEm) +
+              (item.link ? ' · <a class="ct-link" href="' + esc(item.link) + '" target="_blank" rel="noopener">Abrir original</a>' : "") + "</div>" +
+            '<div class="card-acoes">' +
+              (temVideo && !item.transcricao ? '<button class="btn-sm salvar" data-org-transcrever="' + idx + '"' + (orgInfo.transcricaoDisponivel ? "" : ' disabled title="' + esc(orgInfo.avisoTranscricao || "") + '"') + ">Transcrever</button>" : "") +
+              (item.transcricao ? '<button class="btn-sm salvar" data-org-copiar="' + idx + '">Copiar transcricao</button>' : "") +
+              '<button class="btn-sm" data-org-excluir="' + idx + '">Excluir</button>' +
+            "</div>" +
+            '<button class="btn-exp">Expandir</button>' +
+          "</div>" +
+          '<div class="detalhe">' + detalheOrganico(item) + "</div>" +
+        "</article>";
+      }).join("") + "</div>";
+    }
+
+    root.innerHTML = h;
+    ligarSwipeOrganico(root, filtrados);
+  }
+
+  function detalheOrganico(item) {
+    var h = "";
+    if (item.transcricao) {
+      h += '<div class="bloco transcricao"><h4>Transcricao' + (item.transcricaoModelo ? " (" + esc(item.transcricaoModelo) + ")" : "") + "</h4><p>" + esc(item.transcricao) + "</p></div>";
+    }
+    if (item.observacao) h += '<div class="bloco"><h4>Observacao</h4><p>' + esc(item.observacao) + "</p></div>";
+    if ((item.tags || []).length > 4) {
+      h += '<div class="bloco"><h4>Todas as tags</h4><div class="tags">' + item.tags.map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") + "</div></div>";
+    }
+    return h || '<p style="color:var(--text-3);font-size:13px;">Sem transcricao ou observacao ainda.</p>';
+  }
+
+  function htmlFormOrganico() {
+    return '<div class="ct-form" id="org-form">' +
+      "<h3>Nova referencia</h3>" +
+      '<div class="ct-form-grid">' +
+        '<div class="campo"><label>Origem (criador/concorrente) *</label><input type="text" name="org-origem" placeholder="Ex.: @clinicaexemplo" /></div>' +
+        '<div class="campo"><label>Link do post</label><input type="text" name="org-link" placeholder="https://www.instagram.com/reel/..." /></div>' +
+        '<div class="campo"><label>Nicho</label><input type="text" name="org-nicho" placeholder="Ex.: odonto, estetica" /></div>' +
+        '<div class="campo"><label>Formato</label><div class="select-wrap"><select name="org-formato">' +
+          Object.keys(ROTULOS_FORMATO_ORG).map(function (f) { return '<option value="' + f + '">' + ROTULOS_FORMATO_ORG[f] + "</option>"; }).join("") +
+        "</select></div></div>" +
+      "</div>" +
+      '<div class="campo" style="margin-bottom:14px;"><label>Tags (separadas por virgula)</label><input type="text" name="org-tags" placeholder="Ex.: gancho forte, prova social, humor" /></div>' +
+      '<div class="campo" style="margin-bottom:14px;"><label>Observacao (opcional — por que essa referencia e boa)</label><textarea name="org-observacao" placeholder="O que copiar dessa estrutura..."></textarea></div>' +
+      '<div class="campo" style="margin-bottom:6px;"><label>Midia (opcional — 1 video ou imagem, ate 40MB; video ate 19MB para transcrever)</label>' +
+        '<input type="file" name="org-arquivo" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime" /></div>' +
+      '<div class="ct-form-acoes">' +
+        '<button class="btn-toolbar" data-act="org-salvar">Salvar referencia</button>' +
+        '<button class="ct-btn-sec" data-act="org-cancelar">Cancelar</button>' +
+      "</div>" +
+      '<div class="ct-erro-form" id="org-form-erro"></div>' +
+    "</div>";
+  }
+
+  function ligarSwipeOrganico(root, filtrados) {
+    var buscaEl = root.querySelector("#org-f-busca");
+    if (buscaEl) {
+      buscaEl.addEventListener("input", function () {
+        orgFiltro.busca = this.value;
+        var pos = this.selectionStart;
+        renderSwipeOrganicoCorpo();
+        var novo = document.getElementById("org-f-busca");
+        if (novo) { novo.focus(); novo.setSelectionRange(pos, pos); }
+      });
+    }
+    root.querySelectorAll("[data-org-formato]").forEach(function (b) {
+      b.addEventListener("click", function () { orgFiltro.formato = b.getAttribute("data-org-formato"); renderSwipeOrganicoCorpo(); });
+    });
+    root.querySelectorAll(".card .btn-exp").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest(".card");
+        var aberto = card.classList.toggle("aberto");
+        btn.textContent = aberto ? "Recolher" : "Expandir";
+      });
+    });
+    root.querySelectorAll("[data-org-copiar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var item = filtrados[Number(b.getAttribute("data-org-copiar"))];
+        copiarTexto(item.transcricao || "", b);
+      });
+    });
+    root.querySelectorAll("[data-org-transcrever]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var item = filtrados[Number(b.getAttribute("data-org-transcrever"))];
+        b.disabled = true;
+        b.textContent = "Transcrevendo...";
+        api("/api/paid-ads/swipe-organico-acao", { method: "POST", timeoutMs: 180000, body: { id: item.id, acao: "transcrever" } })
+          .then(renderSwipeOrganico)
+          .catch(function (err) {
+            b.disabled = false;
+            b.textContent = "Transcrever";
+            window.alert("Erro: " + (err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message));
+          });
+      });
+    });
+    root.querySelectorAll("[data-org-excluir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var item = filtrados[Number(b.getAttribute("data-org-excluir"))];
+        if (!window.confirm('Excluir a referencia de "' + item.origem + '"? A midia do item tambem sera apagada.')) return;
+        api("/api/paid-ads/swipe-organico-acao", { method: "POST", body: { id: item.id, acao: "excluir" } })
+          .then(renderSwipeOrganico)
+          .catch(function (err) { window.alert("Erro: " + err.message); });
+      });
+    });
+    ligarFormOrganico(root);
+  }
+
+  function ligarFormOrganico(root) {
+    var form = root.querySelector("#org-form");
+    if (!form) return;
+    form.querySelector('[data-act="org-cancelar"]').addEventListener("click", function () { orgFormAberto = false; renderSwipeOrganicoCorpo(); });
+    form.querySelector('[data-act="org-salvar"]').addEventListener("click", function () {
+      var btn = this;
+      var erroEl = form.querySelector("#org-form-erro");
+      var origem = form.querySelector('[name="org-origem"]').value.trim();
+      if (!origem) { erroEl.textContent = "Preencha a origem (criador ou concorrente)."; return; }
+      var input = form.querySelector('[name="org-arquivo"]');
+      var arquivo = input.files && input.files[0] ? input.files[0] : null;
+      if (arquivo && arquivo.size > 40 * 1024 * 1024) { erroEl.textContent = "Midia acima de 40MB. Envie um arquivo menor."; return; }
+      erroEl.textContent = "";
+      btn.disabled = true;
+      btn.textContent = "Salvando...";
+
+      var lerArquivo = arquivo
+        ? new Promise(function (ok, falha) {
+            var leitor = new FileReader();
+            leitor.onload = function () { ok({ nome: arquivo.name, mime: arquivo.type, base64: String(leitor.result).split(",")[1] || "" }); };
+            leitor.onerror = function () { falha(new Error("Falha ao ler " + arquivo.name)); };
+            leitor.readAsDataURL(arquivo);
+          })
+        : Promise.resolve(null);
+
+      lerArquivo
+        .then(function (lido) {
+          return api("/api/paid-ads/swipe-organico", {
+            method: "POST",
+            timeoutMs: 180000,
+            body: {
+              origem: origem,
+              link: form.querySelector('[name="org-link"]').value.trim(),
+              nicho: form.querySelector('[name="org-nicho"]').value.trim(),
+              formato: form.querySelector('[name="org-formato"]').value,
+              tags: form.querySelector('[name="org-tags"]').value,
+              observacao: form.querySelector('[name="org-observacao"]').value,
+              arquivo: lido
+            }
+          });
+        })
+        .then(function () { orgFormAberto = false; renderSwipeOrganico(); })
+        .catch(function (err) {
+          btn.disabled = false;
+          btn.textContent = "Salvar referencia";
+          erroEl.textContent = err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message;
+        });
+    });
+  }
+
+  // ---------------------------------------------------------------------
   // AREA: DESIGNER IA v1 (Etapa 5.4)
   // Conceito visual + copy da arte + direcao de arte + imagem base.
   // A ARTE FINAL e finalizada no Canva — o modulo nao promete arte pronta.
@@ -3045,6 +3293,7 @@
       if (id === "biblioteca") renderBiblioteca();
       if (id === "planejamento") renderPlanejamento();
       if (id === "designer") renderDesigner();
+      if (id === "swipeorganico") renderSwipeOrganico();
     }
   };
 
