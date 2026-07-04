@@ -2788,6 +2788,209 @@
   }
 
   // ---------------------------------------------------------------------
+  // AREA: AGENTE (Etapa 6) — chat com Claude Code headless
+  // Fase chat = so leitura (o agente propoe planos); escrita SO depois do
+  // botao "Confirmo aplicar". Consome creditos da assinatura do Claude Code.
+  // ---------------------------------------------------------------------
+  var agInfo = null; // GET /agente
+  var agSessao = null; // sessao aberta no chat (null = tela de lista)
+  var agEnviando = false;
+
+  function fmtTokensAg(n) {
+    if (n == null || isNaN(n)) return "0";
+    if (n >= 1000) return (n / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " mil";
+    return String(n);
+  }
+
+  function renderAgente() {
+    var root = document.getElementById("agente-root");
+    var topo = document.getElementById("agente-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Agente...");
+    agSessao = null;
+    api("/api/paid-ads/agente")
+      .then(function (r) {
+        agInfo = r;
+        if (topo) {
+          topo.innerHTML = r.disponivel
+            ? '<span class="ct-badge conectado">Claude Code' + (r.versao ? " " + esc(String(r.versao).split(" ")[0]) : "") + "</span>"
+            : '<span class="ct-badge off" title="' + esc(r.aviso || "") + '">CLI nao encontrada</span>';
+        }
+        renderAgenteLista();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderAgente);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function renderAgenteLista() {
+    var root = document.getElementById("agente-root");
+    if (!root) return;
+    var h = '<div class="ct-nota">O Agente roda o Claude Code local com acesso as pastas da Central (backend e frontend). ' +
+            "Leitura livre; qualquer mudanca em arquivo vira um plano que so executa depois do seu <b>Confirmo aplicar</b>. " +
+            "Cada mensagem consome creditos da sua assinatura do Claude Code.</div>";
+    if (!agInfo.disponivel) h += '<div class="ct-nota">' + esc(agInfo.aviso || "") + "</div>";
+
+    h += '<div style="margin-bottom:22px;"><button class="btn-toolbar" data-act="ag-nova"' + (agInfo.disponivel ? "" : " disabled") + '><span class="mais">+</span> Nova conversa</button></div>';
+
+    var sessoes = agInfo.sessoes || [];
+    if (sessoes.length) {
+      h += '<div class="painel"><div class="painel-topo"><h3>Conversas</h3><span class="contador"><b>' + sessoes.length + "</b> sessao(oes)</span></div>" +
+        '<div class="ct-lista" style="padding:14px 16px 16px;">' +
+        sessoes.map(function (s, i) {
+          return '<div class="ct-item">' +
+            '<span class="av">&gt;_</span>' +
+            '<div class="info"><div class="titulo">' + esc(s.titulo) + "</div>" +
+              '<div class="sub">' + fmtData(s.atualizadoEm) + " · " + s.qtdMensagens + " mensagem(ns) · " + s.totais.turnos + " turno(s)" +
+              (s.totais.custoUsd > 0 ? " · US$ " + s.totais.custoUsd.toFixed(2).replace(".", ",") : "") + "</div></div>" +
+            '<span class="lado">' +
+              '<span class="ct-badge ' + (s.status === "ativa" ? "on" : "neutro") + '">' + esc(s.status) + "</span>" +
+              '<button class="btn-sm salvar" data-ag-abrir="' + i + '">' + (s.status === "ativa" ? "Continuar" : "Ver") + "</button>" +
+              '<button class="btn-sm" data-ag-excluir="' + i + '">Excluir</button>' +
+            "</span></div>";
+        }).join("") + "</div></div>";
+    } else {
+      h += '<div class="painel"><div class="vazio">Nenhuma conversa ainda.<br/><br/>Clique em <b>+ Nova conversa</b> e peca uma analise, um resumo de cliente ou uma mudanca nos projetos da Central.</div></div>';
+    }
+
+    root.innerHTML = h;
+    var btnNova = root.querySelector('[data-act="ag-nova"]');
+    if (btnNova) btnNova.addEventListener("click", function () { agSessao = { id: null, status: "ativa", mensagens: [], totais: { turnos: 0, custoUsd: 0 }, contexto: { tokens: 0, maxTokens: 200000 } }; renderAgenteChat(); });
+    root.querySelectorAll("[data-ag-abrir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var s = agInfo.sessoes[Number(b.getAttribute("data-ag-abrir"))];
+        root.innerHTML = spinner("Abrindo conversa...");
+        api("/api/paid-ads/agente-sessao?id=" + encodeURIComponent(s.id))
+          .then(function (r) { agSessao = r.sessao; renderAgenteChat(); })
+          .catch(function (err) { root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>"; });
+      });
+    });
+    root.querySelectorAll("[data-ag-excluir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var s = agInfo.sessoes[Number(b.getAttribute("data-ag-excluir"))];
+        if (!window.confirm('Excluir a conversa "' + s.titulo + '"?')) return;
+        api("/api/paid-ads/agente-acao", { method: "POST", body: { id: s.id, acao: "excluir" } })
+          .then(renderAgente)
+          .catch(function (err) { window.alert("Erro: " + err.message); });
+      });
+    });
+  }
+
+  function htmlIndicadorAgente() {
+    var t = agSessao.totais || { turnos: 0, custoUsd: 0 };
+    var ctx = agSessao.contexto || { tokens: 0, maxTokens: 200000 };
+    var pct = ctx.maxTokens ? Math.min(100, Math.round((ctx.tokens / ctx.maxTokens) * 100)) : 0;
+    return '<span class="ag-indicador" title="Contexto aproximado da sessao no Claude Code (janela de ' + fmtTokensAg(ctx.maxTokens) + ' tokens)">' +
+      '<span class="ag-ctx-barra"><span class="fill" style="width:' + pct + '%;"></span></span>' +
+      "Contexto ~" + fmtTokensAg(ctx.tokens) + " tokens (" + pct + "%)" +
+      " · " + t.turnos + " turno(s)" +
+      (t.custoUsd > 0 ? " · US$ " + t.custoUsd.toFixed(2).replace(".", ",") : "") +
+      "</span>";
+  }
+
+  function renderAgenteChat() {
+    var root = document.getElementById("agente-root");
+    if (!root) return;
+    var ativa = agSessao.status === "ativa";
+
+    var h = '<div class="painel ag-chat"><div class="painel-topo" style="flex-wrap:wrap;row-gap:8px;">' +
+      "<h3>" + esc(agSessao.id ? agSessao.titulo : "Nova conversa") + "</h3>" +
+      '<span class="contador" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' +
+        htmlIndicadorAgente() +
+        '<button class="ct-btn-sec" data-act="ag-voltar">Voltar</button>' +
+        (agSessao.id && ativa ? '<button class="ct-btn-perigo" data-act="ag-encerrar">Encerrar sessao</button>' : "") +
+      "</span></div>" +
+      '<div class="ag-mensagens" id="ag-mensagens">';
+
+    if (!agSessao.mensagens.length) {
+      h += '<div class="vazio" style="padding:40px 20px;">Pergunte algo sobre os clientes, dados ou codigo da Central.<br/>Ex.: "Resuma o tracking da Clinica Exemplo" ou "Liste os relatorios gerados este mes".</div>';
+    } else {
+      h += agSessao.mensagens.map(function (m) {
+        var meta = m.papel === "agente" && !m.erro
+          ? '<div class="ag-msg-meta">' + (m.fase === "aplicar" ? "aplicacao · " : "") + (m.numTurns || 0) + " turno(s) · " + fmtTokensAg((m.tokensEntrada || 0) + (m.tokensSaida || 0)) + " tokens" + (m.duracaoMs ? " · " + Math.round(m.duracaoMs / 1000) + "s" : "") + "</div>"
+          : "";
+        return '<div class="ag-msg ' + (m.papel === "usuario" ? "usuario" : "agente") + (m.erro ? " erro" : "") + '">' +
+          '<div class="ag-msg-texto">' + esc(m.texto) + "</div>" + meta + "</div>";
+      }).join("");
+    }
+    if (agEnviando) h += '<div class="ag-msg agente">' + spinner("Agente trabalhando (pode levar minutos)...") + "</div>";
+    h += "</div>";
+
+    if (ativa) {
+      h += '<div class="ag-input">' +
+        '<textarea id="ag-texto" placeholder="Escreva a tarefa ou a pergunta..." ' + (agEnviando ? "disabled" : "") + "></textarea>" +
+        '<div class="ag-input-acoes">' +
+          '<button class="btn-toolbar" data-act="ag-enviar"' + (agEnviando ? " disabled" : "") + ">Enviar</button>" +
+          (agSessao.id ? '<button class="ct-btn-sec" data-act="ag-aplicar"' + (agEnviando ? " disabled" : "") + ' title="Executa o plano de mudancas que o agente propos nesta conversa">Confirmo aplicar</button>' : "") +
+        "</div></div>";
+    } else {
+      h += '<div class="ct-nota" style="margin:14px 20px 20px;">Sessao encerrada — somente leitura. Comece uma nova conversa para continuar.</div>';
+    }
+    h += "</div>";
+
+    root.innerHTML = h;
+    var lista = document.getElementById("ag-mensagens");
+    if (lista) lista.scrollTop = lista.scrollHeight;
+
+    root.querySelector('[data-act="ag-voltar"]').addEventListener("click", renderAgente);
+    var btnEnc = root.querySelector('[data-act="ag-encerrar"]');
+    if (btnEnc) btnEnc.addEventListener("click", function () {
+      if (!window.confirm("Encerrar esta sessao? A conversa fica salva para consulta, mas o agente perde o contexto.")) return;
+      api("/api/paid-ads/agente-acao", { method: "POST", body: { id: agSessao.id, acao: "encerrar" } })
+        .then(renderAgente)
+        .catch(function (err) { window.alert("Erro: " + err.message); });
+    });
+    var btnEnviar = root.querySelector('[data-act="ag-enviar"]');
+    if (btnEnviar) btnEnviar.addEventListener("click", enviarMensagemAgente);
+    var campo = document.getElementById("ag-texto");
+    if (campo) campo.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) enviarMensagemAgente();
+    });
+    var btnAplicar = root.querySelector('[data-act="ag-aplicar"]');
+    if (btnAplicar) btnAplicar.addEventListener("click", function () {
+      if (!window.confirm("Aplicar as mudancas propostas pelo agente? Isso ESCREVE de verdade nos arquivos das pastas permitidas.")) return;
+      agEnviando = true;
+      renderAgenteChat();
+      api("/api/paid-ads/agente-aplicar", { method: "POST", timeoutMs: 320000, body: { sessaoId: agSessao.id, confirmacao: "Confirmo aplicar" } })
+        .then(function (r) { agEnviando = false; agSessao = r.sessao; renderAgenteChat(); })
+        .catch(function (err) { agEnviando = false; recarregarSessaoAgente(err); });
+    });
+  }
+
+  function enviarMensagemAgente() {
+    var campo = document.getElementById("ag-texto");
+    var texto = (campo ? campo.value : "").trim();
+    if (!texto || agEnviando) return;
+    agSessao.mensagens.push({ papel: "usuario", fase: "chat", texto: texto, timestamp: new Date().toISOString() });
+    agEnviando = true;
+    renderAgenteChat();
+    api("/api/paid-ads/agente-mensagem", { method: "POST", timeoutMs: 320000, body: { sessaoId: agSessao.id || "", texto: texto } })
+      .then(function (r) {
+        agEnviando = false;
+        agSessao = r.sessao;
+        renderAgenteChat();
+      })
+      .catch(function (err) {
+        agEnviando = false;
+        recarregarSessaoAgente(err);
+      });
+  }
+
+  // Depois de um erro, recarrega a sessao do backend (la fica o registro do
+  // erro) ou mostra o problema quando a sessao nem chegou a ser criada.
+  function recarregarSessaoAgente(err) {
+    if (agSessao && agSessao.id) {
+      api("/api/paid-ads/agente-sessao?id=" + encodeURIComponent(agSessao.id))
+        .then(function (r) { agSessao = r.sessao; renderAgenteChat(); })
+        .catch(function () { renderAgenteChat(); });
+    } else {
+      agSessao.mensagens.push({ papel: "agente", fase: "chat", erro: true, texto: err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message, timestamp: new Date().toISOString() });
+      renderAgenteChat();
+    }
+  }
+
+  // ---------------------------------------------------------------------
   // AREA: SWIPE ORGANICO (Etapa 5.5)
   // Referencias de conteudo organico: link, midia opcional, transcricao
   // via Gemini e tags por nicho e formato.
@@ -3294,6 +3497,7 @@
       if (id === "planejamento") renderPlanejamento();
       if (id === "designer") renderDesigner();
       if (id === "swipeorganico") renderSwipeOrganico();
+      if (id === "agente") renderAgente();
     }
   };
 

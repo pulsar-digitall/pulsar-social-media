@@ -290,6 +290,33 @@
   padding: 10px 13px; font-size: 14px; font-family: inherit; outline: none; width: 100%;
 }
 
+/* ---------- Agente (Etapa 6) ---------- */
+.ag-chat .painel-topo h3 { max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ag-indicador { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-2); white-space: nowrap; }
+.ag-ctx-barra { width: 74px; height: 7px; border-radius: var(--radius-pill); background: var(--surface-2); overflow: hidden; flex-shrink: 0; }
+.ag-ctx-barra .fill { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--accent); transition: width 200ms ease; }
+.ag-mensagens { display: flex; flex-direction: column; gap: 14px; padding: 20px; max-height: 520px; overflow-y: auto; }
+.ag-msg { max-width: 82%; }
+.ag-msg.usuario { align-self: flex-end; }
+.ag-msg.agente { align-self: flex-start; }
+.ag-msg .ag-msg-texto {
+  white-space: pre-wrap; font-size: 13.5px; line-height: 1.55;
+  border-radius: 14px; padding: 12px 15px; word-break: break-word;
+}
+.ag-msg.usuario .ag-msg-texto { background: var(--accent); color: var(--texto-sobre-accent); border-bottom-right-radius: 5px; }
+.ag-msg.agente .ag-msg-texto { background: var(--surface-2); color: var(--text); border-bottom-left-radius: 5px; }
+.ag-msg.erro .ag-msg-texto { background: var(--negative-soft); color: var(--negative); }
+.ag-msg-meta { font-size: 11px; color: var(--text-3); margin-top: 5px; padding-left: 4px; }
+.ag-input { display: flex; flex-direction: column; gap: 10px; padding: 14px 20px 20px; border-top: 1px solid var(--border); }
+.ag-input textarea {
+  width: 100%; min-height: 76px; resize: vertical;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 11px 14px; font-size: 14px; font-family: inherit; outline: none;
+}
+.ag-input textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ag-input-acoes { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
 /* ---------- Swipe Organico (Etapa 5.5) ---------- */
 #org-form input[type="file"] {
   width: 100%; padding: 10px; font-size: 13px; font-family: inherit; color: var(--text-2);
@@ -414,6 +441,8 @@
   .ct-diag-grid { grid-template-columns: 1fr; }
   .ct-cmd { flex-direction: column; }
   .ct-form-grid { grid-template-columns: 1fr; }
+  .ag-chat .painel-topo h3 { max-width: 100%; }
+  .ag-msg { max-width: 95%; }
   .pl-legenda { margin-left: 0; }
   .pl-dia { min-height: 80px; padding: 6px; }
   .pl-semana { padding: 8px 4px; font-size: 9.5px; }
