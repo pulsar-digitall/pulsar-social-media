@@ -290,6 +290,29 @@
   padding: 10px 13px; font-size: 14px; font-family: inherit; outline: none; width: 100%;
 }
 
+/* ---------- Designer IA (Etapa 5.4) ---------- */
+#designer-root .campo textarea {
+  width: 100%; min-height: 90px; resize: vertical;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 10px 13px; font-size: 13.5px; font-family: inherit; outline: none;
+}
+#designer-root .campo textarea:focus, #designer-root .campo input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+#designer-root .campo input[type="text"] {
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 10px 13px; font-size: 14px; font-family: inherit; outline: none; width: 100%;
+}
+.dg-paleta { display: flex; flex-direction: column; gap: 8px; }
+.dg-swatch { display: flex; align-items: center; gap: 9px; font-size: 12.5px; }
+.dg-swatch .cor { width: 22px; height: 22px; border-radius: 7px; border: 1px solid var(--border-strong); flex-shrink: 0; }
+.dg-swatch .hex { font-weight: 600; color: var(--text); white-space: nowrap; }
+.dg-swatch .uso { color: var(--text-3); }
+.dg-imagem img { max-width: 380px; width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); display: block; }
+.dg-imagem .acoes { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.dg-imagem .acoes a.ct-btn-sec { text-decoration: none; display: inline-flex; align-items: center; }
+.dg-imagem-nota { font-size: 12.5px; color: var(--text-3); margin-top: 8px; }
+
 /* ---------- Planejamento (Etapa 5.3) ---------- */
 .pl-cal { display: flex; flex-direction: column; gap: 14px; }
 .pl-cal-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }

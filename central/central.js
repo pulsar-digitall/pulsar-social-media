@@ -2788,6 +2788,250 @@
   }
 
   // ---------------------------------------------------------------------
+  // AREA: DESIGNER IA v1 (Etapa 5.4)
+  // Conceito visual + copy da arte + direcao de arte + imagem base.
+  // A ARTE FINAL e finalizada no Canva — o modulo nao promete arte pronta.
+  // ---------------------------------------------------------------------
+  var dgInfo = null; // GET /designer (formatos, disponibilidade)
+  var dgFormato = "feed";
+  var dgUltimo = null; // ultima geracao (para salvar na Biblioteca)
+  var dgImagem = null; // { base64, mime, modelo } da imagem base gerada
+
+  var TIPO_BIB_POR_FORMATO_DG = { feed: "estatico", story: "story", capa_carrossel: "carrossel", anuncio: "anuncio" };
+
+  function renderDesigner() {
+    var root = document.getElementById("designer-root");
+    var topo = document.getElementById("designer-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Designer IA...");
+    Promise.all([api("/api/paid-ads/designer"), api("/api/paid-ads/clients")])
+      .then(function (r) {
+        dgInfo = r[0];
+        estado.clientes = r[1].clientes || [];
+        if (topo) {
+          topo.innerHTML = (dgInfo.disponivel
+            ? '<span class="ct-badge conectado">IA: ' + esc(dgInfo.provider || "?") + "</span>"
+            : '<span class="ct-badge off" title="' + esc(dgInfo.aviso || "") + '">IA nao configurada</span>') +
+            (dgInfo.imagemDisponivel
+              ? '<span class="ct-badge conectado">Imagem: gemini</span>'
+              : '<span class="ct-badge off" title="' + esc(dgInfo.avisoImagem || "") + '">Imagem indisponivel</span>');
+        }
+        var h = '<div class="ct-nota">O Designer entrega conceito, copy da arte, direcao de arte e imagem base. ' +
+                "NAO e a arte final: a finalizacao e feita no Canva.</div>";
+        if (!dgInfo.disponivel) {
+          h += '<div class="ct-nota">' + esc(dgInfo.aviso || "Configure a chave de IA no backend.") + "</div>";
+        }
+        h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Briefing da arte</h3>' +
+             '<span class="contador"><span class="ct-periodo" id="dg-formatos">' +
+             dgInfo.formatos.map(function (f) {
+               return '<button data-formato="' + f.id + '"' + (f.id === dgFormato ? ' class="ativo"' : "") + ' title="' + esc(f.proporcao) + '">' + esc(f.titulo) + "</button>";
+             }).join("") + "</span></span></div>" +
+             '<div style="padding:18px 20px;">' +
+               '<div class="ct-form-grid">' +
+                 '<div class="campo"><label>Cliente</label><div class="select-wrap"><select id="dg-cliente">' +
+                   '<option value="">— sem cliente —</option>' +
+                   estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
+                 "</select></div></div>" +
+                 '<div class="campo"><label>Nicho</label><div class="select-wrap"><select id="dg-nicho">' +
+                   ["medica", "estetica", "odonto", "outro"].map(function (n) { return '<option value="' + n + '">' + n + "</option>"; }).join("") +
+                 "</select></div></div>" +
+                 '<div class="campo"><label>Estilo</label><input type="text" id="dg-estilo" placeholder="Ex.: dark premium, clean com foto real" /></div>' +
+               "</div>" +
+               '<div class="campo" style="margin-bottom:14px;"><label>Objetivo da arte *</label><input type="text" id="dg-objetivo" placeholder=\'Ex.: "anunciar avaliacao gratuita de implante" ou "post de autoridade sobre harmonizacao"\' style="width:100%;" /></div>' +
+               '<div class="campo" style="margin-bottom:16px;"><label>Copy base (opcional — cole a copy aprovada do Redator ou da Biblioteca)</label><textarea id="dg-copybase" placeholder="Cole aqui a copy que a arte precisa acompanhar..."></textarea></div>' +
+               '<button class="btn-toolbar" data-act="dg-gerar"' + (dgInfo.disponivel ? "" : " disabled") + ">Gerar conceito</button>" +
+             "</div></div>" +
+             '<div id="dg-resultado"></div>';
+        root.innerHTML = h;
+
+        root.querySelectorAll("#dg-formatos [data-formato]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            dgFormato = b.getAttribute("data-formato");
+            root.querySelectorAll("#dg-formatos button").forEach(function (x) { x.classList.remove("ativo"); });
+            b.classList.add("ativo");
+          });
+        });
+        var btnGerar = root.querySelector('[data-act="dg-gerar"]');
+        if (btnGerar) btnGerar.addEventListener("click", gerarConceitoDesigner);
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderDesigner);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function gerarConceitoDesigner() {
+    var alvo = document.getElementById("dg-resultado");
+    var objetivo = (document.getElementById("dg-objetivo") || {}).value || "";
+    if (!objetivo.trim()) {
+      alvo.innerHTML = '<div class="ct-resultado erro">Preencha o objetivo da arte antes de gerar.</div>';
+      return;
+    }
+    alvo.innerHTML = spinner("Gerando conceito com IA (pode levar ate 1 minuto)...");
+    dgUltimo = null;
+    dgImagem = null;
+    api("/api/paid-ads/designer", {
+      method: "POST",
+      timeoutMs: 120000,
+      body: {
+        formato: dgFormato,
+        clienteId: (document.getElementById("dg-cliente") || {}).value || "",
+        nicho: (document.getElementById("dg-nicho") || {}).value || "",
+        estilo: (document.getElementById("dg-estilo") || {}).value || "",
+        objetivo: objetivo,
+        copyBase: (document.getElementById("dg-copybase") || {}).value || ""
+      }
+    })
+      .then(function (r) {
+        dgUltimo = r;
+        renderResultadoDesigner(alvo, r);
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, gerarConceitoDesigner); });
+  }
+
+  function textoParaCopiarDesigner(c) {
+    var linhas = ["CONCEITO:", c.conceito, ""];
+    linhas.push("COPY DA ARTE:");
+    linhas.push("Titulo: " + c.copyDaArte.titulo);
+    if (c.copyDaArte.apoio) linhas.push("Apoio: " + c.copyDaArte.apoio);
+    if (c.copyDaArte.cta) linhas.push("CTA: " + c.copyDaArte.cta);
+    linhas.push("", "DIRECAO DE ARTE:");
+    (c.direcaoDeArte.paleta || []).forEach(function (p) { linhas.push("- " + p.cor + " (" + p.uso + ")"); });
+    if (c.direcaoDeArte.tipografia) linhas.push("Tipografia: " + c.direcaoDeArte.tipografia);
+    if (c.direcaoDeArte.composicao) linhas.push("Composicao: " + c.direcaoDeArte.composicao);
+    if (c.direcaoDeArte.estilo) linhas.push("Estilo: " + c.direcaoDeArte.estilo);
+    (c.direcaoDeArte.referencias || []).forEach(function (r) { linhas.push("Ref: " + r); });
+    if (c.promptImagem) linhas.push("", "PROMPT DA IMAGEM BASE:", c.promptImagem);
+    return linhas.join("\n").trim();
+  }
+
+  function renderResultadoDesigner(alvo, r) {
+    var c = r.conceito;
+    var da = c.direcaoDeArte || {};
+    var corpo = '<div class="ct-diag-resumo" style="margin-bottom:14px;">' + esc(c.conceito) + "</div>";
+
+    corpo += '<div class="ct-diag-bloco" style="margin-bottom:12px;"><h4 style="color:var(--accent-hover);">Copy da arte</h4>' +
+      '<p style="font-size:17px;font-weight:700;color:var(--text);">' + esc(c.copyDaArte.titulo) + "</p>" +
+      (c.copyDaArte.apoio ? '<p style="font-size:13.5px;color:var(--text-2);margin-top:4px;">' + esc(c.copyDaArte.apoio) + "</p>" : "") +
+      (c.copyDaArte.cta ? '<p style="font-size:12.5px;color:var(--accent-hover);font-weight:600;margin-top:8px;">CTA: ' + esc(c.copyDaArte.cta) + "</p>" : "") +
+      "</div>";
+
+    corpo += '<div class="ct-diag-grid">';
+    if ((da.paleta || []).length) {
+      corpo += '<div class="ct-diag-bloco"><h4 style="color:var(--accent-hover);">Paleta</h4><div class="dg-paleta">' +
+        da.paleta.map(function (p) {
+          var cor = /^#[0-9a-fA-F]{3,8}$/.test(p.cor) ? p.cor : "#888888";
+          return '<span class="dg-swatch"><span class="cor" style="background:' + esc(cor) + ';"></span><span class="hex">' + esc(p.cor) + '</span><span class="uso">' + esc(p.uso) + "</span></span>";
+        }).join("") + "</div></div>";
+    }
+    corpo += '<div class="ct-diag-bloco"><h4 style="color:var(--accent-hover);">Tipografia</h4><p style="font-size:13.5px;color:var(--text-2);">' + esc(da.tipografia) + "</p></div>" +
+      '<div class="ct-diag-bloco"><h4 style="color:var(--accent-hover);">Composicao</h4><p style="font-size:13.5px;color:var(--text-2);">' + esc(da.composicao) + "</p></div>" +
+      '<div class="ct-diag-bloco"><h4 style="color:var(--accent-hover);">Estilo</h4><p style="font-size:13.5px;color:var(--text-2);">' + esc(da.estilo) +
+      ((da.referencias || []).length ? '</p><ul style="list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;">' + da.referencias.map(function (x) { return '<li style="font-size:12.5px;color:var(--text-3);">Ref: ' + esc(x) + "</li>"; }).join("") + "</ul>" : "</p>") +
+      "</div></div>";
+
+    corpo += blocoTexto("Prompt da imagem base (em ingles)", c.promptImagem);
+
+    corpo += '<div id="dg-imagem-area" style="margin-top:14px;">' +
+      (r.imagemDisponivel
+        ? '<button class="ct-btn-sec" data-act="dg-imagem">Gerar imagem base</button>'
+        : '<div class="ct-nota" style="margin-bottom:0;">' + esc((dgInfo && dgInfo.avisoImagem) || "Imagem base indisponivel: configure GEMINI_API_KEY no backend.") + "</div>") +
+      "</div>";
+
+    alvo.innerHTML =
+      '<div class="painel"><div class="painel-topo"><h3>' + esc(c.titulo || "Conceito da arte") + "</h3>" +
+      '<span class="contador"><span class="ct-badge conectado">IA: ' + esc(r.provider) + "</span>" +
+      (r.clienteNome ? ' <span class="ct-badge neutro">' + esc(r.clienteNome) + "</span>" : "") + "</span></div>" +
+      '<div style="padding:18px 20px;">' + corpo +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">' +
+        '<button class="btn-toolbar" data-act="dg-copiar">Copiar tudo</button>' +
+        '<button class="ct-btn-sec" data-act="dg-salvar">Salvar na Biblioteca (rascunho)</button>' +
+        '<button class="ct-btn-sec" data-act="dg-salvar-aprovado">Salvar como aprovado</button>' +
+      "</div>" +
+      '<div id="dg-salvo" style="margin-top:8px;"></div>' +
+      "</div></div>";
+
+    alvo.querySelector('[data-act="dg-copiar"]').addEventListener("click", function () {
+      copiarTexto(textoParaCopiarDesigner(c), this);
+    });
+    alvo.querySelector('[data-act="dg-salvar"]').addEventListener("click", function () { salvarDesignerNaBiblioteca("rascunho", this); });
+    alvo.querySelector('[data-act="dg-salvar-aprovado"]').addEventListener("click", function () { salvarDesignerNaBiblioteca("aprovado", this); });
+    var btnImg = alvo.querySelector('[data-act="dg-imagem"]');
+    if (btnImg) btnImg.addEventListener("click", gerarImagemDesigner);
+  }
+
+  function gerarImagemDesigner() {
+    var area = document.getElementById("dg-imagem-area");
+    if (!area || !dgUltimo) return;
+    area.innerHTML = spinner("Gerando imagem base (pode levar 1-2 minutos)...");
+    api("/api/paid-ads/designer-imagem", {
+      method: "POST",
+      timeoutMs: 180000,
+      body: { prompt: dgUltimo.conceito.promptImagem }
+    })
+      .then(function (r) {
+        dgImagem = r;
+        area.innerHTML =
+          '<div class="dg-imagem"><img src="data:' + esc(r.mime) + ";base64," + r.base64 + '" alt="Imagem base gerada" />' +
+          '<div class="acoes"><a class="ct-btn-sec" download="imagem-base.png" href="data:' + esc(r.mime) + ";base64," + r.base64 + '">Baixar imagem</a>' +
+          '<button class="ct-btn-sec" data-act="dg-imagem-de-novo">Gerar outra</button></div>' +
+          '<p class="dg-imagem-nota">Imagem BASE (' + esc(r.modelo) + "): leve para o Canva e aplique a copy e a identidade do cliente.</p></div>";
+        var btn = area.querySelector('[data-act="dg-imagem-de-novo"]');
+        if (btn) btn.addEventListener("click", gerarImagemDesigner);
+      })
+      .catch(function (err) {
+        area.innerHTML = erroBloco(err);
+        ligarRetry(area, gerarImagemDesigner);
+      });
+  }
+
+  function salvarDesignerNaBiblioteca(status, btn) {
+    if (!dgUltimo) return;
+    var alvo = document.getElementById("dg-salvo");
+    var c = dgUltimo.conceito;
+    var titulo = c.titulo || c.copyDaArte.titulo || "Conceito de arte";
+    var copy = textoParaCopiarDesigner(c);
+    var tipo = TIPO_BIB_POR_FORMATO_DG[dgUltimo.formato] || "estatico";
+    btn.disabled = true;
+
+    var chamada = dgImagem
+      ? api("/api/paid-ads/biblioteca-upload", {
+          method: "POST",
+          timeoutMs: 180000,
+          body: {
+            titulo: titulo,
+            clienteId: dgUltimo.clienteId || "",
+            tipo: tipo,
+            status: status,
+            copy: copy,
+            arquivos: [{ nome: "imagem-base.png", mime: dgImagem.mime, base64: dgImagem.base64 }]
+          }
+        })
+      : api("/api/paid-ads/biblioteca", {
+          method: "POST",
+          body: {
+            titulo: titulo,
+            clienteId: dgUltimo.clienteId || "",
+            tipo: tipo,
+            status: status,
+            origem: "manual",
+            conteudo: { copy: copy }
+          }
+        });
+
+    chamada
+      .then(function () {
+        alvo.innerHTML = '<div class="ct-resultado ok">Salvo na Biblioteca como <b>' + status + "</b>" +
+          (dgImagem ? " (com a imagem base anexada)" : "") + ".</div>";
+        btn.disabled = false;
+      })
+      .catch(function (err) {
+        alvo.innerHTML = '<div class="ct-resultado erro">' + esc(err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message) + "</div>";
+        btn.disabled = false;
+      });
+  }
+
+  // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
   window.PulsarCentral = {
@@ -2800,6 +3044,7 @@
       if (id === "redator") renderRedator();
       if (id === "biblioteca") renderBiblioteca();
       if (id === "planejamento") renderPlanejamento();
+      if (id === "designer") renderDesigner();
     }
   };
 
