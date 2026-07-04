@@ -2170,30 +2170,29 @@
     return linhas.join("\n").trim();
   }
 
-  function renderResultadoRedator(alvo, r) {
-    var c = r.conteudo;
+  // Corpo visual de um conteudo gerado pelo Redator (reusado pela Biblioteca).
+  function corpoConteudoRedator(tipo, c) {
     var corpo = "";
-
-    if (r.tipo === "carrossel") {
+    if (tipo === "carrossel") {
       corpo += '<div class="ct-diag-bloco"><h4 style="color:var(--accent-hover);">Capa</h4>' +
-        '<p style="font-size:16px;font-weight:700;color:var(--text);">' + esc(c.capa.titulo) + "</p>" +
-        '<p style="font-size:13px;color:var(--text-2);margin-top:4px;">' + esc(c.capa.subtitulo) + "</p></div>" +
-        '<div class="red-slides">' + c.slides.map(function (s) {
+        '<p style="font-size:16px;font-weight:700;color:var(--text);">' + esc((c.capa || {}).titulo) + "</p>" +
+        '<p style="font-size:13px;color:var(--text-2);margin-top:4px;">' + esc((c.capa || {}).subtitulo) + "</p></div>" +
+        '<div class="red-slides">' + (c.slides || []).map(function (s) {
           return '<div class="red-slide"><span class="red-num">' + s.numero + "</span>" +
             '<div class="red-slide-titulo">' + esc(s.titulo) + '</div><div class="red-slide-texto">' + esc(s.texto) + "</div></div>";
         }).join("") + "</div>" +
         blocoTexto("CTA (slide final)", c.cta) +
         blocoTexto("Legenda", c.legenda) + hashtagsHtml(c.hashtags);
-    } else if (r.tipo === "reel") {
+    } else if (tipo === "reel") {
       corpo += '<div class="ct-diag-resumo" style="margin-bottom:12px;"><b>Gancho:</b> ' + esc(c.gancho) + "</div>" +
         '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr><th>Tempo</th><th>Fala</th><th>Texto na tela</th></tr></thead><tbody>' +
-        c.cenas.map(function (s) {
+        (c.cenas || []).map(function (s) {
           return '<tr><td style="white-space:nowrap;">' + esc(s.tempo) + "</td><td>" + esc(s.fala) + '</td><td style="color:var(--text-2);">' + esc(s.textoNaTela) + "</td></tr>";
         }).join("") + "</tbody></table></div>" +
         blocoTexto("CTA", c.cta) + blocoTexto("Legenda", c.legenda) + hashtagsHtml(c.hashtags);
-    } else if (r.tipo === "legenda") {
+    } else if (tipo === "legenda") {
       corpo += blocoTexto("Legenda", c.legenda) + blocoTexto("CTA", c.cta) + hashtagsHtml(c.hashtags);
-    } else {
+    } else if (tipo === "ideias") {
       corpo += '<div class="ct-diag-grid">' + (c.pilares || []).map(function (p) {
         return '<div class="ct-diag-bloco plano"><h4>' + esc(p.pilar) + "</h4><ul>" +
           p.ideias.map(function (i) {
@@ -2201,6 +2200,12 @@
           }).join("") + "</ul></div>";
       }).join("") + "</div>";
     }
+    return corpo;
+  }
+
+  function renderResultadoRedator(alvo, r) {
+    var c = r.conteudo;
+    var corpo = corpoConteudoRedator(r.tipo, c);
 
     var titulo = c.titulo || (redInfo.tipos.filter(function (t) { return t.id === r.tipo; })[0] || {}).titulo || r.tipo;
     alvo.innerHTML =
@@ -2238,6 +2243,261 @@
     alvo.querySelector('[data-act="red-salvar-aprovado"]').addEventListener("click", function () { salvar("aprovado", this); });
   }
 
+  // =====================================================================
+  // BIBLIOTECA (Etapa 5.2): repositorio central de conteudo por cliente
+  // =====================================================================
+  var TIPOS_BIB = [
+    { id: "anuncio", rotulo: "Anuncio" },
+    { id: "carrossel", rotulo: "Carrossel" },
+    { id: "reel", rotulo: "Reel" },
+    { id: "story", rotulo: "Story" },
+    { id: "estatico", rotulo: "Estatico" },
+    { id: "legenda", rotulo: "Legenda" },
+    { id: "ideias", rotulo: "Ideias" }
+  ];
+  var bibFiltro = { clienteId: "", tipo: "", status: "" };
+  var bibUploadAberto = false;
+  var bibItens = [];
+
+  function rotuloTipoBib(id) {
+    for (var i = 0; i < TIPOS_BIB.length; i++) if (TIPOS_BIB[i].id === id) return TIPOS_BIB[i].rotulo;
+    return id;
+  }
+
+  function urlMidia(m) {
+    return API + "/api/paid-ads/biblioteca-midia/" + encodeURIComponent(m.arquivo);
+  }
+
+  function renderBiblioteca() {
+    var root = document.getElementById("biblioteca-root");
+    var topo = document.getElementById("biblioteca-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Biblioteca...");
+    Promise.all([api("/api/paid-ads/biblioteca"), api("/api/paid-ads/clients")])
+      .then(function (r) {
+        bibItens = r[0].itens || [];
+        estado.clientes = r[1].clientes || [];
+        if (topo) {
+          topo.innerHTML = '<button class="btn-toolbar" data-act="bib-upload"><span class="mais">+</span> Upload de midia</button>';
+          topo.querySelector('[data-act="bib-upload"]').addEventListener("click", function () {
+            bibUploadAberto = !bibUploadAberto;
+            renderBibliotecaCorpo();
+          });
+        }
+        renderBibliotecaCorpo();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderBiblioteca);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function renderBibliotecaCorpo() {
+    var root = document.getElementById("biblioteca-root");
+    if (!root) return;
+
+    var filtrados = bibItens.filter(function (i) {
+      if (bibFiltro.clienteId && i.clienteId !== bibFiltro.clienteId) return false;
+      if (bibFiltro.tipo && i.tipo !== bibFiltro.tipo) return false;
+      if (bibFiltro.status && i.status !== bibFiltro.status) return false;
+      return true;
+    });
+
+    var h = "";
+    if (bibUploadAberto) h += htmlUploadBiblioteca();
+
+    h += '<div class="filtros" style="margin:0 0 22px;">' +
+      '<div class="campo"><label>Cliente</label><div class="select-wrap"><select id="bib-f-cliente">' +
+        '<option value="">Todos</option>' +
+        estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '"' + (bibFiltro.clienteId === c.id ? " selected" : "") + ">" + esc(c.nome) + "</option>"; }).join("") +
+      "</select></div></div>" +
+      '<div class="campo"><label>Tipo</label><span class="ct-periodo">' +
+        '<button data-bib-tipo=""' + (!bibFiltro.tipo ? ' class="ativo"' : "") + ">Todos</button>" +
+        TIPOS_BIB.map(function (t) { return '<button data-bib-tipo="' + t.id + '"' + (bibFiltro.tipo === t.id ? ' class="ativo"' : "") + ">" + t.rotulo + "</button>"; }).join("") +
+      "</span></div>" +
+      '<div class="campo"><label>Status</label><span class="ct-periodo">' +
+        [["", "Todos"], ["rascunho", "Rascunho"], ["aprovado", "Aprovado"]].map(function (s) {
+          return '<button data-bib-status="' + s[0] + '"' + (bibFiltro.status === s[0] ? ' class="ativo"' : "") + ">" + s[1] + "</button>";
+        }).join("") +
+      "</span></div>" +
+      '<div class="contador"><b>' + filtrados.length + "</b> item(ns)</div></div>";
+
+    if (!filtrados.length) {
+      h += '<div class="painel"><div class="vazio">Nenhum conteudo ' + (bibItens.length ? "com esses filtros" : "na Biblioteca ainda") +
+           '.<br/><br/>Gere algo no <b>Redator IA</b> e salve aqui, ou faca <b>Upload de midia</b>.</div></div>';
+    } else {
+      h += '<div class="galeria">' + filtrados.map(function (item, idx) {
+        var midia = (item.midia && item.midia[0]) || null;
+        var visual;
+        if (midia && midia.mime.indexOf("video/") === 0) {
+          visual = '<div class="media"><video controls preload="metadata" src="' + esc(urlMidia(midia)) + '"></video></div>';
+        } else if (midia) {
+          visual = '<div class="media"><img src="' + esc(urlMidia(midia)) + '" alt="' + esc(item.titulo) + '" loading="lazy" /></div>';
+        } else {
+          visual = '<div class="media bib-sem-midia"><span class="bib-tipo-icone">' + esc(rotuloTipoBib(item.tipo)) + "</span></div>";
+        }
+        return '<article class="card" data-bib="' + idx + '">' + visual +
+          '<div class="corpo">' +
+            '<div class="tags"><span class="tag nicho">' + esc(rotuloTipoBib(item.tipo)) + "</span>" +
+              '<span class="ct-badge ' + (item.status === "aprovado" ? "on" : "off") + '">' + esc(item.status) + "</span>" +
+              '<span class="tag">' + (item.origem === "redator" ? "Redator IA" : "Upload") + "</span></div>" +
+            '<div class="hook" style="font-size:15px;">' + esc(item.titulo) + "</div>" +
+            '<div class="hook-meta">' + (item.clienteNome ? esc(item.clienteNome) + " · " : "") + fmtData(item.criadoEm) + "</div>" +
+            '<div class="card-acoes">' +
+              '<button class="btn-sm salvar" data-bib-copiar="' + idx + '">Copiar</button>' +
+              '<button class="btn-sm" data-bib-status="' + idx + '">' + (item.status === "aprovado" ? "Voltar a rascunho" : "Aprovar") + "</button>" +
+              '<button class="btn-sm" data-bib-excluir="' + idx + '">Excluir</button>' +
+            "</div>" +
+            '<button class="btn-exp">Expandir</button>' +
+          "</div>" +
+          '<div class="detalhe">' + detalheBiblioteca(item) + "</div>" +
+        "</article>";
+      }).join("") + "</div>";
+    }
+
+    root.innerHTML = h;
+    ligarBiblioteca(root, filtrados);
+  }
+
+  function detalheBiblioteca(item) {
+    var h = "";
+    if (item.origem === "redator") {
+      h += corpoConteudoRedator(item.tipo, item.conteudo || {});
+    } else {
+      var copy = (item.conteudo || {}).copy;
+      if (copy) h += blocoTexto("Copy", copy);
+    }
+    if (item.midia && item.midia.length) {
+      h += '<div class="bloco"><h4>Midia (' + item.midia.length + ')</h4><div class="tags">' +
+        item.midia.map(function (m) {
+          return '<a class="tag link" href="' + esc(urlMidia(m)) + '" target="_blank" rel="noopener" download>' + esc(m.nome || m.arquivo) + "</a>";
+        }).join("") + "</div></div>";
+    }
+    return h || '<p style="color:var(--text-3);font-size:13px;">Sem conteudo adicional.</p>';
+  }
+
+  function ligarBiblioteca(root, filtrados) {
+    var selCliente = root.querySelector("#bib-f-cliente");
+    if (selCliente) selCliente.addEventListener("change", function () { bibFiltro.clienteId = this.value; renderBibliotecaCorpo(); });
+    root.querySelectorAll("[data-bib-tipo]").forEach(function (b) {
+      b.addEventListener("click", function () { bibFiltro.tipo = b.getAttribute("data-bib-tipo"); renderBibliotecaCorpo(); });
+    });
+    root.querySelectorAll("[data-bib-status]").forEach(function (b) {
+      if (b.tagName === "BUTTON" && b.closest(".ct-periodo")) {
+        b.addEventListener("click", function () { bibFiltro.status = b.getAttribute("data-bib-status"); renderBibliotecaCorpo(); });
+      }
+    });
+    root.querySelectorAll(".card .btn-exp").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest(".card");
+        var aberto = card.classList.toggle("aberto");
+        btn.textContent = aberto ? "Recolher" : "Expandir";
+      });
+    });
+    root.querySelectorAll("[data-bib-copiar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var item = filtrados[Number(b.getAttribute("data-bib-copiar"))];
+        var texto = item.origem === "redator"
+          ? textoParaCopiar(item.tipo, item.conteudo || {})
+          : String((item.conteudo || {}).copy || item.titulo);
+        copiarTexto(texto, b);
+      });
+    });
+    root.querySelectorAll(".card [data-bib-status]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var item = filtrados[Number(b.getAttribute("data-bib-status"))];
+        api("/api/paid-ads/biblioteca-acao", { method: "POST", body: { id: item.id, acao: "status", status: item.status === "aprovado" ? "rascunho" : "aprovado" } })
+          .then(renderBiblioteca)
+          .catch(function (err) { window.alert("Erro: " + err.message); });
+      });
+    });
+    root.querySelectorAll("[data-bib-excluir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var item = filtrados[Number(b.getAttribute("data-bib-excluir"))];
+        if (!window.confirm('Excluir "' + item.titulo + '" da Biblioteca? As midias do item tambem serao apagadas.')) return;
+        api("/api/paid-ads/biblioteca-acao", { method: "POST", body: { id: item.id, acao: "excluir" } })
+          .then(renderBiblioteca)
+          .catch(function (err) { window.alert("Erro: " + err.message); });
+      });
+    });
+    ligarUploadBiblioteca(root);
+  }
+
+  function htmlUploadBiblioteca() {
+    return '<div class="ct-form" id="bib-upload-form">' +
+      "<h3>Upload de midia</h3>" +
+      '<div class="ct-form-grid">' +
+        '<div class="campo"><label>Titulo *</label><input type="text" name="bib-titulo" placeholder="Ex.: Criativo video depoimento v2" /></div>' +
+        '<div class="campo"><label>Cliente</label><div class="select-wrap"><select name="bib-cliente"><option value="">— sem cliente —</option>' +
+          estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
+        "</select></div></div>" +
+        '<div class="campo"><label>Tipo</label><div class="select-wrap"><select name="bib-tipo">' +
+          ["anuncio", "story", "estatico", "carrossel", "reel"].map(function (t) { return '<option value="' + t + '">' + rotuloTipoBib(t) + "</option>"; }).join("") +
+        "</select></div></div>" +
+        '<div class="campo"><label>Status</label><div class="select-wrap"><select name="bib-status"><option value="rascunho">Rascunho</option><option value="aprovado">Aprovado</option></select></div></div>' +
+      "</div>" +
+      '<div class="campo" style="margin-bottom:14px;"><label>Copy / observacao (opcional)</label><textarea name="bib-copy" placeholder="Copy do anuncio, contexto da arte..."></textarea></div>' +
+      '<div class="campo" style="margin-bottom:6px;"><label>Arquivos (imagem ou video, ate 40MB no total)</label>' +
+        '<input type="file" name="bib-arquivos" multiple accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime" /></div>' +
+      '<div class="ct-form-acoes">' +
+        '<button class="btn-toolbar" data-act="bib-enviar">Enviar para a Biblioteca</button>' +
+        '<button class="ct-btn-sec" data-act="bib-cancelar">Cancelar</button>' +
+      "</div>" +
+      '<div class="ct-erro-form" id="bib-upload-erro"></div>' +
+    "</div>";
+  }
+
+  function ligarUploadBiblioteca(root) {
+    var form = root.querySelector("#bib-upload-form");
+    if (!form) return;
+    form.querySelector('[data-act="bib-cancelar"]').addEventListener("click", function () { bibUploadAberto = false; renderBibliotecaCorpo(); });
+    form.querySelector('[data-act="bib-enviar"]').addEventListener("click", function () {
+      var btn = this;
+      var erroEl = form.querySelector("#bib-upload-erro");
+      var titulo = form.querySelector('[name="bib-titulo"]').value.trim();
+      var input = form.querySelector('[name="bib-arquivos"]');
+      var arquivos = input.files ? Array.prototype.slice.call(input.files) : [];
+      if (!titulo) { erroEl.textContent = "Preencha o titulo."; return; }
+      if (!arquivos.length) { erroEl.textContent = "Selecione ao menos um arquivo de imagem ou video."; return; }
+      var total = arquivos.reduce(function (s, f) { return s + f.size; }, 0);
+      if (total > 40 * 1024 * 1024) { erroEl.textContent = "Total acima de 40MB. Envie arquivos menores."; return; }
+      erroEl.textContent = "";
+      btn.disabled = true;
+      btn.textContent = "Enviando...";
+
+      Promise.all(arquivos.map(function (f) {
+        return new Promise(function (ok, falha) {
+          var leitor = new FileReader();
+          leitor.onload = function () {
+            ok({ nome: f.name, mime: f.type, base64: String(leitor.result).split(",")[1] || "" });
+          };
+          leitor.onerror = function () { falha(new Error("Falha ao ler " + f.name)); };
+          leitor.readAsDataURL(f);
+        });
+      }))
+        .then(function (lidos) {
+          return api("/api/paid-ads/biblioteca-upload", {
+            method: "POST",
+            timeoutMs: 180000,
+            body: {
+              titulo: titulo,
+              clienteId: form.querySelector('[name="bib-cliente"]').value,
+              tipo: form.querySelector('[name="bib-tipo"]').value,
+              status: form.querySelector('[name="bib-status"]').value,
+              copy: form.querySelector('[name="bib-copy"]').value,
+              arquivos: lidos
+            }
+          });
+        })
+        .then(function () { bibUploadAberto = false; renderBiblioteca(); })
+        .catch(function (err) {
+          btn.disabled = false;
+          btn.textContent = "Enviar para a Biblioteca";
+          erroEl.textContent = err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message;
+        });
+    });
+  }
+
   // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
@@ -2249,6 +2509,7 @@
       if (id === "tracking") renderTracking();
       if (id === "automacoes") renderAutomacoes();
       if (id === "redator") renderRedator();
+      if (id === "biblioteca") renderBiblioteca();
     }
   };
 

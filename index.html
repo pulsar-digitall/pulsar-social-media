@@ -519,15 +519,18 @@
         </div>
       </section>
 
-      <!-- AREA: BIBLIOTECA (placeholder) -->
+      <!-- AREA: BIBLIOTECA (Etapa 5.2) -->
       <section class="area" id="area-biblioteca" data-area="biblioteca">
-        <div class="area-topo"><h2>Biblioteca</h2><div class="desc">Repositorio central de conteudo por cliente.</div></div>
-        <div class="area-corpo">
-          <div class="em-construcao">
-            <span class="selo"><span class="ponto"></span>Em construcao</span>
-            <p>Repositorio de anuncios, artes aprovadas, carrosseis e roteiros gerados pelo Redator, organizados por cliente e tipo.</p>
+        <div class="area-topo">
+          <div class="titulo-linha" style="justify-content: space-between; flex-wrap: wrap; row-gap: 12px;">
+            <div>
+              <h2>Biblioteca</h2>
+              <div class="desc" style="margin-top: 2px;">Repositorio central de conteudo por cliente: anuncios, artes, carrosseis e roteiros.</div>
+            </div>
+            <div id="biblioteca-topo" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
           </div>
         </div>
+        <div class="area-corpo" id="biblioteca-root"></div>
       </section>
 
       <!-- AREA: RELATORIOS (placeholder) -->
@@ -629,7 +632,7 @@
           { id: "redator", rotulo: "Redator IA" },
           { id: "designer", rotulo: "Designer IA", badge: "Em breve" },
           { id: "swipeorganico", rotulo: "Swipe Organico", badge: "Em breve" },
-          { id: "biblioteca", rotulo: "Biblioteca", badge: "Em breve" }
+          { id: "biblioteca", rotulo: "Biblioteca" }
         ] },
         { titulo: "Entregas", areas: [
           { id: "relatorios", rotulo: "Relatorios", badge: "Em breve" },

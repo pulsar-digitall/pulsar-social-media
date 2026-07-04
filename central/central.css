@@ -267,6 +267,29 @@
 .red-slide-titulo { font-size: 13.5px; font-weight: 700; color: var(--text); }
 .red-slide-texto { font-size: 12.5px; color: var(--text-2); margin-top: 4px; line-height: 1.5; }
 
+/* ---------- Biblioteca (Etapa 5.2) ---------- */
+.bib-sem-midia { aspect-ratio: 16 / 10 !important; max-height: 220px !important; }
+.bib-tipo-icone {
+  font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--accent-hover); background: var(--accent-soft);
+  padding: 8px 16px; border-radius: var(--radius-pill);
+}
+#bib-upload-form input[type="file"] {
+  width: 100%; padding: 10px; font-size: 13px; font-family: inherit; color: var(--text-2);
+  background: var(--surface); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm);
+}
+#bib-upload-form textarea {
+  width: 100%; min-height: 70px; resize: vertical;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 10px 13px; font-size: 13.5px; font-family: inherit; outline: none;
+}
+#bib-upload-form input[type="text"] {
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 10px 13px; font-size: 14px; font-family: inherit; outline: none; width: 100%;
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 860px) {
   .trk-item { flex-wrap: wrap; }
