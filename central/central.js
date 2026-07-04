@@ -41,14 +41,48 @@
   }
   function spinner(texto) { return '<div class="ct-carregando"><span class="spin"></span>' + esc(texto || "Carregando...") + "</div>"; }
 
+  // Chave de acesso da API (Etapa 7): vive SO neste navegador (localStorage).
+  // O backend local sem CENTRAL_API_KEY nunca pede chave.
+  function chaveApi() {
+    try { return localStorage.getItem("pulsar_api_key") || ""; } catch (e) { return ""; }
+  }
+
+  function pedirChaveApi(mensagem) {
+    if (document.getElementById("ct-chave-overlay")) return;
+    var div = document.createElement("div");
+    div.id = "ct-chave-overlay";
+    div.innerHTML =
+      '<div class="caixa">' +
+        "<h3>Chave da Central</h3>" +
+        '<p>' + esc(mensagem || "Este backend exige a chave de acesso da Central (CENTRAL_API_KEY). Ela fica salva so neste navegador.") + "</p>" +
+        '<input type="password" id="ct-chave-input" placeholder="Cole a chave aqui" autocomplete="off" />' +
+        '<div class="acoes"><button class="btn-toolbar" id="ct-chave-salvar">Entrar</button></div>' +
+        '<div class="ct-erro-form" id="ct-chave-erro"></div>' +
+      "</div>";
+    document.body.appendChild(div);
+    var input = div.querySelector("#ct-chave-input");
+    function salvar() {
+      var valor = input.value.trim();
+      if (!valor) { div.querySelector("#ct-chave-erro").textContent = "Cole a chave para entrar."; return; }
+      try { localStorage.setItem("pulsar_api_key", valor); } catch (e) {}
+      window.location.reload();
+    }
+    div.querySelector("#ct-chave-salvar").addEventListener("click", salvar);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") salvar(); });
+    input.focus();
+  }
+
   // fetch com timeout; erros de rede viram { offline: true }
   function api(caminho, opts) {
     opts = opts || {};
     var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
     var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, opts.timeoutMs || 60000) : null;
+    var headers = { "Content-Type": "application/json" };
+    var chave = chaveApi();
+    if (chave) headers["X-Api-Key"] = chave;
     var init = {
       method: opts.method || "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: headers,
       signal: ctrl ? ctrl.signal : undefined
     };
     if (opts.body) init.body = JSON.stringify(opts.body);
@@ -60,6 +94,10 @@
             var err = new Error((dados && dados.erro) || ("Erro HTTP " + resp.status));
             err.status = resp.status;
             err.payload = dados;
+            if (resp.status === 401 && dados && dados.chaveNecessaria) {
+              try { localStorage.removeItem("pulsar_api_key"); } catch (e) {}
+              pedirChaveApi(chave ? "Chave invalida ou trocada no backend. Cole a chave atual da Central." : null);
+            }
             throw err;
           }
           return dados;
