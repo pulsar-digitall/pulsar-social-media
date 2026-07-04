@@ -2499,6 +2499,295 @@
   }
 
   // ---------------------------------------------------------------------
+  // AREA: PLANEJAMENTO (Etapa 5.3)
+  // Calendario mensal por cliente. SEM publicacao automatica: so organiza
+  // data/formato/status e linka a Biblioteca; publicar e manual (Meta
+  // Business Suite ou GoHighLevel).
+  // ---------------------------------------------------------------------
+  var ROTULOS_FORMATO_PLAN = { carrossel: "Carrossel", reel: "Reel", story: "Story", estatico: "Estatico", anuncio: "Anuncio" };
+  var ROTULOS_STATUS_PLAN = { ideia: "Ideia", em_producao: "Em producao", pronto: "Pronto", publicado: "Publicado" };
+  var NOMES_MES_PLAN = ["Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  var DIAS_SEMANA_PLAN = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+
+  var planCliente = "";
+  var planMes = "";
+  var planItens = [];
+  var planAviso = "";
+  var planBibOpcoes = [];
+  var planFormAberto = null; // null fechado, ou { id, data, formato, status, titulo, observacao, bibliotecaId }
+
+  function mesAtualPlan() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+  function hojeIsoPlan() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+  function nomeMesPlan(mes) {
+    var p = mes.split("-");
+    return NOMES_MES_PLAN[Number(p[1]) - 1] + " de " + p[0];
+  }
+  function shiftMesPlan(mes, delta) {
+    var p = mes.split("-").map(Number);
+    var d = new Date(p[0], p[1] - 1 + delta, 1);
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+  function ddmmPlan(iso) {
+    var p = iso.split("-");
+    return p[2] + "/" + p[1] + "/" + p[0];
+  }
+
+  function renderPlanejamento() {
+    var root = document.getElementById("planejamento-root");
+    var topo = document.getElementById("plan-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Planejamento...");
+    if (topo) topo.innerHTML = "";
+    api("/api/paid-ads/clients")
+      .then(function (r) {
+        estado.clientes = r.clientes || [];
+        if (!planCliente || !estado.clientes.some(function (c) { return c.id === planCliente; })) {
+          planCliente = estado.clientes.length ? estado.clientes[0].id : "";
+        }
+        if (!planMes) planMes = mesAtualPlan();
+        carregarPlanejamento();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderPlanejamento);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function carregarPlanejamento() {
+    var root = document.getElementById("planejamento-root");
+    if (!root) return;
+    if (!planCliente) {
+      root.innerHTML = '<div class="painel"><div class="vazio">Cadastre um cliente na area <b>Clientes</b> para comecar a planejar conteudo.</div></div>';
+      return;
+    }
+    root.innerHTML = spinner("Carregando Planejamento...");
+    Promise.all([
+      api("/api/paid-ads/planejamento?clienteId=" + encodeURIComponent(planCliente) + "&mes=" + planMes),
+      api("/api/paid-ads/biblioteca?clienteId=" + encodeURIComponent(planCliente))
+    ])
+      .then(function (r) {
+        planItens = r[0].slots || [];
+        planAviso = r[0].aviso || "";
+        planBibOpcoes = r[1].itens || [];
+        renderPlanejamentoCorpo();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, carregarPlanejamento);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function diasDoCalendarioPlan(mes) {
+    var p = mes.split("-").map(Number);
+    var ano = p[0], mesIdx = p[1] - 1;
+    var primeiro = new Date(ano, mesIdx, 1);
+    var ultimoDiaMes = new Date(ano, mesIdx + 1, 0).getDate();
+    var inicioSemana = primeiro.getDay(); // 0 = domingo
+    var dias = [];
+    // dias do mes anterior para completar a 1a semana
+    for (var i = inicioSemana - 1; i >= 0; i--) {
+      var d1 = new Date(ano, mesIdx, -i);
+      dias.push({ iso: isoDe(d1), fora: true });
+    }
+    for (var n = 1; n <= ultimoDiaMes; n++) {
+      dias.push({ iso: isoDe(new Date(ano, mesIdx, n)), fora: false });
+    }
+    while (dias.length % 7 !== 0) {
+      var ultimo = new Date(dias[dias.length - 1].iso + "T00:00:00");
+      var prox = new Date(ultimo.getFullYear(), ultimo.getMonth(), ultimo.getDate() + 1);
+      dias.push({ iso: isoDe(prox), fora: true });
+    }
+    return dias;
+  }
+  function isoDe(d) {
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function htmlCalendarioPlan() {
+    var porDia = {};
+    planItens.forEach(function (s) {
+      (porDia[s.data] = porDia[s.data] || []).push(s);
+    });
+    var dias = diasDoCalendarioPlan(planMes);
+    var hoje = hojeIsoPlan();
+
+    var h = '<div class="pl-cal">' +
+      '<div class="pl-cal-head">' +
+        '<div class="pl-cal-nav"><button data-act="plan-mes-ant" aria-label="Mes anterior">&#8249;</button><button data-act="plan-mes-prox" aria-label="Proximo mes">&#8250;</button></div>' +
+        '<div class="pl-cal-titulo">' + esc(nomeMesPlan(planMes)) + "</div>" +
+        '<button class="pl-cal-hoje" data-act="plan-hoje">Hoje</button>' +
+        '<div class="pl-legenda">' + Object.keys(ROTULOS_STATUS_PLAN).map(function (s) {
+          return '<span class="pl-legenda-item st-' + s + '"><span class="dot"></span>' + ROTULOS_STATUS_PLAN[s] + "</span>";
+        }).join("") + "</div>" +
+      "</div>" +
+      '<div class="pl-grid">' +
+      DIAS_SEMANA_PLAN.map(function (n) { return '<div class="pl-semana">' + n + "</div>"; }).join("");
+
+    dias.forEach(function (dia) {
+      var itens = porDia[dia.iso] || [];
+      var visiveis = itens.slice(0, 3);
+      var resto = itens.length - visiveis.length;
+      h += '<div class="pl-dia' + (dia.fora ? " fora" : "") + (dia.iso === hoje ? " hoje" : "") + '" data-plan-dia="' + dia.iso + '">' +
+        '<div class="pl-dia-num">' + Number(dia.iso.split("-")[2]) + "</div>" +
+        '<button class="pl-dia-add" data-plan-add="' + dia.iso + '" title="Novo item neste dia">+</button>' +
+        '<div class="pl-chips">' + visiveis.map(function (s) {
+          return '<button class="pl-chip st-' + s.status + '" data-plan-abrir="' + s.id + '"><span class="dot"></span><span class="txt">' + esc(s.titulo) + "</span></button>";
+        }).join("") +
+        (resto > 0 ? '<button class="pl-mais" data-plan-maisdia="' + dia.iso + '">+' + resto + " mais</button>" : "") +
+        "</div></div>";
+    });
+
+    h += "</div></div>";
+    return h;
+  }
+
+  function htmlFormPlanejamento() {
+    var f = planFormAberto;
+    var editando = Boolean(f.id);
+    return '<div class="ct-form" id="plan-form">' +
+      "<h3>" + (editando ? "Editar item" : "Novo item") + "</h3>" +
+      '<div class="ct-form-grid">' +
+        '<div class="campo"><label>Data *</label><input type="date" name="plan-data" value="' + esc(f.data) + '" /></div>' +
+        '<div class="campo"><label>Formato</label><div class="select-wrap"><select name="plan-formato">' +
+          Object.keys(ROTULOS_FORMATO_PLAN).map(function (id) { return '<option value="' + id + '"' + (f.formato === id ? " selected" : "") + ">" + ROTULOS_FORMATO_PLAN[id] + "</option>"; }).join("") +
+        "</select></div></div>" +
+        '<div class="campo"><label>Status</label><div class="select-wrap"><select name="plan-status">' +
+          Object.keys(ROTULOS_STATUS_PLAN).map(function (id) { return '<option value="' + id + '"' + (f.status === id ? " selected" : "") + ">" + ROTULOS_STATUS_PLAN[id] + "</option>"; }).join("") +
+        "</select></div></div>" +
+        '<div class="campo"><label>Vincular Biblioteca</label><div class="select-wrap"><select name="plan-biblioteca"><option value="">— sem vinculo —</option>' +
+          planBibOpcoes.map(function (i) { return '<option value="' + esc(i.id) + '"' + (f.bibliotecaId === i.id ? " selected" : "") + ">" + esc(i.titulo) + "</option>"; }).join("") +
+        "</select></div></div>" +
+      "</div>" +
+      '<div class="campo" style="margin-bottom:14px;"><label>Titulo *</label><input type="text" name="plan-titulo" value="' + esc(f.titulo) + '" placeholder="Ex.: Carrossel depoimento paciente" /></div>' +
+      '<div class="campo" style="margin-bottom:6px;"><label>Observacao (opcional)</label><textarea name="plan-observacao" placeholder="Contexto, briefing, lembrete...">' + esc(f.observacao) + "</textarea></div>" +
+      '<div class="ct-form-acoes">' +
+        '<button class="btn-toolbar" data-act="plan-salvar">Salvar</button>' +
+        (editando ? '<button class="ct-btn-perigo" data-act="plan-excluir">Excluir</button>' : "") +
+        '<button class="ct-btn-sec" data-act="plan-cancelar">Cancelar</button>' +
+      "</div>" +
+      '<div class="ct-erro-form" id="plan-form-erro"></div>' +
+    "</div>";
+  }
+
+  function renderPlanejamentoCorpo() {
+    var root = document.getElementById("planejamento-root");
+    var topo = document.getElementById("plan-topo");
+    if (!root) return;
+
+    if (topo) {
+      topo.innerHTML =
+        '<div class="select-wrap"><select id="plan-f-cliente">' +
+          estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === planCliente ? " selected" : "") + ">" + esc(c.nome) + "</option>"; }).join("") +
+        "</select></div>" +
+        '<button class="btn-toolbar" data-act="plan-novo"><span class="mais">+</span> Novo item</button>';
+      var selCliente = topo.querySelector("#plan-f-cliente");
+      selCliente.addEventListener("change", function () {
+        planCliente = this.value;
+        planFormAberto = null;
+        carregarPlanejamento();
+      });
+      topo.querySelector('[data-act="plan-novo"]').addEventListener("click", function () {
+        planFormAberto = { id: null, data: planMes === mesAtualPlan() ? hojeIsoPlan() : planMes + "-01", formato: "carrossel", status: "ideia", titulo: "", observacao: "", bibliotecaId: "" };
+        renderPlanejamentoCorpo();
+      });
+    }
+
+    var h = "";
+    if (planAviso) h += '<div class="ct-nota">' + esc(planAviso) + "</div>";
+    if (planFormAberto) h += htmlFormPlanejamento();
+    h += htmlCalendarioPlan();
+
+    root.innerHTML = h;
+    ligarPlanejamento(root);
+  }
+
+  function abrirEdicaoPlan(id) {
+    var s = planItens.filter(function (i) { return i.id === id; })[0];
+    if (!s) return;
+    planFormAberto = { id: s.id, data: s.data, formato: s.formato, status: s.status, titulo: s.titulo, observacao: s.observacao || "", bibliotecaId: s.bibliotecaId || "" };
+    renderPlanejamentoCorpo();
+  }
+
+  function ligarPlanejamento(root) {
+    root.querySelectorAll("[data-plan-abrir]").forEach(function (b) {
+      b.addEventListener("click", function () { abrirEdicaoPlan(b.getAttribute("data-plan-abrir")); });
+    });
+    root.querySelectorAll("[data-plan-add]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        planFormAberto = { id: null, data: b.getAttribute("data-plan-add"), formato: "carrossel", status: "ideia", titulo: "", observacao: "", bibliotecaId: "" };
+        renderPlanejamentoCorpo();
+      });
+    });
+    root.querySelectorAll("[data-plan-maisdia]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var dia = b.getAttribute("data-plan-maisdia");
+        var itens = planItens.filter(function (i) { return i.data === dia; });
+        if (itens.length) abrirEdicaoPlan(itens[0].id);
+      });
+    });
+    var navAnt = root.querySelector('[data-act="plan-mes-ant"]');
+    var navProx = root.querySelector('[data-act="plan-mes-prox"]');
+    var navHoje = root.querySelector('[data-act="plan-hoje"]');
+    if (navAnt) navAnt.addEventListener("click", function () { planMes = shiftMesPlan(planMes, -1); carregarPlanejamento(); });
+    if (navProx) navProx.addEventListener("click", function () { planMes = shiftMesPlan(planMes, 1); carregarPlanejamento(); });
+    if (navHoje) navHoje.addEventListener("click", function () { planMes = mesAtualPlan(); carregarPlanejamento(); });
+
+    var form = root.querySelector("#plan-form");
+    if (form) {
+      form.querySelector('[data-act="plan-cancelar"]').addEventListener("click", function () { planFormAberto = null; renderPlanejamentoCorpo(); });
+      form.querySelector('[data-act="plan-salvar"]').addEventListener("click", function () {
+        var btn = this;
+        var erroEl = form.querySelector("#plan-form-erro");
+        var data = form.querySelector('[name="plan-data"]').value;
+        var titulo = form.querySelector('[name="plan-titulo"]').value.trim();
+        if (!data) { erroEl.textContent = "Preencha a data."; return; }
+        if (!titulo) { erroEl.textContent = "Preencha o titulo."; return; }
+        erroEl.textContent = "";
+        btn.disabled = true;
+        btn.textContent = "Salvando...";
+        var corpo = {
+          data: data,
+          formato: form.querySelector('[name="plan-formato"]').value,
+          status: form.querySelector('[name="plan-status"]').value,
+          titulo: titulo,
+          observacao: form.querySelector('[name="plan-observacao"]').value,
+          bibliotecaId: form.querySelector('[name="plan-biblioteca"]').value
+        };
+        var chamada = planFormAberto.id
+          ? api("/api/paid-ads/planejamento-acao", { method: "POST", body: Object.assign({ id: planFormAberto.id, acao: "atualizar" }, corpo) })
+          : api("/api/paid-ads/planejamento", { method: "POST", body: Object.assign({ clienteId: planCliente }, corpo) });
+        chamada
+          .then(function () {
+            var novaData = data;
+            planFormAberto = null;
+            if (novaData.slice(0, 7) !== planMes) planMes = novaData.slice(0, 7);
+            carregarPlanejamento();
+          })
+          .catch(function (err) {
+            btn.disabled = false;
+            btn.textContent = "Salvar";
+            erroEl.textContent = err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message;
+          });
+      });
+      var btnExcluir = form.querySelector('[data-act="plan-excluir"]');
+      if (btnExcluir) {
+        btnExcluir.addEventListener("click", function () {
+          if (!window.confirm('Excluir "' + planFormAberto.titulo + '" do planejamento?')) return;
+          api("/api/paid-ads/planejamento-acao", { method: "POST", body: { id: planFormAberto.id, acao: "excluir" } })
+            .then(function () { planFormAberto = null; carregarPlanejamento(); })
+            .catch(function (err) { window.alert("Erro: " + err.message); });
+        });
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
   window.PulsarCentral = {
@@ -2510,6 +2799,7 @@
       if (id === "automacoes") renderAutomacoes();
       if (id === "redator") renderRedator();
       if (id === "biblioteca") renderBiblioteca();
+      if (id === "planejamento") renderPlanejamento();
     }
   };
 

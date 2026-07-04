@@ -471,16 +471,18 @@
         <div class="area-corpo" id="gestor-root"></div>
       </section>
 
-      <!-- AREA: PLANEJAMENTO (placeholder) -->
+      <!-- AREA: PLANEJAMENTO (Etapa 5.3) -->
       <section class="area" id="area-planejamento" data-area="planejamento">
-        <div class="area-topo"><h2>Planejamento</h2><div class="desc">Calendario mensal de conteudo por cliente.</div></div>
-        <div class="area-corpo">
-          <div class="em-construcao">
-            <span class="selo"><span class="ponto"></span>Em construcao</span>
-            <p>Calendario mensal por cliente: cada slot com data, formato e status (ideia, em producao, pronto, publicado), linkando para o conteudo na Biblioteca.</p>
-            <p class="nota">Sem publicacao automatica: o conteudo pronto e copiado/baixado e publicado via Meta Business Suite ou GoHighLevel.</p>
+        <div class="area-topo">
+          <div class="titulo-linha" style="justify-content: space-between; flex-wrap: wrap; row-gap: 12px;">
+            <div>
+              <h2>Planejamento</h2>
+              <div class="desc" style="margin-top: 2px;">Calendario mensal de conteudo por cliente, linkado a Biblioteca.</div>
+            </div>
+            <div id="plan-topo" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
           </div>
         </div>
+        <div class="area-corpo" id="planejamento-root"></div>
       </section>
 
       <!-- AREA: REDATOR IA (Etapa 5.1) -->
@@ -628,7 +630,7 @@
           { id: "swipe", rotulo: "Swipe de Anuncios" }
         ] },
         { titulo: "Social Media", areas: [
-          { id: "planejamento", rotulo: "Planejamento", badge: "Em breve" },
+          { id: "planejamento", rotulo: "Planejamento" },
           { id: "redator", rotulo: "Redator IA" },
           { id: "designer", rotulo: "Designer IA", badge: "Em breve" },
           { id: "swipeorganico", rotulo: "Swipe Organico", badge: "Em breve" },
