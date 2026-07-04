@@ -51,6 +51,9 @@
     .brand-fallback .wordmark i { color: var(--accent); font-style: normal; }
     .brand .sub { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); padding-left: 2px; }
 
+    /* O menu rola internamente quando nao cabe; o rodape (toggle de tema)
+       fica sempre visivel. */
+    #nav-grupos { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
     .nav-grupo { padding: 0 8px; }
     .nav-grupo .titulo { font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; padding-left: 4px; }
     nav.areas { display: flex; flex-direction: column; gap: 3px; }
