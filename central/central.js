@@ -228,7 +228,10 @@
           campo("Contas adicionais (multi-conta, separadas por virgula)", "adAccountIds", (c.adAccountIds || []).join(", "), "text", "act_111, act_222") +
           campo("Google Ads Customer ID", "googleAdsCustomerId", c.googleAdsCustomerId, "text", "1234567890") +
           campo("Page ID (Facebook)", "pageId", c.pageId) +
-          campo("Instagram ID", "instagramId", c.instagramId) +
+          '<div class="campo"><label>Instagram ID (visitas ao perfil)</label>' +
+            '<div style="display:flex;gap:6px;"><input type="text" name="instagramId" value="' + esc(c.instagramId || "") + '" placeholder="ID da conta IG business" style="flex:1;" />' +
+            (editando ? '<button type="button" class="ct-btn-sec" data-act="detectar-ig" style="white-space:nowrap;">Detectar</button>' : "") + "</div>" +
+            '<div id="ig-detect" style="font-size:12px;color:var(--text-3);margin-top:4px;"></div></div>' +
           campo("Pixel ID", "pixelId", c.pixelId) +
           campo("Moeda", "moeda", c.moeda || "BRL") +
           campo("Timezone", "timezone", c.timezone || "America/Sao_Paulo") +
@@ -275,7 +278,29 @@
       if (act === "editar") el.addEventListener("click", function () { estado.formEditandoId = el.getAttribute("data-id"); renderClientes(); window.scrollTo({ top: 0, behavior: "smooth" }); });
       if (act === "abrir") el.addEventListener("click", function () { abrirNoGestor(el.getAttribute("data-id")); });
       if (act === "salvar-cliente") el.addEventListener("click", salvarClienteDoForm);
+      if (act === "detectar-ig") el.addEventListener("click", detectarInstagram);
     });
+  }
+
+  // Detecta as contas IG vinculadas a conta de anuncio do cliente em edicao.
+  function detectarInstagram() {
+    var alvo = document.getElementById("ig-detect");
+    var id = estado.formEditandoId;
+    if (!id) { alvo.textContent = "Salve o cliente primeiro para detectar."; return; }
+    alvo.textContent = "Buscando contas Instagram vinculadas...";
+    api("/api/paid-ads/clients/" + encodeURIComponent(id) + "/instagram-contas")
+      .then(function (r) {
+        var contas = r.contas || [];
+        if (!contas.length) { alvo.textContent = r.aviso || "Nenhuma conta Instagram vinculada a esta conta de anuncio."; return; }
+        var input = document.querySelector('#ct-form-cliente [name="instagramId"]');
+        alvo.innerHTML = "Clique para usar: " + contas.map(function (c) {
+          return '<button type="button" class="ct-link" data-ig="' + esc(c.id) + '">@' + esc(c.username) + "</button>";
+        }).join(" · ");
+        alvo.querySelectorAll("[data-ig]").forEach(function (b) {
+          b.addEventListener("click", function () { input.value = b.getAttribute("data-ig"); alvo.innerHTML = "Selecionado: @" + b.textContent.replace("@", "") + " (" + b.getAttribute("data-ig") + "). Salve para aplicar."; });
+        });
+      })
+      .catch(function (err) { alvo.textContent = "Erro: " + err.message; });
   }
 
   function salvarClienteDoForm() {
@@ -3754,6 +3779,27 @@
     carregarHistoricoRel(cli);
   }
 
+  var relCampos = null; // campos estruturados do relatorio atual (editaveis)
+
+  // Assembla o texto final do WhatsApp a partir dos campos (espelha o backend).
+  function montarTextoRel(campos) {
+    return campos.map(function (l) {
+      if (l.tipo === "texto") return l.valor;
+      var v = (l.valor == null ? "" : String(l.valor)).trim();
+      if (l.opcional && !v) return null;
+      var mid = !v ? "[PREENCHER]" : (v === "—" ? "—" : (l.negrito ? "*" + v + "*" : v));
+      return (l.prefixo || "") + mid + (l.sufixo || "");
+    }).filter(function (x) { return x != null; }).join("\n");
+  }
+
+  function atualizarPreviewRel() {
+    var pv = document.getElementById("rel-final");
+    if (pv) pv.value = montarTextoRel(relCampos);
+    var faltam = relCampos.some(function (l) { return l.tipo === "campo" && !l.opcional && !(String(l.valor || "").trim()); });
+    var aviso = document.getElementById("rel-aviso-preencher");
+    if (aviso) aviso.style.display = faltam ? "inline" : "none";
+  }
+
   function gerarRelatorioTela(cli) {
     var alvo = document.getElementById("rel-resultado");
     if (!relState.since || !relState.until || relState.since > relState.until) {
@@ -3766,29 +3812,45 @@
       body: { tipo: "whatsapp", since: relState.since, until: relState.until }
     })
       .then(function (r) {
-        var temPreencher = (r.conteudo || "").indexOf("[PREENCHER]") >= 0;
+        relCampos = r.campos || [];
         // O relatorio WhatsApp nao tem secao Google: nao poluir com esse aviso.
         var avisos = (r.avisos || []).filter(function (a) { return a.indexOf("Google") < 0; });
         var h = avisosHtml(avisos);
-        h += '<div class="ct-preview-wa">' +
-             '<div style="font-size:12px;color:var(--text-3);margin-bottom:6px;">Preview editavel — ajuste o que precisar (o negrito *asterisco* cola formatado no WhatsApp)' +
-             (temPreencher ? ' <span style="color:var(--warning);font-weight:600;">· preencha os campos [PREENCHER] antes de copiar</span>' : "") + "</div>" +
-             '<textarea id="rel-wa-texto" spellcheck="false">' + esc(r.conteudo) + "</textarea>" +
+        h += '<div class="rel-editor"><div class="rel-editor-titulo">Campos do relatorio — clique e ajuste qualquer um.' +
+             ' <span id="rel-aviso-preencher" style="color:var(--warning);font-weight:600;display:none;">Ha campos [PREENCHER] em branco.</span></div>';
+        relCampos.forEach(function (l, i) {
+          if (l.tipo === "texto") {
+            h += '<div class="rel-linha"><input class="rel-in rel-in-texto" data-rel-i="' + i + '" value="' + esc(l.valor) + '" spellcheck="false" /></div>';
+          } else {
+            var vazio = !(String(l.valor || "").trim());
+            h += '<div class="rel-linha">' +
+              (l.prefixo ? '<span class="rel-pre">' + esc(l.prefixo) + "</span>" : "") +
+              '<input class="rel-in' + (vazio && !l.opcional ? " rel-vazio" : "") + '" data-rel-i="' + i + '" value="' + esc(l.valor) + '"' +
+                (l.opcional ? ' placeholder="(sem link)"' : (vazio ? ' placeholder="[PREENCHER]"' : "")) + ' spellcheck="false" />' +
+              (l.sufixo ? '<span class="rel-suf">' + esc(l.sufixo) + "</span>" : "") +
+            "</div>";
+          }
+        });
+        h += '<div class="rel-editor-titulo" style="margin-top:14px;">Texto final (pronto pro WhatsApp)</div>' +
+             '<textarea id="rel-final" class="rel-final-ta" readonly spellcheck="false"></textarea>' +
              '<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">' +
                '<button class="btn-toolbar" data-act="rel-copiar">Copiar para WhatsApp</button>' +
-               '<button class="ct-btn-sec" data-act="rel-preencher"' + (temPreencher ? "" : " disabled") + '>Ir para [PREENCHER]</button>' +
              "</div></div>";
         alvo.innerHTML = h;
-        var ta = document.getElementById("rel-wa-texto");
+
+        alvo.querySelectorAll(".rel-in").forEach(function (inp) {
+          inp.addEventListener("input", function () {
+            relCampos[Number(inp.getAttribute("data-rel-i"))].valor = inp.value;
+            inp.classList.toggle("rel-vazio", !inp.value.trim() && !relCampos[Number(inp.getAttribute("data-rel-i"))].opcional);
+            atualizarPreviewRel();
+          });
+        });
         alvo.querySelector('[data-act="rel-copiar"]').addEventListener("click", function () {
-          if (ta.value.indexOf("[PREENCHER]") >= 0 && !window.confirm("Ainda ha campo(s) [PREENCHER] no texto. Copiar mesmo assim?")) return;
-          copiarTexto(ta.value, this);
+          var txt = montarTextoRel(relCampos);
+          if (txt.indexOf("[PREENCHER]") >= 0 && !window.confirm("Ainda ha campo(s) [PREENCHER] em branco. Copiar mesmo assim?")) return;
+          copiarTexto(txt, this);
         });
-        var btnP = alvo.querySelector('[data-act="rel-preencher"]');
-        if (btnP && temPreencher) btnP.addEventListener("click", function () {
-          var i = ta.value.indexOf("[PREENCHER]");
-          if (i >= 0) { ta.focus(); ta.setSelectionRange(i, i + "[PREENCHER]".length); }
-        });
+        atualizarPreviewRel();
         carregarHistoricoRel(cli);
       })
       .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { gerarRelatorioTela(cli); }); });

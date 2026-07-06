@@ -313,6 +313,28 @@
 #ct-chave-overlay .acoes { display: flex; gap: 10px; }
 #ct-chave-overlay .acoes .btn-toolbar { flex: 1; justify-content: center; }
 
+/* ---------- Relatorios: editor por campos ---------- */
+.rel-editor { margin-top: 14px; }
+.rel-editor-titulo { font-size: 12px; color: var(--text-3); margin-bottom: 8px; }
+.rel-linha { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+.rel-linha .rel-pre { font-size: 13.5px; color: var(--text-2); white-space: pre; }
+.rel-linha .rel-suf { font-size: 13.5px; color: var(--text-2); }
+.rel-in {
+  flex: 0 1 auto; min-width: 90px; max-width: 340px;
+  background: var(--surface); color: var(--text); font-weight: 600;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 6px 10px; font-size: 13.5px; font-family: inherit; outline: none;
+}
+.rel-in.rel-in-texto { flex: 1 1 100%; max-width: none; font-weight: 400; color: var(--text-2); }
+.rel-in:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.rel-in.rel-vazio { border-color: var(--warning); background: var(--warning-soft); }
+.rel-final-ta {
+  width: 100%; min-height: 220px; resize: vertical; margin-top: 4px;
+  background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 14px 16px; font-size: 13.5px; font-family: inherit; line-height: 1.6;
+}
+
 /* ---------- Agente (Etapa 6) ---------- */
 .ag-chat .painel-topo h3 { max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ag-indicador { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-2); white-space: nowrap; }
