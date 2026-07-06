@@ -1542,16 +1542,60 @@
         }
         h += "</div></div></div>";
 
+        // Evolucao semanal (snapshots de segunda-feira; so dados reais)
+        h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Evolucao semanal</h3>' +
+             '<span class="contador" style="font-size:12px;color:var(--text-3);">investimento por semana (snapshot de segunda)</span></div>' +
+             '<div id="dash-semanal">' + spinner("Carregando snapshots...") + "</div></div>";
+
         alvo.innerHTML = h;
         var graf = document.getElementById("dash-grafico");
         if (graf && serie.length) ligarChart(graf, serie, valores, fmtValor);
         alvo.querySelectorAll("[data-area-link]").forEach(function (row) {
           row.addEventListener("click", function () { irParaArea(row.getAttribute("data-area-link")); });
         });
+        carregarEvolucaoSemanal();
       })
       .catch(function (err) {
         if (err.offline) renderOffline(alvo, renderDashCentral);
         else alvo.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  // Evolucao semanal do Dashboard: alimentada pelos snapshots de segunda.
+  // Com menos de 3 semanas mostra o estado "coletando historico".
+  function carregarEvolucaoSemanal() {
+    var alvo = document.getElementById("dash-semanal");
+    if (!alvo) return;
+    api("/api/paid-ads/snapshots")
+      .then(function (r) {
+        var snaps = r.snapshots || [];
+        if (!snaps.length) {
+          alvo.innerHTML = '<div class="vazio" style="padding:34px 20px;">Sem snapshots ainda. O primeiro e gerado automaticamente na segunda-feira (ou na proxima inicializacao do backend).</div>';
+          return;
+        }
+        var serie = snaps.map(function (s) {
+          var total = 0;
+          (s.clientes || []).forEach(function (c) { total += c.investimento || 0; });
+          return { data: s.semana.since, investimento: Math.round(total * 100) / 100 };
+        });
+        if (snaps.length < 3) {
+          var linhas = serie.map(function (p) {
+            return '<div class="pend-item estatico"><div class="pend-info"><div class="pend-titulo">Semana de ' + esc(p.data.split("-").reverse().join("/")) + '</div><div class="pend-sub">Investimento total: ' + fmtMoeda(p.investimento) + "</div></div></div>";
+          }).join("");
+          alvo.innerHTML = '<div class="pend-lista">' +
+            '<div class="pend-item estatico"><span class="pend-ico">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>' +
+              '<div class="pend-info"><div class="pend-titulo">Coletando historico (' + snaps.length + " de 3 semanas)</div>" +
+              '<div class="pend-sub">O grafico aparece com 3+ snapshots semanais; um novo e salvo toda segunda.</div></div></div>' +
+            linhas + "</div>";
+          return;
+        }
+        var valores = serie.map(function (p) { return p.investimento; });
+        alvo.innerHTML = chartHtml(serie, valores, fmtMoeda);
+        ligarChart(alvo, serie, valores, fmtMoeda);
+      })
+      .catch(function (err) {
+        alvo.innerHTML = '<div class="ct-msg">' + esc(err.offline ? "Backend offline." : err.message) + "</div>";
       });
   }
 

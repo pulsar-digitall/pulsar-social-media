@@ -88,7 +88,7 @@
   --border-hover: #3D424A;
   --text: #F2F4F6;
   --text-2: #9BA1A8;
-  --text-3: #767C84;
+  --text-3: #81878F; /* AA 4.96 sobre --surface e 4.51 sobre --surface-2 */
 
   /* Sem sombra no escuro: elevacao por borda + superficie */
   --shadow-sm: 0 0 0 0 transparent;
