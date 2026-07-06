@@ -1,6 +1,19 @@
-# Pulsar Social Media Agente
+# Pulsar Social Media Agente — frontend da PULSAR CENTRAL OPERACIONAL
 
 Projeto standalone. NÃO faz parte do Agency OS e não depende dele.
+
+## Regras da Central (espelham o CLAUDE.md do backend PULSAR GESTOR DE TRÁFEGO)
+
+1. Este frontend NUNCA fala direto com a Meta API: todo dado passa pela API do
+   backend (`config.js` → API_BASE_URL). Nenhum token ou chave vive no navegador
+   (a chave da Central fica só no localStorage do usuário, nunca no código).
+2. Alterações reais em campanha só existem via fluxo DRY_RUN + "Confirmo
+   executar" do backend — a UI nunca ganha atalho que pule essa confirmação.
+3. Mock nunca vira entregável: telas podem mostrar "Dados de exemplo" com selo,
+   mas relatório/PDF/link público só saem com dados reais.
+4. UI em português SEM acentos nas strings do app; sem console.log; sempre
+   esc() em conteúdo dinâmico; cores só via tokens de central/tema.css.
+5. Se uma tarefa parecer exigir contornar essas regras: PARAR e perguntar.
 
 O projeto É o agente de social media da Pulsar. Ele tem várias habilidades (skills).
 A primeira é `swipe-criativos`. Outras skills (criação de post e carrossel, calendário
