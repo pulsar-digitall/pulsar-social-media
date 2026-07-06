@@ -13,6 +13,7 @@
     gestor: {
       view: "dash", // "dash" | "cliente"
       clienteId: null,
+      conta: "", // filtro multi-conta ("" = todas as contas do cliente)
       periodo: 7, // 7 | 14 | 30 | "custom"
       desde: "", // YYYY-MM-DD (periodo custom)
       ate: "",
@@ -388,6 +389,7 @@
   function abrirNoGestor(clienteId) {
     estado.gestor.view = "cliente";
     estado.gestor.clienteId = clienteId;
+    estado.gestor.conta = "";
     estado.gestor.planoAtual = null;
     var btn = document.querySelector('nav.areas .nav-item[data-area="gestor"]');
     if (btn) btn.click();
@@ -501,7 +503,25 @@
     var q = g.periodo === "custom"
       ? "since=" + encodeURIComponent(g.desde) + "&until=" + encodeURIComponent(g.ate)
       : "period=" + g.periodo;
+    // Multi-conta: filtro por conta especifica (vazio = todas somadas).
+    if (g.conta) q += "&conta=" + encodeURIComponent(g.conta);
     return extra ? q + "&" + extra : q;
+  }
+
+  // Select de conta na pagina do cliente (so aparece com contas adicionais).
+  function seletorConta(cliente) {
+    var contas = [cliente.adAccountId].concat(cliente.adAccountIds || []).filter(Boolean);
+    if (contas.length < 2) return "";
+    var g = estado.gestor;
+    return '<div class="select-wrap" style="margin-left:10px;"><select id="ct-sel-conta">' +
+      '<option value="">Todas as contas (' + contas.length + ')</option>' +
+      contas.map(function (a) { return '<option value="' + esc(a) + '"' + (g.conta === a ? " selected" : "") + ">" + esc(a) + "</option>"; }).join("") +
+      "</select></div>";
+  }
+
+  function ligarSeletorConta(recarregar) {
+    var sel = document.getElementById("ct-sel-conta");
+    if (sel) sel.addEventListener("change", function () { estado.gestor.conta = this.value; recarregar(); });
   }
 
   function seletorPeriodo() {
@@ -590,6 +610,7 @@
         '<div class="contador" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' +
           '<span class="ct-datebox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="ct-datebox-texto">...</span></span>' +
           seletorPeriodo() +
+          seletorConta(cliente) +
         "</div>" +
       "</div>" +
       '<div id="ct-conexao-resultado"></div>' +
@@ -670,6 +691,7 @@
       estado.gestor.ate = ate;
       montarPaginaCliente(cliente);
     });
+    ligarSeletorConta(function () { montarPaginaCliente(cliente); });
     rootGestor.querySelector('[data-act="testar-conexao"]').addEventListener("click", function () { testarConexao(cliente); });
     rootGestor.querySelector('[data-act="diagnosticar"]').addEventListener("click", function () { gerarDiagnostico(cliente); });
     var cmdInput = document.getElementById("ct-cmd-input");
