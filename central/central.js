@@ -1026,9 +1026,17 @@
            '<td style="max-width:220px;">' + (e.alertas || []).map(function (a) { return '<span class="ct-badge alerta" title="' + esc(a) + '">' + esc(a) + "</span>"; }).join(" ") + "</td>";
   }
 
+  // Campanha encerrada = fim de veiculacao (stop_time) no passado.
+  function campanhaEncerrada(e) {
+    if (!e.endTime) return false;
+    var fim = new Date(e.endTime).getTime();
+    return !isNaN(fim) && fim < Date.now();
+  }
+
   function statusHtml(e) {
     var st = String(e.effectiveStatus || e.status || "");
     if (st === "ACTIVE") return '<span class="ct-badge on">ativa</span>';
+    if (campanhaEncerrada(e)) return '<span class="ct-badge neutro">encerrada</span>';
     if (st === "PAUSED") return '<span class="ct-badge off">pausada</span>';
     return '<span class="ct-badge neutro">' + esc(st.toLowerCase()) + "</span>";
   }
@@ -1041,27 +1049,102 @@
            "<td>" + statusHtml(e) + "</td>" + celulasMetricas(e, moeda) + "</tr>";
   }
 
+  // Estado da tabela de campanhas (filtros/previa aplicados no cliente).
+  var campData = null; // { campanhas, moeda, cliente, cache, mock }
+  var campFiltro = { status: "", soVeiculacao: true, mostrarTodas: false };
+  var CAMP_PREVIA = 10;
+
   function carregarCampanhas(cliente, moeda, refresh) {
     var alvo = document.getElementById("ct-campanhas");
     if (!alvo) return;
     alvo.innerHTML = spinner("Carregando campanhas...");
     api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/campaigns?" + queryPeriodo(refresh ? "refresh=1" : ""))
       .then(function (r) {
-        if (!r.campanhas.length) { alvo.innerHTML = '<div class="vazio">Nenhuma campanha encontrada na conta.</div>'; return; }
-        var h = '<div class="ct-tabela-wrap"><table class="ct-tabela" id="ct-tabela-drill"><thead><tr>' +
-             "<th>Nome</th><th>Status</th><th class=\"num\">Orcam./dia</th><th class=\"num\">Gasto</th><th class=\"num\">Leads</th>" +
-             "<th class=\"num\">CPL</th><th class=\"num\">CTR</th><th class=\"num\">CPM</th><th class=\"num\">Freq.</th><th>Alertas</th></tr></thead><tbody>";
-        r.campanhas.forEach(function (c) { h += linhaEntidade(c, "campaign", moeda, true); });
-        h += "</tbody></table></div>";
-        h += linhaCacheHtml(r.cache, r.mock);
-        alvo.innerHTML = h;
+        campData = { campanhas: r.campanhas || [], moeda: moeda, cliente: cliente, cache: r.cache, mock: r.mock };
+        campFiltro.mostrarTodas = false;
+        renderCampanhas();
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarCampanhas(cliente, moeda, false); }); });
+  }
 
-        var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
-        if (btnAtu) btnAtu.addEventListener("click", function () {
-          carregarResumo(cliente, moeda, true);
-          carregarCampanhas(cliente, moeda, true);
-        });
+  // Ordena e filtra as campanhas para a previa (ativas primeiro por gasto).
+  function campanhasOrdenadas() {
+    var lista = campData.campanhas.slice();
+    var busca = campFiltro.status;
+    var soVeic = campFiltro.soVeiculacao;
+    lista = lista.filter(function (c) {
+      var ativa = (c.effectiveStatus || c.status) === "ACTIVE";
+      if (busca === "ativas" && !ativa) return false;
+      if (busca === "pausadas" && ativa) return false;
+      if (soVeic && !((c.metrics && c.metrics.impressions) > 0) && !ativa) return false;
+      return true;
+    });
+    lista.sort(function (a, b) {
+      var aAtiva = (a.effectiveStatus || a.status) === "ACTIVE";
+      var bAtiva = (b.effectiveStatus || b.status) === "ACTIVE";
+      if (aAtiva !== bAtiva) return aAtiva ? -1 : 1; // ativas sempre no topo
+      if (aAtiva) return ((b.metrics && b.metrics.spend) || 0) - ((a.metrics && a.metrics.spend) || 0);
+      // nao-ativas: mais recentes primeiro (por inicio de veiculacao)
+      return String(b.startTime || "").localeCompare(String(a.startTime || ""));
+    });
+    return lista;
+  }
 
+  function renderCampanhas() {
+    var alvo = document.getElementById("ct-campanhas");
+    if (!alvo || !campData) return;
+    var moeda = campData.moeda, cliente = campData.cliente;
+    if (!campData.campanhas.length) { alvo.innerHTML = '<div class="vazio">Nenhuma campanha encontrada na conta.</div>'; return; }
+
+    var ordenadas = campanhasOrdenadas();
+    var totalFiltrado = ordenadas.length;
+    var visiveis = campFiltro.mostrarTodas ? ordenadas : ordenadas.slice(0, CAMP_PREVIA);
+    var ativasCount = campData.campanhas.filter(function (c) { return (c.effectiveStatus || c.status) === "ACTIVE"; }).length;
+
+    function pill(id, rot) {
+      return '<button data-camp-status="' + id + '"' + (campFiltro.status === id ? ' class="ativo"' : "") + ">" + rot + "</button>";
+    }
+    var h = '<div class="filtros" style="margin:0 0 16px;gap:14px;">' +
+      '<div class="campo"><label>Status</label><span class="ct-periodo">' +
+        pill("", "Todas") + pill("ativas", "Ativas (" + ativasCount + ")") + pill("pausadas", "Pausadas") +
+      "</span></div>" +
+      '<div class="campo"><label>Veiculacao</label><span class="ct-periodo">' +
+        '<button data-camp-veic="1"' + (campFiltro.soVeiculacao ? ' class="ativo"' : "") + ">So com veiculacao no periodo</button>" +
+        '<button data-camp-veic="0"' + (!campFiltro.soVeiculacao ? ' class="ativo"' : "") + ">Todas</button>" +
+      "</span></div>" +
+      '<div class="contador"><b>' + totalFiltrado + "</b> campanha(s)</div></div>";
+
+    h += '<div class="ct-tabela-wrap"><table class="ct-tabela" id="ct-tabela-drill"><thead><tr>' +
+         "<th>Nome</th><th>Status</th><th class=\"num\">Orcam./dia</th><th class=\"num\">Gasto</th><th class=\"num\">Leads</th>" +
+         "<th class=\"num\">CPL</th><th class=\"num\">CTR</th><th class=\"num\">CPM</th><th class=\"num\">Freq.</th><th>Alertas</th></tr></thead><tbody>";
+    if (!visiveis.length) {
+      h += '<tr><td colspan="10" class="ct-drill-vazio" style="padding-left:14px !important;">Nenhuma campanha com esses filtros.</td></tr>';
+    } else {
+      visiveis.forEach(function (c) { h += linhaEntidade(c, "campaign", moeda, true); });
+    }
+    h += "</tbody></table></div>";
+    if (!campFiltro.mostrarTodas && totalFiltrado > CAMP_PREVIA) {
+      h += '<div style="margin-top:12px;"><button class="ct-btn-sec" data-act="camp-mostrar-todas">Mostrar todas (' + totalFiltrado + ")</button></div>";
+    }
+    h += linhaCacheHtml(campData.cache, campData.mock);
+    alvo.innerHTML = h;
+
+    alvo.querySelectorAll("[data-camp-status]").forEach(function (b) {
+      b.addEventListener("click", function () { campFiltro.status = b.getAttribute("data-camp-status"); campFiltro.mostrarTodas = false; renderCampanhas(); });
+    });
+    alvo.querySelectorAll("[data-camp-veic]").forEach(function (b) {
+      b.addEventListener("click", function () { campFiltro.soVeiculacao = b.getAttribute("data-camp-veic") === "1"; campFiltro.mostrarTodas = false; renderCampanhas(); });
+    });
+    var btnTodas = alvo.querySelector('[data-act="camp-mostrar-todas"]');
+    if (btnTodas) btnTodas.addEventListener("click", function () { campFiltro.mostrarTodas = true; renderCampanhas(); });
+
+    var btnAtu = alvo.querySelector('[data-act="atualizar-agora"]');
+    if (btnAtu) btnAtu.addEventListener("click", function () {
+      carregarResumo(cliente, moeda, true);
+      carregarCampanhas(cliente, moeda, true);
+    });
+
+    (function (moeda, cliente) {
         var tbody = alvo.querySelector("#ct-tabela-drill tbody");
         tbody.addEventListener("click", function (ev) {
           var btn = ev.target.closest("[data-expand]");
@@ -1094,8 +1177,7 @@
               carregando.innerHTML = '<td colspan="10"><div class="ct-resultado erro" style="margin:6px 0;">' + esc(err.offline ? "Backend offline." : err.message) + "</div></td>";
             });
         });
-      })
-      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { carregarCampanhas(cliente, moeda, false); }); });
+    })(moeda, cliente);
   }
 
   function removerFilhos(tbody, id) {
