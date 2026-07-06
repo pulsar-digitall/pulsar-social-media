@@ -188,29 +188,18 @@
     }
     h += "</div>";
 
-    // Concorrentes do Espiao (associados e nao associados)
-    var naoAssociados = estado.concorrentes.filter(function (r) { return !r.clienteId; });
+    // Radar: concorrentes da PROPRIA PULSAR no mercado (area independente;
+    // sem vinculo com cliente — modelo antigo de associacao foi descontinuado).
     h += '<div class="painel"><div class="painel-topo"><h3>Concorrentes do Radar</h3>' +
-         (naoAssociados.length ? '<span class="ct-badge alerta">' + naoAssociados.length + " nao associado(s)</span>" : "") + "</div>";
+         '<span class="contador" style="font-size:12px;color:var(--text-3);">concorrentes da Pulsar monitorados no Radar (independente dos clientes)</span></div>';
     if (!estado.concorrentes.length) {
       h += '<div class="vazio">Nenhum concorrente no catalogo ainda. Rode o scraper do Radar para coletar.</div>';
     } else {
       h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr>' +
-           "<th>Concorrente</th><th>Page ID</th><th class=\"num\">Anuncios coletados</th><th>Cliente</th><th></th></tr></thead><tbody>";
+           "<th>Concorrente</th><th>Page ID</th><th class=\"num\">Anuncios coletados</th></tr></thead><tbody>";
       estado.concorrentes.forEach(function (r) {
-        var vinculo = r.clienteNome
-          ? '<span class="ct-badge on">' + esc(r.clienteNome) + "</span>"
-          : '<span class="ct-badge off">nao associado</span>';
-        var acao = "";
-        if (!r.clienteId && estado.clientes.length) {
-          var ops = estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("");
-          acao = '<select data-sel="' + esc(r.pageId) + '" style="min-width:150px;padding:7px 30px 7px 11px;font-size:12.5px;">' + ops + "</select> " +
-                 '<button class="btn-sm salvar" data-act="associar" data-page="' + esc(r.pageId) + '">Associar</button>';
-        } else if (r.clienteId) {
-          acao = '<button class="btn-sm" data-act="desassociar" data-page="' + esc(r.pageId) + '" data-cliente="' + esc(r.clienteId) + '">Remover vinculo</button>';
-        }
         h += "<tr><td class=\"nome-obj\">" + esc(r.nome) + "</td><td style=\"color:var(--text-3);font-size:12.5px;\">" + esc(r.pageId) + "</td>" +
-             '<td class="num">' + fmtNum(r.totalAnuncios) + "</td><td>" + vinculo + '</td><td class="num">' + acao + "</td></tr>";
+             '<td class="num">' + fmtNum(r.totalAnuncios) + "</td></tr>";
       });
       h += "</tbody></table></div>";
     }
@@ -227,12 +216,6 @@
     function campo(rotulo, nome, valor, tipo, ph) {
       return '<div class="campo"><label>' + rotulo + '</label><input type="' + (tipo || "text") + '" name="' + nome + '" value="' + esc(valor == null ? "" : valor) + '"' + (ph ? ' placeholder="' + esc(ph) + '"' : "") + (tipo === "number" ? ' step="any" min="0"' : "") + " /></div>";
     }
-    var checks = estado.concorrentes.map(function (r) {
-      var dono = r.clienteId && (!editando || r.clienteId !== editando.id);
-      var marcado = (c.concorrentesMonitorados || []).indexOf(r.pageId) >= 0;
-      var extra = dono ? " (hoje com " + esc(r.clienteNome) + ")" : "";
-      return '<label class="ct-conc-check' + (marcado ? " marcado" : "") + '"><input type="checkbox" name="conc" value="' + esc(r.pageId) + '"' + (marcado ? " checked" : "") + " />" + esc(r.nome) + extra + "</label>";
-    }).join("");
     return (
       '<div class="ct-form" id="ct-form-cliente">' +
         "<h3>" + (editando ? "Editar cliente" : "Novo cliente") + "</h3>" +
@@ -268,8 +251,6 @@
           campo("CPM maximo (R$)", "maxCpm", m.maxCpm, "number") +
           campo("Leads minimos", "minLeads", m.minLeads, "number") +
         "</div>" +
-        '<div class="secao">Concorrentes monitorados (Radar)</div>' +
-        '<div class="ct-conc-lista">' + (checks || '<span style="color:var(--text-3);font-size:13px;">Nenhum concorrente no catalogo ainda.</span>') + "</div>" +
         '<div class="secao">Observacoes</div>' +
         '<div class="campo"><textarea name="observacoes">' + esc(c.observacoes || "") + "</textarea></div>" +
         '<div class="ct-form-acoes">' +
@@ -294,12 +275,6 @@
       if (act === "editar") el.addEventListener("click", function () { estado.formEditandoId = el.getAttribute("data-id"); renderClientes(); window.scrollTo({ top: 0, behavior: "smooth" }); });
       if (act === "abrir") el.addEventListener("click", function () { abrirNoGestor(el.getAttribute("data-id")); });
       if (act === "salvar-cliente") el.addEventListener("click", salvarClienteDoForm);
-      if (act === "associar") el.addEventListener("click", function () { associarConcorrente(el.getAttribute("data-page")); });
-      if (act === "desassociar") el.addEventListener("click", function () { desassociarConcorrente(el.getAttribute("data-page"), el.getAttribute("data-cliente")); });
-    });
-    // realce visual dos checkboxes de concorrente
-    rootClientes.querySelectorAll(".ct-conc-check input").forEach(function (chk) {
-      chk.addEventListener("change", function () { chk.closest(".ct-conc-check").classList.toggle("marcado", chk.checked); });
     });
   }
 
@@ -312,8 +287,10 @@
       var num = parseFloat(v(k).replace(",", "."));
       if (!isNaN(num) && num > 0) metas[k] = num;
     });
-    var concs = [];
-    form.querySelectorAll('[name="conc"]:checked').forEach(function (chk) { concs.push(chk.value); });
+    // Associacao concorrente<->cliente foi descontinuada (Radar e independente);
+    // o campo e preservado como esta para nao quebrar dados antigos.
+    var editandoAtual = estado.formEditandoId ? buscarCliente(estado.formEditandoId) : null;
+    var concs = (editandoAtual && editandoAtual.concorrentesMonitorados) || [];
     var payload = {
       id: estado.formEditandoId || undefined,
       nome: v("nome"),
@@ -338,42 +315,6 @@
       .catch(function (err) {
         var alvo = document.getElementById("ct-erro-form");
         if (alvo) alvo.textContent = err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message;
-      });
-  }
-
-  function associarConcorrente(pageId) {
-    var sel = rootClientes.querySelector('[data-sel="' + pageId + '"]');
-    var cliente = sel ? buscarCliente(sel.value) : null;
-    if (!cliente) return;
-    var lista = (cliente.concorrentesMonitorados || []).slice();
-    if (lista.indexOf(pageId) < 0) lista.push(pageId);
-    salvarVinculo(cliente, lista);
-  }
-
-  function desassociarConcorrente(pageId, clienteId) {
-    var cliente = buscarCliente(clienteId);
-    if (!cliente) return;
-    var lista = (cliente.concorrentesMonitorados || []).filter(function (p) { return p !== pageId; });
-    salvarVinculo(cliente, lista);
-  }
-
-  function salvarVinculo(cliente, lista) {
-    var payload = {
-      id: cliente.id, nome: cliente.nome, status: cliente.status,
-      adAccountId: cliente.adAccountId || "", adAccountIds: cliente.adAccountIds || [],
-      tipoRelatorio: cliente.tipoRelatorio || "leadgen",
-      nomeConversao: cliente.nomeConversao || "", linkLooker: cliente.linkLooker || "",
-      googleAdsCustomerId: cliente.googleAdsCustomerId || "",
-      pageId: cliente.pageId || "",
-      instagramId: cliente.instagramId || "", pixelId: cliente.pixelId || "",
-      moeda: cliente.moeda, timezone: cliente.timezone, metas: cliente.metas || {},
-      concorrentesMonitorados: lista, observacoes: cliente.observacoes || ""
-    };
-    api("/api/paid-ads/clients", { method: "POST", body: payload })
-      .then(carregarClientes)
-      .catch(function (err) {
-        if (err.offline) renderOffline(rootClientes, carregarClientes);
-        else window.alert("Erro ao salvar: " + err.message);
       });
   }
 
@@ -565,11 +506,13 @@
     olho: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
     conversao: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
     alerta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    tarefas: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>',
+    alerta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
     clientes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
   };
 
   function kpiHtml(o) {
-    return '<div class="stat">' +
+    return '<div class="stat"' + (o.id ? ' id="' + o.id + '" style="cursor:pointer;"' : "") + ">" +
       (o.ico && ICONES_KPI[o.ico] ? '<span class="ico-chip">' + ICONES_KPI[o.ico] + "</span>" : "") +
       '<div class="linha-num"><span class="num">' + o.num + "</span>" + (o.varr || "") + "</div>" +
       '<div class="lab">' + o.lab + "</div>" +
@@ -1478,20 +1421,14 @@
         var exemplo = !ov.dadosDisponiveis;
         var mockD = exemplo ? dashMockDados(dashPeriodo) : null;
 
-        // KPIs (grid uniforme de 4, como a referencia)
-        var stats = exemplo
-          ? [
-              { ico: "dinheiro", num: fmtMoeda(mockD.investimento), lab: "Investimento (" + dashPeriodo + "d)", varr: badgeVar(mockD.varInv, 0) },
-              { ico: "leads", num: fmtNum(mockD.leads), lab: "Leads (" + dashPeriodo + "d)", varr: badgeVar(mockD.varLeads, 1) },
-              { ico: "alvo", num: fmtMoeda(mockD.cpl), lab: "CPL medio", varr: badgeVar(mockD.varCpl, -1) },
-              { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" }
-            ]
-          : [
-              { ico: "dinheiro", num: fmtMoeda(ov.investimentoTotal), lab: "Investimento (" + dashPeriodo + "d)" },
-              { ico: "leads", num: fmtNum(ov.leadsTotal), lab: "Leads (" + dashPeriodo + "d)" },
-              { ico: "alvo", num: ov.cplMedio != null ? fmtMoeda(ov.cplMedio) : "—", lab: "CPL medio" },
-              { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" }
-            ];
+        // KPIs de PORTFOLIO (saude da carteira; nada de media entre nichos —
+        // CPL/leads individuais vivem na pagina do cliente, com meta propria)
+        var stats = [
+          { ico: "clientes", num: String(ov.clientesAtivos), lab: "Clientes ativos", sub: ov.clientesTotal + " cadastrado(s)" },
+          { ico: "alerta", num: ov.clientesComAlerta != null ? String(ov.clientesComAlerta) : "—", lab: "Clientes com alerta", sub: "clique para ver os casos", id: "kpi-alerta" },
+          { ico: "dinheiro", num: exemplo ? fmtMoeda(mockD.investimento) : fmtMoeda(ov.investimentoTotal), lab: "Investimento (" + dashPeriodo + "d)", varr: exemplo ? badgeVar(mockD.varInv, 0) : "" },
+          { ico: "tarefas", num: String(ov.pendenciasOperacionais != null ? ov.pendenciasOperacionais : "—"), lab: "Pendencias operacionais", sub: "conexao, tracking, onboarding" }
+        ];
 
         // Pendencias (alertas das automacoes primeiro: ultimas 24h)
         var pendencias = (ov.alertasAutomacao || []).map(function (a) {
@@ -1500,9 +1437,9 @@
         if (!ov.metaConectada) pendencias.push({ area: "gestor", texto: "Meta API sem token no backend", meta: "Preencha META_ACCESS_TOKEN no .env do Gestor de Trafego" });
         var semConta = (ov.porCliente || []).filter(function (c) { return !c.contaConectada; }).length;
         if (semConta > 0) pendencias.push({ area: "clientes", texto: semConta + " cliente(s) sem conta de anuncio conectada", meta: "Conecte o adAccountId na area Clientes" });
-        var naoAssoc = concs.filter(function (c) { return !c.clienteId; }).length;
-        if (naoAssoc > 0) pendencias.push({ area: "clientes", texto: naoAssoc + " concorrente(s) do Radar sem cliente associado", meta: "Associe na area Clientes" });
         if (!ov.clientesTotal) pendencias.push({ area: "clientes", texto: "Nenhum cliente cadastrado ainda", meta: "Crie o primeiro na area Clientes" });
+        // Aviso discreto: sem meta definida o cliente nao gera alerta de CPL.
+        if (ov.clientesSemMeta > 0) pendencias.push({ area: "clientes", texto: ov.clientesSemMeta + " cliente(s) sem meta definida", meta: "Sem meta de CPL o cliente nao gera alerta — defina na area Clientes" });
 
         // Selo discreto "Dados de exemplo" ao lado do titulo (sem banner)
         var selo = document.getElementById("dash-selo-exemplo");
@@ -1512,6 +1449,30 @@
         }
 
         var h = '<div class="stat-grid dash-kpis">' + stats.map(kpiHtml).join("") + "</div>";
+
+        // Clientes que precisam de atencao (portfolio): SO quem tem problema,
+        // sempre contra a meta PROPRIA. Clique abre a pagina do cliente.
+        var icoOkAtencao = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+        var icoAt = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.47 14.14A2 2 0 0 0 3.53 21h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+        var comAtencao = (ov.porCliente || []).filter(function (c) { return (c.atencao || []).length > 0; });
+        comAtencao.sort(function (a, b) { return b.atencao.length - a.atencao.length; });
+        h += '<div class="painel ct-secao" id="dash-atencao"><div class="painel-topo"><h3>Clientes que precisam de atencao</h3>' +
+             (comAtencao.length ? '<span class="ct-badge alerta">' + comAtencao.length + "</span>" : "") + "</div>";
+        if (exemplo) {
+          h += '<div class="vazio" style="padding:30px 20px;">Disponivel quando houver dados reais conectados.</div>';
+        } else if (!comAtencao.length) {
+          h += '<div class="pend-lista"><div class="pend-item estatico"><span class="pend-ico ok">' + icoOkAtencao + "</span>" +
+               '<div class="pend-info"><div class="pend-titulo">Todos os clientes saudaveis</div>' +
+               '<div class="pend-sub">Nenhum cliente com alerta contra a propria meta no periodo.</div></div></div></div>';
+        } else {
+          h += '<div class="pend-lista">' + comAtencao.map(function (c) {
+            return '<div class="pend-item" data-cliente-link="' + esc(c.id) + '"><span class="pend-ico">' + icoAt + "</span>" +
+                   '<div class="pend-info"><div class="pend-titulo">' + esc(c.nome) + "</div>" +
+                   '<div class="pend-sub">' + c.atencao.map(esc).join(" · ") + "</div></div>" +
+                   '<span class="seta">&rsaquo;</span></div>';
+          }).join("") + "</div>";
+        }
+        h += "</div>";
 
         // Bloco principal: grafico (~60%) + pendencias na coluna lateral
         var serie = exemplo ? mockD.serie : (ov.serie || []);
@@ -1552,6 +1513,14 @@
         if (graf && serie.length) ligarChart(graf, serie, valores, fmtValor);
         alvo.querySelectorAll("[data-area-link]").forEach(function (row) {
           row.addEventListener("click", function () { irParaArea(row.getAttribute("data-area-link")); });
+        });
+        alvo.querySelectorAll("[data-cliente-link]").forEach(function (row) {
+          row.addEventListener("click", function () { abrirNoGestor(row.getAttribute("data-cliente-link")); });
+        });
+        var kpiAlerta = document.getElementById("kpi-alerta");
+        if (kpiAlerta) kpiAlerta.addEventListener("click", function () {
+          var bloco = document.getElementById("dash-atencao");
+          if (bloco) bloco.scrollIntoView({ behavior: "smooth", block: "start" });
         });
         carregarEvolucaoSemanal();
       })
