@@ -3677,6 +3677,143 @@
   // ---------------------------------------------------------------------
   // Integracao com a navegacao do app
   // ---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
+  // AREA: RELATORIOS (Entregas) — fluxo principal de geracao
+  // Gera o relatorio de qualquer cliente sem entrar na pagina do Gestor.
+  // Padrao de periodo: 01 do mes corrente ate hoje (mes ate agora).
+  // ---------------------------------------------------------------------
+  var relState = { clienteId: "", since: "", until: "" };
+
+  function mesAteHoje() {
+    var d = new Date();
+    var y = d.getFullYear();
+    var mm = String(d.getMonth() + 1).padStart(2, "0");
+    var dd = String(d.getDate()).padStart(2, "0");
+    return { since: y + "-" + mm + "-01", until: y + "-" + mm + "-" + dd };
+  }
+
+  function renderRelatorios() {
+    var root = document.getElementById("relatorios-root");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando clientes...");
+    api("/api/paid-ads/clients")
+      .then(function (r) {
+        estado.clientes = r.clientes || [];
+        if (!relState.since) { var p = mesAteHoje(); relState.since = p.since; relState.until = p.until; }
+        if (!relState.clienteId && estado.clientes.length) relState.clienteId = estado.clientes[0].id;
+        renderRelatoriosCorpo();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderRelatorios);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function renderRelatoriosCorpo() {
+    var root = document.getElementById("relatorios-root");
+    if (!root) return;
+    if (!estado.clientes.length) {
+      root.innerHTML = '<div class="painel"><div class="vazio">Cadastre um cliente na area <b>Clientes</b> para gerar relatorios.</div></div>';
+      return;
+    }
+    var cli = buscarCliente(relState.clienteId) || estado.clientes[0];
+    var tipo = cli.tipoRelatorio || "leadgen";
+    var rotTipo = { leadgen: "Leadgen (leads + CPL)", ecommerce: "E-commerce (conversoes + ROAS)", branding: "Branding" };
+
+    var h = '<div class="painel ct-secao"><div style="padding:20px 22px;">' +
+      '<div class="ct-form-grid" style="margin-bottom:16px;">' +
+        '<div class="campo"><label>Cliente</label><div class="select-wrap"><select id="rel-cliente">' +
+          estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === relState.clienteId ? " selected" : "") + ">" + esc(c.nome) + "</option>"; }).join("") +
+        "</select></div></div>" +
+        '<div class="campo"><label>Inicio</label><input type="date" id="rel-since" value="' + esc(relState.since) + '" /></div>' +
+        '<div class="campo"><label>Fim (hoje)</label><input type="date" id="rel-until" value="' + esc(relState.until) + '" /></div>' +
+      "</div>" +
+      '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
+        '<button class="btn-toolbar" data-act="rel-gerar">Gerar relatorio</button>' +
+        '<button class="ct-btn-sec" data-act="rel-mes">Mes ate hoje</button>' +
+        '<span class="ct-badge neutro">Tipo: ' + esc(rotTipo[tipo] || tipo) + "</span>" +
+        '<span style="font-size:12px;color:var(--text-3);">O tipo vem do cadastro do cliente.</span>' +
+      "</div>" +
+      '<div id="rel-resultado" style="margin-top:16px;"></div>' +
+      "</div></div>" +
+      '<div class="painel ct-secao"><div class="painel-topo"><h3>Historico deste cliente</h3></div>' +
+      '<div id="rel-historico" style="padding:8px 12px 12px;">' + spinner("Carregando historico...") + "</div></div>";
+
+    root.innerHTML = h;
+
+    document.getElementById("rel-cliente").addEventListener("change", function () {
+      relState.clienteId = this.value;
+      renderRelatoriosCorpo();
+    });
+    document.getElementById("rel-since").addEventListener("change", function () { relState.since = this.value; });
+    document.getElementById("rel-until").addEventListener("change", function () { relState.until = this.value; });
+    root.querySelector('[data-act="rel-mes"]').addEventListener("click", function () {
+      var p = mesAteHoje(); relState.since = p.since; relState.until = p.until; renderRelatoriosCorpo();
+    });
+    root.querySelector('[data-act="rel-gerar"]').addEventListener("click", function () { gerarRelatorioTela(cli); });
+    carregarHistoricoRel(cli);
+  }
+
+  function gerarRelatorioTela(cli) {
+    var alvo = document.getElementById("rel-resultado");
+    if (!relState.since || !relState.until || relState.since > relState.until) {
+      alvo.innerHTML = '<div class="ct-resultado erro">Escolha um intervalo valido (inicio ate hoje).</div>';
+      return;
+    }
+    alvo.innerHTML = spinner("Gerando relatorio...");
+    api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/relatorio", {
+      method: "POST", timeoutMs: 120000,
+      body: { tipo: "whatsapp", since: relState.since, until: relState.until }
+    })
+      .then(function (r) {
+        var temPreencher = (r.conteudo || "").indexOf("[PREENCHER]") >= 0;
+        // O relatorio WhatsApp nao tem secao Google: nao poluir com esse aviso.
+        var avisos = (r.avisos || []).filter(function (a) { return a.indexOf("Google") < 0; });
+        var h = avisosHtml(avisos);
+        h += '<div class="ct-preview-wa">' +
+             '<div style="font-size:12px;color:var(--text-3);margin-bottom:6px;">Preview editavel — ajuste o que precisar (o negrito *asterisco* cola formatado no WhatsApp)' +
+             (temPreencher ? ' <span style="color:var(--warning);font-weight:600;">· preencha os campos [PREENCHER] antes de copiar</span>' : "") + "</div>" +
+             '<textarea id="rel-wa-texto" spellcheck="false">' + esc(r.conteudo) + "</textarea>" +
+             '<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">' +
+               '<button class="btn-toolbar" data-act="rel-copiar">Copiar para WhatsApp</button>' +
+               '<button class="ct-btn-sec" data-act="rel-preencher"' + (temPreencher ? "" : " disabled") + '>Ir para [PREENCHER]</button>' +
+             "</div></div>";
+        alvo.innerHTML = h;
+        var ta = document.getElementById("rel-wa-texto");
+        alvo.querySelector('[data-act="rel-copiar"]').addEventListener("click", function () {
+          if (ta.value.indexOf("[PREENCHER]") >= 0 && !window.confirm("Ainda ha campo(s) [PREENCHER] no texto. Copiar mesmo assim?")) return;
+          copiarTexto(ta.value, this);
+        });
+        var btnP = alvo.querySelector('[data-act="rel-preencher"]');
+        if (btnP && temPreencher) btnP.addEventListener("click", function () {
+          var i = ta.value.indexOf("[PREENCHER]");
+          if (i >= 0) { ta.focus(); ta.setSelectionRange(i, i + "[PREENCHER]".length); }
+        });
+        carregarHistoricoRel(cli);
+      })
+      .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { gerarRelatorioTela(cli); }); });
+  }
+
+  function carregarHistoricoRel(cli) {
+    var alvo = document.getElementById("rel-historico");
+    if (!alvo) return;
+    api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/relatorios")
+      .then(function (r) {
+        var lista = (r.relatorios || []).filter(function (x) { return x.tipo === "whatsapp"; });
+        if (!lista.length) { alvo.innerHTML = '<div style="font-size:13px;color:var(--text-3);padding:8px 10px;">Nenhum relatorio gerado ainda para este cliente.</div>'; return; }
+        alvo.innerHTML = '<div class="ct-lista">' + lista.slice(0, 12).map(function (rel, i) {
+          return '<div class="ct-item"><span class="av">WA</span>' +
+            '<div class="info"><div class="titulo">' + esc(rel.range.label) + "</div>" +
+            '<div class="sub">' + fmtData(rel.timestamp) + "</div></div>" +
+            '<span class="lado"><button class="btn-sm salvar" data-rel-copiar="' + i + '">Copiar</button></span></div>';
+        }).join("") + "</div>";
+        alvo.querySelectorAll("[data-rel-copiar]").forEach(function (b) {
+          b.addEventListener("click", function () { copiarTexto(lista[Number(b.getAttribute("data-rel-copiar"))].conteudo || "", b); });
+        });
+      })
+      .catch(function () { alvo.innerHTML = '<div style="font-size:13px;color:var(--text-3);padding:8px 10px;">Nao foi possivel carregar o historico.</div>'; });
+  }
+
   window.PulsarCentral = {
     onArea: function (id) {
       if (id === "dashboard") renderDashCentral();
@@ -3690,6 +3827,7 @@
       if (id === "designer") renderDesigner();
       if (id === "swipeorganico") renderSwipeOrganico();
       if (id === "agente") renderAgente();
+      if (id === "relatorios") renderRelatorios();
     }
   };
 

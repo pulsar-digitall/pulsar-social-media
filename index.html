@@ -560,13 +560,16 @@
 
       <!-- AREA: RELATORIOS (placeholder) -->
       <section class="area" id="area-relatorios" data-area="relatorios">
-        <div class="area-topo"><h2>Relatorios</h2><div class="desc">Relatorios de performance para os clientes.</div></div>
-        <div class="area-corpo">
-          <div class="em-construcao">
-            <span class="selo"><span class="ponto"></span>Em construcao</span>
-            <p>Esta area vai gerar relatorios de performance (WhatsApp e PDF) a partir dos dados do Gestor de Trafego.</p>
+        <div class="area-topo">
+          <div class="titulo-linha" style="justify-content: space-between; flex-wrap: wrap; row-gap: 12px;">
+            <div>
+              <h2>Relatorios</h2>
+              <div class="desc" style="margin-top: 2px;">Gere o relatorio de qualquer cliente em 3 cliques. Padrao: mes atual ate hoje.</div>
+            </div>
+            <div id="relatorios-topo" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
           </div>
         </div>
+        <div class="area-corpo" id="relatorios-root"></div>
       </section>
 
       <!-- AREA: TRACKING (Etapa 4) -->
@@ -662,7 +665,7 @@
           { id: "biblioteca", rotulo: "Biblioteca" }
         ] },
         { titulo: "Entregas", areas: [
-          { id: "relatorios", rotulo: "Relatorios", badge: "Em breve" },
+          { id: "relatorios", rotulo: "Relatorios" },
           { id: "tracking", rotulo: "Tracking" }
         ] }
       ];
