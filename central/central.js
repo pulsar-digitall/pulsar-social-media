@@ -404,7 +404,7 @@
         var h = "";
         if (!ov.metaConectada) {
           h += '<div class="ct-nota">Meta API sem token no backend. Os numeros de investimento, leads e CPL aparecem ' +
-               "quando o META_ACCESS_TOKEN for configurado no .env do Gestor de Trafego.</div>";
+               "quando o META_ACCESS_TOKEN for configurado no .env do backend.</div>";
         }
         var semDados = !ov.dadosDisponiveis;
         function num(v, fmt) { return semDados ? "—" : fmt(v); }
