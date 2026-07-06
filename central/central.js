@@ -3707,7 +3707,7 @@
   // Gera o relatorio de qualquer cliente sem entrar na pagina do Gestor.
   // Padrao de periodo: 01 do mes corrente ate hoje (mes ate agora).
   // ---------------------------------------------------------------------
-  var relState = { clienteId: "", since: "", until: "" };
+  var relState = { clienteId: "", since: "", until: "", atalho: "mes", calMes: "", calStart: null };
 
   function mesAteHoje() {
     var d = new Date();
@@ -3724,7 +3724,7 @@
     api("/api/paid-ads/clients")
       .then(function (r) {
         estado.clientes = r.clientes || [];
-        if (!relState.since) { var p = mesAteHoje(); relState.since = p.since; relState.until = p.until; }
+        if (!relState.since) aplicarAtalhoPeriodo("mes");
         if (!relState.clienteId && estado.clientes.length) relState.clienteId = estado.clientes[0].id;
         renderRelatoriosCorpo();
       })
@@ -3750,12 +3750,13 @@
         '<div class="campo"><label>Cliente</label><div class="select-wrap"><select id="rel-cliente">' +
           estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === relState.clienteId ? " selected" : "") + ">" + esc(c.nome) + "</option>"; }).join("") +
         "</select></div></div>" +
-        '<div class="campo"><label>Inicio</label><input type="date" id="rel-since" value="' + esc(relState.since) + '" /></div>' +
-        '<div class="campo"><label>Fim (hoje)</label><input type="date" id="rel-until" value="' + esc(relState.until) + '" /></div>' +
+        '<div class="campo"><label>Periodo</label><div class="relcal-wrap">' +
+          '<button type="button" class="relcal-btn" data-act="rel-periodo-toggle"><span id="rel-periodo-label">' + esc(relPeriodoTexto()) + '</span><span class="seta">&#9662;</span></button>' +
+          '<div class="relcal-panel" id="rel-cal-panel" style="display:none;"></div>' +
+        "</div></div>" +
       "</div>" +
       '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
         '<button class="btn-toolbar" data-act="rel-gerar">Gerar relatorio</button>' +
-        '<button class="ct-btn-sec" data-act="rel-mes">Mes ate hoje</button>' +
         '<span class="ct-badge neutro">Tipo: ' + esc(rotTipo[tipo] || tipo) + "</span>" +
         '<span style="font-size:12px;color:var(--text-3);">O tipo vem do cadastro do cliente.</span>' +
       "</div>" +
@@ -3770,13 +3771,108 @@
       relState.clienteId = this.value;
       renderRelatoriosCorpo();
     });
-    document.getElementById("rel-since").addEventListener("change", function () { relState.since = this.value; });
-    document.getElementById("rel-until").addEventListener("change", function () { relState.until = this.value; });
-    root.querySelector('[data-act="rel-mes"]').addEventListener("click", function () {
-      var p = mesAteHoje(); relState.since = p.since; relState.until = p.until; renderRelatoriosCorpo();
-    });
+    ligarSeletorPeriodo(root);
     root.querySelector('[data-act="rel-gerar"]').addEventListener("click", function () { gerarRelatorioTela(cli); });
     carregarHistoricoRel(cli);
+  }
+
+  // ---------- Seletor de periodo estilizado (sem input date nativo) ----------
+  var REL_MESES = ["Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  function relPad(n) { return String(n).padStart(2, "0"); }
+  function relIso(y, m, d) { return y + "-" + relPad(m) + "-" + relPad(d); }
+  function relDdmmaa(iso) { var p = String(iso).split("-"); return p[2] + "/" + p[1] + "/" + p[0].slice(2); }
+
+  function relPeriodoTexto() {
+    var nomes = { mes: "Mes ate hoje", mespassado: "Mes passado", "7dias": "Ultimos 7 dias", custom: "Personalizado" };
+    return (nomes[relState.atalho] || "Personalizado") + " · " + relDdmmaa(relState.since) + " ate " + relDdmmaa(relState.until);
+  }
+
+  function aplicarAtalhoPeriodo(nome) {
+    var d = new Date(), y = d.getFullYear(), m = d.getMonth();
+    if (nome === "mes") { relState.since = relIso(y, m + 1, 1); relState.until = relIso(y, m + 1, d.getDate()); }
+    else if (nome === "mespassado") { var pm = new Date(y, m - 1, 1); var ult = new Date(y, m, 0).getDate(); relState.since = relIso(pm.getFullYear(), pm.getMonth() + 1, 1); relState.until = relIso(pm.getFullYear(), pm.getMonth() + 1, ult); }
+    else if (nome === "7dias") { var ini = new Date(d.getTime() - 6 * 86400000); relState.since = relIso(ini.getFullYear(), ini.getMonth() + 1, ini.getDate()); relState.until = relIso(y, m + 1, d.getDate()); }
+    relState.atalho = nome;
+    relState.calMes = relState.until.slice(0, 7);
+    relState.calStart = null;
+  }
+
+  function htmlPainelPeriodo() {
+    var atalhos = [["mes", "Mes ate hoje"], ["mespassado", "Mes passado"], ["7dias", "Ultimos 7 dias"]];
+    var h = '<div class="relcal-atalhos">' + atalhos.map(function (a) {
+      return '<button type="button" class="relcal-atalho' + (relState.atalho === a[0] ? " ativo" : "") + '" data-cal-atalho="' + a[0] + '">' + a[1] + "</button>";
+    }).join("") + "</div>";
+    var ym = (relState.calMes || relState.until.slice(0, 7)).split("-");
+    var y = Number(ym[0]), m = Number(ym[1]) - 1;
+    var inicioSemana = new Date(y, m, 1).getDay();
+    var totalDias = new Date(y, m + 1, 0).getDate();
+    h += '<div class="relcal-head"><button type="button" class="relcal-nav" data-cal-nav="-1">&#8249;</button>' +
+         "<span>" + REL_MESES[m] + " de " + y + "</span>" +
+         '<button type="button" class="relcal-nav" data-cal-nav="1">&#8250;</button></div>';
+    h += '<div class="relcal-grid">' + ["D", "S", "T", "Q", "Q", "S", "S"].map(function (d) { return '<span class="relcal-dow">' + d + "</span>"; }).join("");
+    for (var i = 0; i < inicioSemana; i++) h += "<span></span>";
+    for (var dia = 1; dia <= totalDias; dia++) {
+      var iso = relIso(y, m + 1, dia);
+      var borda = iso === relState.since || iso === relState.until;
+      var dentro = iso > relState.since && iso < relState.until;
+      h += '<button type="button" class="relcal-dia' + (borda ? " sel" : "") + (dentro ? " dentro" : "") + '" data-cal-dia="' + iso + '">' + dia + "</button>";
+    }
+    h += "</div>";
+    return h;
+  }
+
+  function atualizarPainelPeriodo(root) {
+    var panel = document.getElementById("rel-cal-panel");
+    if (panel) panel.innerHTML = htmlPainelPeriodo();
+    var lbl = document.getElementById("rel-periodo-label");
+    if (lbl) lbl.textContent = relPeriodoTexto();
+    ligarPainelPeriodo(root);
+  }
+
+  function ligarPainelPeriodo(root) {
+    var panel = document.getElementById("rel-cal-panel");
+    if (!panel) return;
+    panel.querySelectorAll("[data-cal-atalho]").forEach(function (b) {
+      b.addEventListener("click", function () { aplicarAtalhoPeriodo(b.getAttribute("data-cal-atalho")); atualizarPainelPeriodo(root); });
+    });
+    panel.querySelectorAll("[data-cal-nav]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var ym = (relState.calMes || relState.until.slice(0, 7)).split("-");
+        var d = new Date(Number(ym[0]), Number(ym[1]) - 1 + Number(b.getAttribute("data-cal-nav")), 1);
+        relState.calMes = d.getFullYear() + "-" + relPad(d.getMonth() + 1);
+        atualizarPainelPeriodo(root);
+      });
+    });
+    panel.querySelectorAll("[data-cal-dia]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var iso = b.getAttribute("data-cal-dia");
+        if (!relState.calStart) { relState.calStart = iso; relState.since = iso; relState.until = iso; }
+        else {
+          if (iso < relState.calStart) { relState.since = iso; relState.until = relState.calStart; }
+          else { relState.since = relState.calStart; relState.until = iso; }
+          relState.calStart = null;
+        }
+        relState.atalho = "custom";
+        atualizarPainelPeriodo(root);
+      });
+    });
+  }
+
+  function ligarSeletorPeriodo(root) {
+    var btn = root.querySelector('[data-act="rel-periodo-toggle"]');
+    var panel = document.getElementById("rel-cal-panel");
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var abrir = panel.style.display === "none";
+      panel.style.display = abrir ? "block" : "none";
+      if (abrir) { relState.calMes = relState.until.slice(0, 7); relState.calStart = null; atualizarPainelPeriodo(root); }
+    });
+    // fecha ao clicar fora
+    document.addEventListener("click", function fechar(ev) {
+      if (!panel) return;
+      if (!panel.parentNode) { document.removeEventListener("click", fechar); return; }
+      if (!panel.contains(ev.target) && ev.target !== btn && !btn.contains(ev.target)) panel.style.display = "none";
+    });
   }
 
   var relCampos = null; // campos estruturados do relatorio atual (editaveis)
@@ -3784,6 +3880,7 @@
   // Assembla o texto final do WhatsApp a partir dos campos (espelha o backend).
   function montarTextoRel(campos) {
     return campos.map(function (l) {
+      if (l.tipo === "espaco") return "";
       if (l.tipo === "texto") return l.valor;
       var v = (l.valor == null ? "" : String(l.valor)).trim();
       if (l.opcional && !v) return null;
@@ -3819,7 +3916,9 @@
         h += '<div class="rel-editor"><div class="rel-editor-titulo">Campos do relatorio — clique e ajuste qualquer um.' +
              ' <span id="rel-aviso-preencher" style="color:var(--warning);font-weight:600;display:none;">Ha campos [PREENCHER] em branco.</span></div>';
         relCampos.forEach(function (l, i) {
-          if (l.tipo === "texto") {
+          if (l.tipo === "espaco") {
+            h += '<div class="rel-espaco"></div>';
+          } else if (l.tipo === "texto") {
             h += '<div class="rel-linha"><input class="rel-in rel-in-texto" data-rel-i="' + i + '" value="' + esc(l.valor) + '" spellcheck="false" /></div>';
           } else {
             var vazio = !(String(l.valor || "").trim());
