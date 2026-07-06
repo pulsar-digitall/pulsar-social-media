@@ -241,12 +241,23 @@
             ["ativo", "pausado", "onboarding"].map(function (s) { return '<option value="' + s + '"' + (c.status === s ? " selected" : "") + ">" + s + "</option>"; }).join("") +
           "</select></div></div>" +
           campo("Conta Meta Ads", "adAccountId", c.adAccountId, "text", "act_123456789") +
+          campo("Contas adicionais (multi-conta, separadas por virgula)", "adAccountIds", (c.adAccountIds || []).join(", "), "text", "act_111, act_222") +
           campo("Google Ads Customer ID", "googleAdsCustomerId", c.googleAdsCustomerId, "text", "1234567890") +
           campo("Page ID (Facebook)", "pageId", c.pageId) +
           campo("Instagram ID", "instagramId", c.instagramId) +
           campo("Pixel ID", "pixelId", c.pixelId) +
           campo("Moeda", "moeda", c.moeda || "BRL") +
           campo("Timezone", "timezone", c.timezone || "America/Sao_Paulo") +
+        "</div>" +
+        '<div class="secao">Relatorio do cliente</div>' +
+        '<div class="ct-form-grid">' +
+          '<div class="campo"><label>Tipo de relatorio</label><div class="select-wrap"><select name="tipoRelatorio">' +
+            [["leadgen", "Leadgen (leads + CPL)"], ["ecommerce", "E-commerce (conversoes + ROAS)"], ["branding", "Branding (so metricas base)"]].map(function (t) {
+              return '<option value="' + t[0] + '"' + ((c.tipoRelatorio || "leadgen") === t[0] ? " selected" : "") + ">" + t[1] + "</option>";
+            }).join("") +
+          "</select></div></div>" +
+          campo("Nome da conversao (e-commerce)", "nomeConversao", c.nomeConversao, "text", "Ex.: Anotaai, Compras") +
+          campo("Link do Looker Studio (opcional)", "linkLooker", c.linkLooker, "text", "https://lookerstudio.google.com/...") +
         "</div>" +
         '<div class="secao">Metas de performance</div>' +
         '<div class="ct-form-grid">' +
@@ -307,6 +318,10 @@
       nome: v("nome"),
       status: v("status") || "ativo",
       adAccountId: v("adAccountId"),
+      adAccountIds: v("adAccountIds").split(",").map(function (a) { return a.trim(); }).filter(Boolean),
+      tipoRelatorio: v("tipoRelatorio") || "leadgen",
+      nomeConversao: v("nomeConversao"),
+      linkLooker: v("linkLooker"),
       googleAdsCustomerId: v("googleAdsCustomerId"),
       pageId: v("pageId"),
       instagramId: v("instagramId"),
@@ -344,7 +359,10 @@
   function salvarVinculo(cliente, lista) {
     var payload = {
       id: cliente.id, nome: cliente.nome, status: cliente.status,
-      adAccountId: cliente.adAccountId || "", googleAdsCustomerId: cliente.googleAdsCustomerId || "",
+      adAccountId: cliente.adAccountId || "", adAccountIds: cliente.adAccountIds || [],
+      tipoRelatorio: cliente.tipoRelatorio || "leadgen",
+      nomeConversao: cliente.nomeConversao || "", linkLooker: cliente.linkLooker || "",
+      googleAdsCustomerId: cliente.googleAdsCustomerId || "",
       pageId: cliente.pageId || "",
       instagramId: cliente.instagramId || "", pixelId: cliente.pixelId || "",
       moeda: cliente.moeda, timezone: cliente.timezone, metas: cliente.metas || {},
@@ -800,6 +818,24 @@
     return avisos.map(function (a) { return '<div class="ct-nota" style="margin:12px 0 0;">' + esc(a) + "</div>"; }).join("");
   }
 
+  // Transparencia da regra de calculo: quais campanhas entraram no CPL e no
+  // custo por conversao (nunca a media geral da conta).
+  function campanhasConsideradasHtml(cc, tipoRelatorio) {
+    if (!cc) return "";
+    function bloco(rotulo, lista) {
+      if (!lista || !lista.length) return '<div class="ct-cache-linha">' + rotulo + ": nenhuma campanha do objetivo no periodo.</div>";
+      return '<div class="ct-cache-linha">' + rotulo + " (" + lista.length + "): " +
+        lista.map(function (c) { return esc(c.nome); }).join(" · ") + "</div>";
+    }
+    var h = '<div style="margin-top:12px;">';
+    if (tipoRelatorio !== "branding") {
+      if (tipoRelatorio === "ecommerce") h += bloco("Campanhas consideradas no custo por conversao", cc.vendas);
+      else h += bloco("Campanhas consideradas no CPL", cc.leads);
+    }
+    h += "</div>";
+    return h;
+  }
+
   function gerarRelatorio(cliente, tipo) {
     var alvo = document.getElementById("ct-rel-resultado");
     alvo.innerHTML = spinner(tipo === "pdf" ? "Gerando PDF..." : "Gerando relatorio WhatsApp...");
@@ -813,6 +849,7 @@
                '<div style="display:flex;gap:10px;margin-top:10px;">' +
                '<button class="btn-toolbar" data-act="copiar-wa">Copiar</button>' +
                '<span style="font-size:12px;color:var(--text-3);align-self:center;">Revise os campos em branco antes de enviar ao cliente.</span></div></div>';
+          h += campanhasConsideradasHtml(r.campanhasConsideradas, r.tipoRelatorio);
         } else {
           h += '<div style="margin-top:14px;"><a class="btn-toolbar" style="text-decoration:none;display:inline-flex;" href="' + esc(API + r.downloadUrl) + '" target="_blank" rel="noopener">Baixar PDF</a></div>';
         }
