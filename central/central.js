@@ -497,11 +497,96 @@
     }).join("") +
     '<button data-periodo="custom"' + (g.periodo === "custom" ? ' class="ativo"' : "") + ">Personalizado</button></span>";
     if (g.periodo === "custom") {
-      h += '<span class="ct-datas"><input type="date" id="ct-data-de" value="' + esc(g.desde) + '" /> ate ' +
-           '<input type="date" id="ct-data-ate" value="' + esc(g.ate) + '" /> ' +
+      h += '<span class="ct-datas">' + campoData("de", g.desde) +
+           '<span class="ct-cal-sep">ate</span>' + campoData("ate", g.ate) +
            '<button class="btn-sm salvar" data-act="aplicar-datas">Aplicar</button></span>';
     }
     return h;
+  }
+
+  // ---------- Calendario proprio (tema claro/escuro via tokens) ----------
+  var SVG_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+
+  function fmtIsoBr(iso) {
+    var p = String(iso || "").split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : "Selecionar";
+  }
+
+  function campoData(chave, iso) {
+    return '<span class="ct-cal-field">' +
+      '<input type="hidden" id="ct-data-' + chave + '" value="' + esc(iso || "") + '" />' +
+      '<button type="button" class="ct-cal-trigger" data-cal-trigger="' + chave + '">' +
+        SVG_CAL + '<span data-cal-label="' + chave + '">' + esc(fmtIsoBr(iso)) + "</span></button>" +
+      '<div class="ct-cal-pop" data-cal-pop="' + chave + '" hidden></div></span>';
+  }
+
+  function criarCalendario(popEl, iso, onPick) {
+    var meses = ["Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    var dow = ["D", "S", "T", "Q", "Q", "S", "S"];
+    function parseIso(s) { var p = String(s || "").split("-"); return p.length === 3 ? new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2])) : null; }
+    function toIso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+    function mesmoDia(a, b) { return !!a && !!b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+    var sel = parseIso(iso);
+    var vista = new Date((sel || new Date()).getFullYear(), (sel || new Date()).getMonth(), 1);
+    var hoje = new Date();
+    function desenhar() {
+      var ano = vista.getFullYear(), mes = vista.getMonth();
+      var inicioSemana = new Date(ano, mes, 1).getDay();
+      var totalDias = new Date(ano, mes + 1, 0).getDate();
+      var h = '<div class="ct-cal-topo">' +
+        '<button type="button" class="ct-cal-nav" data-nav="-1" aria-label="Mes anterior">&#8249;</button>' +
+        '<span class="ct-cal-mes">' + meses[mes] + " " + ano + "</span>" +
+        '<button type="button" class="ct-cal-nav" data-nav="1" aria-label="Proximo mes">&#8250;</button></div>';
+      h += '<div class="ct-cal-grade ct-cal-head">' + dow.map(function (d) { return '<span class="ct-cal-dow">' + d + "</span>"; }).join("") + "</div>";
+      h += '<div class="ct-cal-grade">';
+      for (var i = 0; i < inicioSemana; i++) h += '<span class="ct-cal-dia vazio"></span>';
+      for (var d = 1; d <= totalDias; d++) {
+        var data = new Date(ano, mes, d);
+        var cls = "ct-cal-dia" + (mesmoDia(data, sel) ? " sel" : "") + (mesmoDia(data, hoje) ? " hoje" : "");
+        h += '<button type="button" class="' + cls + '" data-dia="' + toIso(data) + '">' + d + "</button>";
+      }
+      h += "</div>";
+      h += '<div class="ct-cal-rodape"><button type="button" class="ct-cal-link" data-hoje="1">Hoje</button></div>';
+      popEl.innerHTML = h;
+      popEl.querySelectorAll("[data-nav]").forEach(function (b) {
+        b.addEventListener("click", function (e) { e.stopPropagation(); vista.setMonth(vista.getMonth() + Number(b.getAttribute("data-nav"))); desenhar(); });
+      });
+      popEl.querySelectorAll("[data-dia]").forEach(function (b) {
+        b.addEventListener("click", function (e) { e.stopPropagation(); onPick(b.getAttribute("data-dia")); });
+      });
+      popEl.querySelector("[data-hoje]").addEventListener("click", function (e) { e.stopPropagation(); onPick(toIso(new Date())); });
+    }
+    desenhar();
+  }
+
+  var calFechamentoGlobal = false;
+  function ligarCalendarios(root) {
+    root.querySelectorAll("[data-cal-trigger]").forEach(function (trigger) {
+      var chave = trigger.getAttribute("data-cal-trigger");
+      var pop = root.querySelector('[data-cal-pop="' + chave + '"]');
+      var hidden = root.querySelector("#ct-data-" + chave);
+      var label = root.querySelector('[data-cal-label="' + chave + '"]');
+      trigger.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var estavaAberto = !pop.hidden;
+        root.querySelectorAll(".ct-cal-pop").forEach(function (p) { p.hidden = true; p.innerHTML = ""; });
+        if (estavaAberto) return;
+        pop.hidden = false;
+        criarCalendario(pop, hidden.value, function (iso) {
+          hidden.value = iso;
+          label.textContent = fmtIsoBr(iso);
+          pop.hidden = true;
+          pop.innerHTML = "";
+        });
+      });
+    });
+    if (!calFechamentoGlobal) {
+      calFechamentoGlobal = true;
+      document.addEventListener("click", function (e) {
+        if (e.target.closest(".ct-cal-pop") || e.target.closest("[data-cal-trigger]")) return;
+        document.querySelectorAll(".ct-cal-pop").forEach(function (p) { if (!p.hidden) { p.hidden = true; p.innerHTML = ""; } });
+      });
+    }
   }
 
   // Variacao vs periodo anterior. dir: 1 = subir e bom, -1 = descer e bom, 0 = neutro.
@@ -659,6 +744,7 @@
       estado.gestor.ate = ate;
       montarPaginaCliente(cliente);
     });
+    ligarCalendarios(rootGestor);
     ligarSeletorConta(function () { montarPaginaCliente(cliente); });
     rootGestor.querySelector('[data-act="testar-conexao"]').addEventListener("click", function () { testarConexao(cliente); });
     rootGestor.querySelector('[data-act="diagnosticar"]').addEventListener("click", function () { gerarDiagnostico(cliente); });
@@ -897,28 +983,40 @@
     if (!alvo) return;
     api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/relatorios")
       .then(function (r) {
-        var h = '<div class="secao" style="font-size:10.5px;text-transform:uppercase;letter-spacing:1.4px;color:var(--text-3);margin-bottom:10px;">Historico de relatorios</div>';
+        var titulo = '<div class="secao" style="font-size:10.5px;text-transform:uppercase;letter-spacing:1.4px;color:var(--text-3);margin-bottom:10px;">Historico de relatorios</div>';
         if (!r.relatorios.length) {
-          h += '<div style="font-size:13px;color:var(--text-3);">Nenhum relatorio gerado ainda.</div>';
-          alvo.innerHTML = h;
+          alvo.innerHTML = titulo + '<div style="font-size:13px;color:var(--text-3);">Nenhum relatorio gerado ainda.</div>';
           return;
         }
-        h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr><th>Quando</th><th>Tipo</th><th>Periodo</th><th></th></tr></thead><tbody>';
-        r.relatorios.forEach(function (rel, i) {
-          var acao = rel.tipo === "pdf"
-            ? '<a class="btn-sm" style="text-decoration:none;display:inline-block;" href="' + esc(API + "/api/paid-ads/relatorios/" + rel.id + "/pdf") + '" target="_blank" rel="noopener">Baixar</a>'
-            : '<button class="btn-sm salvar" data-rel-copiar="' + i + '">Copiar</button>';
-          h += "<tr><td>" + fmtData(rel.timestamp) + '</td><td><span class="ct-badge ' + (rel.tipo === "pdf" ? "neutro" : "onboarding") + '">' + esc(rel.tipo) + "</span></td>" +
-               "<td>" + esc(rel.range.label) + '</td><td class="num">' + acao + "</td></tr>";
-        });
-        h += "</tbody></table></div>";
-        alvo.innerHTML = h;
-        alvo.querySelectorAll("[data-rel-copiar]").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            var rel = r.relatorios[Number(btn.getAttribute("data-rel-copiar"))];
-            copiarTexto(rel.conteudo || "", btn);
+        var LIMITE = 4;
+        var expandido = false;
+        function render() {
+          var lista = expandido ? r.relatorios : r.relatorios.slice(0, LIMITE);
+          var h = titulo;
+          h += '<div class="ct-tabela-wrap"><table class="ct-tabela"><thead><tr><th>Quando</th><th>Tipo</th><th>Periodo</th><th></th></tr></thead><tbody>';
+          lista.forEach(function (rel, i) {
+            var acao = rel.tipo === "pdf"
+              ? '<a class="btn-sm" style="text-decoration:none;display:inline-block;" href="' + esc(API + "/api/paid-ads/relatorios/" + rel.id + "/pdf") + '" target="_blank" rel="noopener">Baixar</a>'
+              : '<button class="btn-sm salvar" data-rel-copiar="' + i + '">Copiar</button>';
+            h += "<tr><td>" + fmtData(rel.timestamp) + '</td><td><span class="ct-badge ' + (rel.tipo === "pdf" ? "neutro" : "onboarding") + '">' + esc(rel.tipo) + "</span></td>" +
+                 "<td>" + esc(rel.range.label) + '</td><td class="num">' + acao + "</td></tr>";
           });
-        });
+          h += "</tbody></table></div>";
+          if (r.relatorios.length > LIMITE) {
+            h += '<div style="text-align:center;margin-top:12px;"><button class="btn-sm" data-rel-toggle>' +
+                 (expandido ? "Mostrar menos" : "Ver mais " + (r.relatorios.length - LIMITE) + " relatorios") + "</button></div>";
+          }
+          alvo.innerHTML = h;
+          alvo.querySelectorAll("[data-rel-copiar]").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              var rel = r.relatorios[Number(btn.getAttribute("data-rel-copiar"))];
+              copiarTexto(rel.conteudo || "", btn);
+            });
+          });
+          var btnToggle = alvo.querySelector("[data-rel-toggle]");
+          if (btnToggle) btnToggle.addEventListener("click", function () { expandido = !expandido; render(); });
+        }
+        render();
       })
       .catch(function () { alvo.innerHTML = ""; });
   }
@@ -3889,12 +3987,197 @@
     }).filter(function (x) { return x != null; }).join("\n");
   }
 
-  function atualizarPreviewRel() {
-    var pv = document.getElementById("rel-final");
-    if (pv) pv.value = montarTextoRel(relCampos);
-    var faltam = relCampos.some(function (l) { return l.tipo === "campo" && !l.opcional && !(String(l.valor || "").trim()); });
-    var aviso = document.getElementById("rel-aviso-preencher");
-    if (aviso) aviso.style.display = faltam ? "inline" : "none";
+  // ---------- Secao de otimizacoes + analise IA (opcional) ----------
+  var REL_MARCADOR = "🔧 *Otimizações realizadas no período:*";
+  var relOtim = { bullets: [], analise: "", biblioteca: [], changelog: [], catAberta: null };
+
+  function relParsearFrase(frase) {
+    var partes = [], re = /\[([^\]]+)\]/g, last = 0, m;
+    while ((m = re.exec(frase))) {
+      if (m.index > last) partes.push({ tipo: "fixo", valor: frase.slice(last, m.index) });
+      partes.push({ tipo: "var", nome: m[1], valor: "" });
+      last = m.index + m[0].length;
+    }
+    if (last < frase.length) partes.push({ tipo: "fixo", valor: frase.slice(last) });
+    if (!partes.length) partes.push({ tipo: "fixo", valor: frase });
+    return partes;
+  }
+  function relTextoBullet(b) {
+    return b.partes.map(function (p) {
+      if (p.tipo === "fixo") return p.valor;
+      if (p.tipo === "var") return p.valor.trim() ? p.valor.trim() : "[" + p.nome + "]";
+      return p.valor; // livre
+    }).join("").trim();
+  }
+  function relBulletsTextos() {
+    return relOtim.bullets.map(relTextoBullet).filter(function (t) { return t; }).slice(0, 4);
+  }
+  function relMontarSecao() {
+    var bs = relBulletsTextos();
+    if (!bs.length) return "";
+    var s = REL_MARCADOR + "\n" + bs.map(function (t) { return "- " + t; }).join("\n");
+    var a = (relOtim.analise || "").trim();
+    if (a) s += "\n\n" + a;
+    return s;
+  }
+  // Reescreve a secao no texto final SEM tocar no que o Luis editou nas metricas
+  // (remove do marcador ate o fim e re-anexa a secao montada, sempre por ultimo).
+  function relInserirSecao() {
+    var ta = document.getElementById("rel-final");
+    if (!ta) return;
+    var txt = ta.value;
+    var idx = txt.indexOf(REL_MARCADOR);
+    if (idx >= 0) txt = txt.slice(0, idx);
+    txt = txt.replace(/\s+$/, "");
+    var secao = relMontarSecao();
+    if (secao) txt += "\n\n" + secao;
+    ta.value = txt;
+  }
+  function relRenderBullets() {
+    var alvo = document.getElementById("rel-otim-bullets");
+    if (!alvo) return;
+    if (!relOtim.bullets.length) {
+      alvo.innerHTML = '<div class="rel-otim-vazio">Nenhuma otimizacao selecionada. A secao so entra no texto quando voce adiciona pelo menos 1 item.</div>';
+      return;
+    }
+    var h = "";
+    relOtim.bullets.forEach(function (b, i) {
+      h += '<div class="rel-otim-bullet"><span class="rel-otim-marca">&#8226;</span><span class="rel-otim-campos">';
+      b.partes.forEach(function (p, j) {
+        if (p.tipo === "fixo") h += '<span class="rel-otim-fixo">' + esc(p.valor) + "</span>";
+        else if (p.tipo === "var") h += '<input class="rel-otim-var" data-b="' + i + '" data-p="' + j + '" value="' + esc(p.valor) + '" placeholder="' + esc(p.nome) + '" spellcheck="false" />';
+        else h += '<input class="rel-otim-livre-in" data-b="' + i + '" data-p="' + j + '" value="' + esc(p.valor) + '" spellcheck="false" />';
+      });
+      h += '</span><button class="rel-otim-x" data-remove="' + i + '" title="Remover">&times;</button></div>';
+    });
+    alvo.innerHTML = h;
+    alvo.querySelectorAll("input[data-p]").forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        relOtim.bullets[Number(inp.getAttribute("data-b"))].partes[Number(inp.getAttribute("data-p"))].valor = inp.value;
+        relInserirSecao();
+      });
+    });
+    alvo.querySelectorAll("[data-remove]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        relOtim.bullets.splice(Number(btn.getAttribute("data-remove")), 1);
+        relRenderBullets();
+        relInserirSecao();
+      });
+    });
+  }
+  function relAddBullet(partes) {
+    if (relOtim.bullets.length >= 4) { window.alert("Maximo de 4 otimizacoes no relatorio."); return; }
+    relOtim.bullets.push({ partes: partes });
+    relRenderBullets();
+    relInserirSecao();
+  }
+  function relRenderBiblioteca() {
+    var alvo = document.getElementById("rel-otim-lib");
+    if (!alvo) return;
+    var h = '<div class="rel-otim-cats">' + relOtim.biblioteca.map(function (c) {
+      return '<button type="button" class="rel-otim-cat' + (relOtim.catAberta === c.id ? " ativa" : "") + '" data-cat="' + esc(c.id) + '">' + esc(c.nome) + "</button>";
+    }).join("") + "</div>";
+    var aberta = relOtim.biblioteca.filter(function (c) { return c.id === relOtim.catAberta; })[0];
+    if (aberta) {
+      h += '<div class="rel-otim-frases">' + aberta.frases.map(function (f) {
+        return '<button type="button" class="rel-otim-frase" data-frase="' + esc(f) + '">+ ' + esc(f) + "</button>";
+      }).join("") + "</div>";
+      h += '<div class="rel-otim-addlib"><input id="rel-otim-nova" placeholder="Nova frase para ' + esc(aberta.nome) + ' (use [variavel])" spellcheck="false" />' +
+           '<button type="button" class="btn-sm" data-addlib="' + esc(aberta.id) + '">Adicionar a biblioteca</button></div>';
+    }
+    alvo.innerHTML = h;
+    alvo.querySelectorAll("[data-cat]").forEach(function (b) {
+      b.addEventListener("click", function () { relOtim.catAberta = b.getAttribute("data-cat"); relRenderBiblioteca(); });
+    });
+    alvo.querySelectorAll("[data-frase]").forEach(function (b) {
+      b.addEventListener("click", function () { relAddBullet(relParsearFrase(b.getAttribute("data-frase"))); });
+    });
+    var addlib = alvo.querySelector("[data-addlib]");
+    if (addlib) addlib.addEventListener("click", function () {
+      var inp = document.getElementById("rel-otim-nova");
+      var frase = (inp.value || "").trim();
+      if (!frase) return;
+      addlib.disabled = true;
+      api("/api/paid-ads/otimizacoes", { method: "POST", body: { categoria: addlib.getAttribute("data-addlib"), frase: frase } })
+        .then(function (r) { relOtim.biblioteca = r.categorias || relOtim.biblioteca; relRenderBiblioteca(); })
+        .catch(function (err) { addlib.disabled = false; window.alert("Erro ao adicionar: " + err.message); });
+    });
+  }
+  function relRenderChangelog() {
+    var alvo = document.getElementById("rel-otim-chg");
+    if (!alvo) return;
+    if (!relOtim.changelog.length) { alvo.innerHTML = ""; return; }
+    alvo.innerHTML = '<div class="rel-otim-sub">Do historico deste cliente</div><div class="rel-otim-frases">' +
+      relOtim.changelog.map(function (e, i) { return '<button type="button" class="rel-otim-frase" data-chg="' + i + '">+ ' + esc(e.titulo) + "</button>"; }).join("") + "</div>";
+    alvo.querySelectorAll("[data-chg]").forEach(function (b) {
+      b.addEventListener("click", function () { relAddBullet([{ tipo: "livre", valor: relOtim.changelog[Number(b.getAttribute("data-chg"))].titulo }]); });
+    });
+  }
+  function relGerarAnalise(cli, btn) {
+    var status = document.getElementById("rel-otim-analise-status");
+    var bullets = relBulletsTextos();
+    if (btn) btn.disabled = true;
+    if (status) status.textContent = "Gerando analise...";
+    api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/analise-relatorio", {
+      method: "POST", timeoutMs: 60000,
+      body: { since: relState.since, until: relState.until, bullets: bullets }
+    })
+      .then(function (r) {
+        var taA = document.getElementById("rel-otim-analise-ta");
+        if (taA) { taA.value = r.analise || ""; relOtim.analise = taA.value; }
+        relInserirSecao();
+        if (status) status.textContent = "Analise gerada (edite se quiser).";
+        if (btn) btn.disabled = false;
+      })
+      .catch(function (err) {
+        if (status) status.textContent = "";
+        if (btn) btn.disabled = false;
+        window.alert("Erro na analise IA: " + err.message);
+      });
+  }
+  function relPainelOtimHtml() {
+    return '<div class="rel-otim">' +
+      '<div class="rel-editor-titulo" style="margin-top:18px;">Otimizacoes realizadas no periodo (opcional) — maximo 4 itens</div>' +
+      '<div id="rel-otim-lib"></div>' +
+      '<div id="rel-otim-chg"></div>' +
+      '<div class="rel-otim-livre-wrap"><input id="rel-otim-livre-add" placeholder="Escrever um item livre..." spellcheck="false" />' +
+        '<button class="btn-sm" data-act="rel-otim-livre">Adicionar item</button></div>' +
+      '<div id="rel-otim-bullets"></div>' +
+      '<div class="rel-otim-analise">' +
+        '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px;">' +
+          '<button class="btn-sm salvar" data-act="rel-otim-analise">Gerar analise (IA)</button>' +
+          '<span id="rel-otim-analise-status" style="font-size:12px;color:var(--text-3);"></span></div>' +
+        '<textarea id="rel-otim-analise-ta" class="rel-otim-analise-ta" placeholder="A analise gerada aparece aqui, editavel. Entra abaixo dos bullets no texto final." spellcheck="false"></textarea>' +
+      "</div></div>";
+  }
+  function relLigarPainelOtim(cli) {
+    relRenderBullets();
+    var elLivre = document.querySelector('[data-act="rel-otim-livre"]');
+    if (elLivre) elLivre.addEventListener("click", function () {
+      var inp = document.getElementById("rel-otim-livre-add");
+      var t = (inp.value || "").trim();
+      if (!t) return;
+      relAddBullet([{ tipo: "livre", valor: t }]);
+      inp.value = "";
+    });
+    var taA = document.getElementById("rel-otim-analise-ta");
+    if (taA) taA.addEventListener("input", function () { relOtim.analise = taA.value; relInserirSecao(); });
+    var btnA = document.querySelector('[data-act="rel-otim-analise"]');
+    if (btnA) btnA.addEventListener("click", function () { relGerarAnalise(cli, btnA); });
+    // Biblioteca e sugestoes do changelog (carregam em paralelo).
+    api("/api/paid-ads/otimizacoes")
+      .then(function (r) {
+        relOtim.biblioteca = r.categorias || [];
+        if (!relOtim.catAberta && relOtim.biblioteca[0]) relOtim.catAberta = relOtim.biblioteca[0].id;
+        relRenderBiblioteca();
+      })
+      .catch(function () {});
+    api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/changelog?since=" + encodeURIComponent(relState.since) + "&until=" + encodeURIComponent(relState.until))
+      .then(function (r) {
+        relOtim.changelog = (r.entradas || []).map(function (e) { return { titulo: e.titulo, tipo: e.tipo }; });
+        relRenderChangelog();
+      })
+      .catch(function () {});
   }
 
   function gerarRelatorioTela(cli) {
@@ -3910,46 +4193,41 @@
     })
       .then(function (r) {
         relCampos = r.campos || [];
+        relOtim = { bullets: [], analise: "", biblioteca: [], changelog: [], catAberta: null };
         // O relatorio WhatsApp nao tem secao Google: nao poluir com esse aviso.
         var avisos = (r.avisos || []).filter(function (a) { return a.indexOf("Google") < 0; });
+        // Texto unico editavel: monta o texto a partir dos campos do backend e o
+        // Luis edita livremente antes de copiar (mais simples que campo a campo).
+        var textoInicial = montarTextoRel(relCampos);
+        function temPreencher(t) { return t.indexOf("[PREENCHER]") >= 0; }
         var h = avisosHtml(avisos);
-        h += '<div class="rel-editor"><div class="rel-editor-titulo">Campos do relatorio — clique e ajuste qualquer um.' +
-             ' <span id="rel-aviso-preencher" style="color:var(--warning);font-weight:600;display:none;">Ha campos [PREENCHER] em branco.</span></div>';
-        relCampos.forEach(function (l, i) {
-          if (l.tipo === "espaco") {
-            h += '<div class="rel-espaco"></div>';
-          } else if (l.tipo === "texto") {
-            h += '<div class="rel-linha"><input class="rel-in rel-in-texto" data-rel-i="' + i + '" value="' + esc(l.valor) + '" spellcheck="false" /></div>';
-          } else {
-            var vazio = !(String(l.valor || "").trim());
-            h += '<div class="rel-linha">' +
-              (l.prefixo ? '<span class="rel-pre">' + esc(l.prefixo) + "</span>" : "") +
-              '<input class="rel-in' + (vazio && !l.opcional ? " rel-vazio" : "") + '" data-rel-i="' + i + '" value="' + esc(l.valor) + '"' +
-                (l.opcional ? ' placeholder="(sem link)"' : (vazio ? ' placeholder="[PREENCHER]"' : "")) + ' spellcheck="false" />' +
-              (l.sufixo ? '<span class="rel-suf">' + esc(l.sufixo) + "</span>" : "") +
-            "</div>";
-          }
-        });
-        h += '<div class="rel-editor-titulo" style="margin-top:14px;">Texto final (pronto pro WhatsApp)</div>' +
-             '<textarea id="rel-final" class="rel-final-ta" readonly spellcheck="false"></textarea>' +
-             '<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">' +
+        h += '<div class="rel-editor">' +
+             '<div class="rel-editor-titulo">Texto do relatorio — edite livremente antes de copiar.' +
+               ' <span id="rel-aviso-preencher" style="color:var(--warning);font-weight:600;' + (temPreencher(textoInicial) ? "" : "display:none;") + '">Ha campos [PREENCHER] em branco.</span></div>' +
+             '<textarea id="rel-final" class="rel-final-ta" spellcheck="false"></textarea>' +
+             relPainelOtimHtml() +
+             '<div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">' +
                '<button class="btn-toolbar" data-act="rel-copiar">Copiar para WhatsApp</button>' +
              "</div></div>";
         alvo.innerHTML = h;
-
-        alvo.querySelectorAll(".rel-in").forEach(function (inp) {
-          inp.addEventListener("input", function () {
-            relCampos[Number(inp.getAttribute("data-rel-i"))].valor = inp.value;
-            inp.classList.toggle("rel-vazio", !inp.value.trim() && !relCampos[Number(inp.getAttribute("data-rel-i"))].opcional);
-            atualizarPreviewRel();
-          });
+        var ta = document.getElementById("rel-final");
+        ta.value = textoInicial;
+        var aviso = document.getElementById("rel-aviso-preencher");
+        ta.addEventListener("input", function () {
+          if (aviso) aviso.style.display = temPreencher(ta.value) ? "inline" : "none";
         });
+        relLigarPainelOtim(cli);
         alvo.querySelector('[data-act="rel-copiar"]').addEventListener("click", function () {
-          var txt = montarTextoRel(relCampos);
-          if (txt.indexOf("[PREENCHER]") >= 0 && !window.confirm("Ainda ha campo(s) [PREENCHER] em branco. Copiar mesmo assim?")) return;
-          copiarTexto(txt, this);
+          if (temPreencher(ta.value) && !window.confirm("Ainda ha campo(s) [PREENCHER] em branco. Copiar mesmo assim?")) return;
+          copiarTexto(ta.value, this);
+          // Salvar ao finalizar (historico com a secao de otimizacoes + analise).
+          api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/relatorio-salvar", {
+            method: "POST",
+            body: { since: relState.since, until: relState.until, conteudo: ta.value, otimizacoes: relBulletsTextos(), analise: relOtim.analise }
+          })
+            .then(function () { carregarHistoricoRel(cli); })
+            .catch(function () {});
         });
-        atualizarPreviewRel();
         carregarHistoricoRel(cli);
       })
       .catch(function (err) { alvo.innerHTML = erroBloco(err); ligarRetry(alvo, function () { gerarRelatorioTela(cli); }); });

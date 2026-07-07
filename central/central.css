@@ -145,15 +145,57 @@
 .ct-link { background: none; border: none; padding: 0; color: var(--accent-hover); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; }
 .ct-link:hover { text-decoration: underline; }
 
-/* ---------- Periodo personalizado ---------- */
-.ct-datas { display: inline-flex; align-items: center; gap: 7px; margin-left: 10px; font-size: 12.5px; color: var(--text-2); }
-.ct-datas input[type="date"] {
-  background: var(--surface); color: var(--text); border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm); padding: 7px 9px; font-size: 12.5px; font-family: inherit; outline: none;
-  color-scheme: light;
+/* ---------- Periodo personalizado (calendario proprio) ---------- */
+.ct-datas { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; font-size: 12.5px; color: var(--text-2); }
+.ct-cal-sep { color: var(--text-3); }
+.ct-cal-field { position: relative; display: inline-flex; }
+.ct-cal-trigger {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 7px 11px; font-size: 12.5px; font-family: inherit; font-weight: 600;
+  cursor: pointer; transition: border-color 150ms ease, box-shadow 150ms ease;
 }
-[data-theme="dark"] .ct-datas input[type="date"] { color-scheme: dark; }
-.ct-datas input[type="date"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ct-cal-trigger svg { width: 15px; height: 15px; color: var(--accent-hover); flex-shrink: 0; }
+.ct-cal-trigger:hover { border-color: var(--border-hover); }
+.ct-cal-trigger:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+.ct-cal-pop {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 60;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-md);
+  padding: 12px; width: 262px;
+}
+[data-cal-pop="ate"] { left: auto; right: 0; }
+
+.ct-cal-topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.ct-cal-mes { font-size: 13px; font-weight: 700; color: var(--text); }
+.ct-cal-nav {
+  width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2);
+  border-radius: var(--radius-sm); cursor: pointer; font-size: 16px; line-height: 1;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.ct-cal-nav:hover { background: var(--accent-soft); color: var(--accent-hover); border-color: var(--accent-border); }
+
+.ct-cal-grade { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.ct-cal-head { margin-bottom: 4px; }
+.ct-cal-dow { text-align: center; font-size: 10.5px; font-weight: 700; color: var(--text-3); padding: 4px 0; }
+.ct-cal-dia {
+  aspect-ratio: 1 / 1; display: inline-flex; align-items: center; justify-content: center;
+  border: none; background: transparent; color: var(--text); font-family: inherit;
+  font-size: 12.5px; font-weight: 500; border-radius: var(--radius-sm); cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+.ct-cal-dia:hover { background: var(--surface-2); }
+.ct-cal-dia.vazio { visibility: hidden; cursor: default; }
+.ct-cal-dia.hoje { color: var(--accent-hover); font-weight: 700; }
+.ct-cal-dia.sel { background: var(--accent); color: var(--texto-sobre-accent); font-weight: 700; }
+.ct-cal-dia.sel:hover { background: var(--accent-hover); }
+
+.ct-cal-rodape { display: flex; justify-content: flex-end; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.ct-cal-link { border: none; background: transparent; color: var(--accent-hover); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; padding: 4px 6px; border-radius: var(--radius-sm); }
+.ct-cal-link:hover { background: var(--accent-soft); }
 
 /* ---------- Drill-down campanhas -> conjuntos -> anuncios ---------- */
 .ct-drill-nome { display: inline-flex; align-items: center; gap: 7px; }
@@ -355,25 +397,60 @@
 /* ---------- Relatorios: editor por campos ---------- */
 .rel-editor { margin-top: 14px; }
 .rel-editor-titulo { font-size: 12px; color: var(--text-3); margin-bottom: 8px; }
-.rel-linha { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
-.rel-espaco { height: 12px; }
-.rel-linha .rel-pre { font-size: 13.5px; color: var(--text-2); white-space: pre; }
-.rel-linha .rel-suf { font-size: 13.5px; color: var(--text-2); }
-.rel-in {
-  flex: 0 1 auto; min-width: 90px; max-width: 340px;
-  background: var(--surface); color: var(--text); font-weight: 600;
-  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
-  padding: 6px 10px; font-size: 13.5px; font-family: inherit; outline: none;
-}
-.rel-in.rel-in-texto { flex: 1 1 100%; max-width: none; font-weight: 400; color: var(--text-2); }
-.rel-in:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.rel-in.rel-vazio { border-color: var(--warning); background: var(--warning-soft); }
 .rel-final-ta {
-  width: 100%; min-height: 220px; resize: vertical; margin-top: 4px;
+  width: 100%; min-height: 340px; resize: vertical; margin-top: 4px;
   background: var(--surface-2); color: var(--text);
   border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 14px 16px; font-size: 13.5px; font-family: inherit; line-height: 1.6;
+  padding: 14px 16px; font-size: 13.5px; font-family: inherit; line-height: 1.6; outline: none;
 }
+.rel-final-ta:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* ---------- Relatorios: secao de otimizacoes + analise IA ---------- */
+.rel-otim { margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--border); }
+.rel-otim-cats { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.rel-otim-cat {
+  border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-2);
+  font-family: inherit; font-size: 12px; font-weight: 600; border-radius: var(--radius-pill);
+  padding: 5px 12px; cursor: pointer; transition: all 150ms ease;
+}
+.rel-otim-cat:hover { border-color: var(--border-hover); color: var(--text); }
+.rel-otim-cat.ativa { background: var(--accent); color: var(--texto-sobre-accent); border-color: var(--accent); }
+.rel-otim-frases { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.rel-otim-frase {
+  text-align: left; border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+  font-family: inherit; font-size: 12.5px; border-radius: var(--radius-sm); padding: 7px 11px; cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+.rel-otim-frase:hover { border-color: var(--accent-border); background: var(--accent-soft); }
+.rel-otim-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-3); font-weight: 700; margin: 4px 0 8px; }
+.rel-otim-addlib { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.rel-otim-addlib input { flex: 1 1 260px; }
+.rel-otim-livre-wrap { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.rel-otim-livre-wrap input { flex: 1 1 260px; }
+.rel-otim input {
+  background: var(--surface); color: var(--text); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); padding: 7px 10px; font-size: 12.5px; font-family: inherit; outline: none;
+}
+.rel-otim input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.rel-otim-vazio { font-size: 12.5px; color: var(--text-3); padding: 8px 0; }
+.rel-otim-bullet { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.rel-otim-marca { color: var(--accent-hover); font-weight: 700; }
+.rel-otim-campos { flex: 1; display: inline-flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+.rel-otim-fixo { font-size: 13px; color: var(--text); }
+.rel-otim-var { min-width: 90px; max-width: 220px; padding: 4px 8px !important; font-weight: 600; }
+.rel-otim-livre-in { flex: 1 1 240px; min-width: 200px; padding: 5px 9px !important; }
+.rel-otim-x {
+  border: none; background: transparent; color: var(--text-3); font-size: 18px; line-height: 1;
+  cursor: pointer; padding: 2px 6px; border-radius: var(--radius-sm);
+}
+.rel-otim-x:hover { color: var(--negative); background: var(--negative-soft); }
+.rel-otim-analise { margin-top: 12px; }
+.rel-otim-analise-ta {
+  width: 100%; min-height: 76px; resize: vertical; margin-top: 6px;
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13px; font-family: inherit; line-height: 1.5; outline: none;
+}
+.rel-otim-analise-ta:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
 /* ---------- Agente (Etapa 6) ---------- */
 .ag-chat .painel-topo h3 { max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
