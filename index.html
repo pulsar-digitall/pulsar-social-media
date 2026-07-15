@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="central/tema.css" />
-  <link rel="stylesheet" href="central/central.css" />
+  <link rel="stylesheet" href="central/tema.css?v=20260707d" />
+  <link rel="stylesheet" href="central/central.css?v=20260707d" />
   <script>
     // Aplica o tema salvo ANTES da primeira pintura (evita flash de tema errado).
     (function () {
@@ -488,6 +488,20 @@
         <div class="area-corpo" id="agente-root"></div>
       </section>
 
+      <!-- AREA: TRANSCRITOR (Etapa 8) -->
+      <section class="area" id="area-transcritor" data-area="transcritor">
+        <div class="area-topo">
+          <div class="titulo-linha" style="justify-content: space-between; flex-wrap: wrap; row-gap: 12px;">
+            <div>
+              <h2>Transcritor</h2>
+              <div class="desc" style="margin-top: 2px;">Transcricao integral de audio e video, 100% nesta maquina (Whisper local).</div>
+            </div>
+            <div id="transcritor-topo" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
+          </div>
+        </div>
+        <div class="area-corpo" id="transcritor-root"></div>
+      </section>
+
       <!-- AREA: PLANEJAMENTO (Etapa 5.3) -->
       <section class="area" id="area-planejamento" data-area="planejamento">
         <div class="area-topo">
@@ -641,6 +655,7 @@
         gestor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
         automacoes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
         agente: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>',
+        transcritor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
         relatorios: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
         tracking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'
       };
@@ -651,7 +666,8 @@
           { id: "clientes", rotulo: "Clientes" },
           { id: "gestor", rotulo: "Gestor de Trafego" },
           { id: "automacoes", rotulo: "Automacoes" },
-          { id: "agente", rotulo: "Agente" }
+          { id: "agente", rotulo: "Agente" },
+          { id: "transcritor", rotulo: "Transcritor" }
         ] },
         { titulo: "Radar", areas: [
           { id: "espiao", rotulo: "Concorrentes" },
@@ -1038,6 +1054,6 @@
       selecionarArea(AREA_INICIAL);
     })();
   </script>
-  <script src="central/central.js"></script>
+  <script src="central/central.js?v=20260707d"></script>
 </body>
 </html>

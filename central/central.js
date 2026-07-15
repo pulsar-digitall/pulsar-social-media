@@ -28,6 +28,74 @@
   // Helpers
   // ---------------------------------------------------------------------
   function esc(t) { return String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+  // ---------------------------------------------------------------------
+  // Modal proprio (substitui window.alert/window.confirm nativos do
+  // navegador). Mesma linguagem visual do overlay de chave (#ct-chave-overlay):
+  // fundo com blur + caixa no tema. API baseada em Promise:
+  //   pulsarAlert("mensagem") -> Promise<void>
+  //   pulsarConfirm("mensagem") -> Promise<boolean>
+  // ---------------------------------------------------------------------
+  var pulsarModalEl = null;
+  function pulsarModalGarantir() {
+    if (pulsarModalEl) return pulsarModalEl;
+    var el = document.createElement("div");
+    el.className = "pulsar-modal-overlay";
+    el.style.display = "none";
+    el.innerHTML =
+      '<div class="pulsar-modal-caixa">' +
+        '<p class="pulsar-modal-msg"></p>' +
+        '<div class="pulsar-modal-acoes">' +
+          '<button type="button" class="ct-btn-sec pulsar-modal-cancelar" style="display:none;">Cancelar</button>' +
+          '<button type="button" class="btn-toolbar pulsar-modal-ok">OK</button>' +
+        "</div>" +
+      "</div>";
+    document.body.appendChild(el);
+    pulsarModalEl = el;
+    return el;
+  }
+  function pulsarMostrarModal(mensagem, opcoes) {
+    opcoes = opcoes || {};
+    var el = pulsarModalGarantir();
+    var msgEl = el.querySelector(".pulsar-modal-msg");
+    var okBtn = el.querySelector(".pulsar-modal-ok");
+    var cancelBtn = el.querySelector(".pulsar-modal-cancelar");
+    var ehConfirm = opcoes.tipo === "confirm";
+    msgEl.textContent = mensagem;
+    okBtn.textContent = opcoes.textoOk || "OK";
+    cancelBtn.style.display = ehConfirm ? "inline-flex" : "none";
+    cancelBtn.textContent = opcoes.textoCancelar || "Cancelar";
+    el.style.display = "flex";
+    return new Promise(function (resolve) {
+      function limpar() {
+        el.style.display = "none";
+        okBtn.removeEventListener("click", aoOk);
+        cancelBtn.removeEventListener("click", aoCancelar);
+        el.removeEventListener("mousedown", aoFundo);
+        document.removeEventListener("keydown", aoTecla);
+      }
+      function aoOk() { limpar(); resolve(true); }
+      // Fechar sem confirmar (fundo/Esc): em alert equivale a "ok" (so tem 1 saida);
+      // em confirm equivale a cancelar.
+      function aoCancelar() { limpar(); resolve(!ehConfirm); }
+      function aoFundo(e) { if (e.target === el) aoCancelar(); }
+      function aoTecla(e) {
+        if (e.key === "Escape") { e.preventDefault(); aoCancelar(); }
+        else if (e.key === "Enter") { e.preventDefault(); aoOk(); }
+      }
+      okBtn.addEventListener("click", aoOk);
+      cancelBtn.addEventListener("click", aoCancelar);
+      el.addEventListener("mousedown", aoFundo);
+      document.addEventListener("keydown", aoTecla);
+      setTimeout(function () { okBtn.focus(); }, 0);
+    });
+  }
+  function pulsarAlert(mensagem) {
+    return pulsarMostrarModal(mensagem, { tipo: "alert" });
+  }
+  function pulsarConfirm(mensagem, textoOk, textoCancelar) {
+    return pulsarMostrarModal(mensagem, { tipo: "confirm", textoOk: textoOk, textoCancelar: textoCancelar });
+  }
   function fmtMoeda(v, moeda) {
     if (v == null || isNaN(v)) return "-";
     try { return Number(v).toLocaleString("pt-BR", { style: "currency", currency: moeda || "BRL" }); }
@@ -739,7 +807,7 @@
     if (btnDatas) btnDatas.addEventListener("click", function () {
       var de = (document.getElementById("ct-data-de") || {}).value || "";
       var ate = (document.getElementById("ct-data-ate") || {}).value || "";
-      if (!de || !ate || de > ate) { window.alert("Escolha um intervalo valido (data inicial ate data final)."); return; }
+      if (!de || !ate || de > ate) { pulsarAlert("Escolha um intervalo valido (data inicial ate data final)."); return; }
       estado.gestor.desde = de;
       estado.gestor.ate = ate;
       montarPaginaCliente(cliente);
@@ -879,7 +947,7 @@
       ta.style.opacity = "0";
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand("copy"); feito(); } catch (e) { window.alert("Nao foi possivel copiar automaticamente. Copie manualmente."); }
+      try { document.execCommand("copy"); feito(); } catch (e) { pulsarAlert("Nao foi possivel copiar automaticamente. Copie manualmente."); }
       ta.remove();
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -967,14 +1035,16 @@
     if (bc) bc.addEventListener("click", function () { copiarTexto(document.getElementById("ct-link-url").value, bc); });
     var br = alvo.querySelector('[data-act="link-revogar"]');
     if (br) br.addEventListener("click", function () {
-      if (window.confirm("Revogar o link publico? Quem tiver o link perdera o acesso na hora.")) acaoLinkPublico(cliente, "revogar");
+      pulsarConfirm("Revogar o link publico? Quem tiver o link perdera o acesso na hora.").then(function (ok) {
+        if (ok) acaoLinkPublico(cliente, "revogar");
+      });
     });
   }
 
   function acaoLinkPublico(cliente, acao) {
     api("/api/paid-ads/clients/" + encodeURIComponent(cliente.id) + "/public-link", { method: "POST", body: { acao: acao } })
       .then(function (r) { renderLinkPublico(cliente, acao === "revogar" ? null : r.link); })
-      .catch(function (err) { window.alert("Erro: " + err.message); });
+      .catch(function (err) { pulsarAlert("Erro: " + err.message); });
   }
 
   // ---------- Historico de relatorios ----------
@@ -1903,7 +1973,7 @@
             if (ico) ico.innerHTML = ICONES_TRK[sel.value] || ICONES_TRK.pendente;
           }
         })
-        .catch(function (err) { window.alert("Erro ao salvar item: " + err.message); });
+        .catch(function (err) { pulsarAlert("Erro ao salvar item: " + err.message); });
     }
 
     alvo.querySelectorAll(".trk-status").forEach(function (sel) {
@@ -2073,12 +2143,12 @@
     if (btn) { btn.disabled = true; btn.textContent = "Verificando..."; }
     api("/api/paid-ads/automacoes-verificar", { method: "POST", timeoutMs: 180000 })
       .then(function (r) {
-        window.alert("Verificacao concluida: " + r.resumo.disparos + " disparo(s) em " + r.resumo.combinacoes +
+        pulsarAlert("Verificacao concluida: " + r.resumo.disparos + " disparo(s) em " + r.resumo.combinacoes +
           " combinacao(oes) avaliada(s)." + (r.resumo.erros.length ? "\nErros: " + r.resumo.erros.join(" | ") : ""));
         renderAutomacoes();
       })
       .catch(function (err) {
-        window.alert("Erro na verificacao: " + err.message);
+        pulsarAlert("Erro na verificacao: " + err.message);
         if (btn) { btn.disabled = false; btn.textContent = "Verificar agora"; }
       });
   }
@@ -2147,10 +2217,12 @@
       b.addEventListener("click", function () {
         var regra = regraPorId(b.getAttribute("data-excluir"));
         if (!regra) return;
-        if (!window.confirm('Excluir a regra "' + regra.nome + '"? O log de disparos e mantido.')) return;
-        api("/api/paid-ads/automacoes-acao", { method: "POST", body: { id: regra.id, acao: "excluir" } })
-          .then(renderAutomacoes)
-          .catch(function (err) { window.alert("Erro: " + err.message); });
+        pulsarConfirm('Excluir a regra "' + regra.nome + '"? O log de disparos e mantido.').then(function (ok) {
+          if (!ok) return;
+          api("/api/paid-ads/automacoes-acao", { method: "POST", body: { id: regra.id, acao: "excluir" } })
+            .then(renderAutomacoes)
+            .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+        });
       });
     });
     root.querySelectorAll("[data-testar]").forEach(function (b) {
@@ -2159,7 +2231,7 @@
         b.textContent = "Enviando...";
         api("/api/paid-ads/automacoes-acao", { method: "POST", body: { id: b.getAttribute("data-testar"), acao: "testar" }, timeoutMs: 60000 })
           .then(function () { carregarLogDisparos(filtroLogAtual()); b.disabled = false; b.textContent = "Testar disparo"; })
-          .catch(function (err) { window.alert("Erro no teste: " + err.message); b.disabled = false; b.textContent = "Testar disparo"; });
+          .catch(function (err) { pulsarAlert("Erro no teste: " + err.message); b.disabled = false; b.textContent = "Testar disparo"; });
       });
     });
     root.querySelectorAll("#aut-log-filtro [data-dias]").forEach(function (b) {
@@ -2323,7 +2395,7 @@
       .then(function () { autFormId = null; renderAutomacoes(); })
       .catch(function (err) {
         if (aoErro) aoErro(err.offline ? "Backend offline." : err.message);
-        else window.alert("Erro ao salvar: " + err.message);
+        else pulsarAlert("Erro ao salvar: " + err.message);
       });
   }
 
@@ -2723,16 +2795,18 @@
         var item = filtrados[Number(b.getAttribute("data-bib-status"))];
         api("/api/paid-ads/biblioteca-acao", { method: "POST", body: { id: item.id, acao: "status", status: item.status === "aprovado" ? "rascunho" : "aprovado" } })
           .then(renderBiblioteca)
-          .catch(function (err) { window.alert("Erro: " + err.message); });
+          .catch(function (err) { pulsarAlert("Erro: " + err.message); });
       });
     });
     root.querySelectorAll("[data-bib-excluir]").forEach(function (b) {
       b.addEventListener("click", function () {
         var item = filtrados[Number(b.getAttribute("data-bib-excluir"))];
-        if (!window.confirm('Excluir "' + item.titulo + '" da Biblioteca? As midias do item tambem serao apagadas.')) return;
-        api("/api/paid-ads/biblioteca-acao", { method: "POST", body: { id: item.id, acao: "excluir" } })
-          .then(renderBiblioteca)
-          .catch(function (err) { window.alert("Erro: " + err.message); });
+        pulsarConfirm('Excluir "' + item.titulo + '" da Biblioteca? As midias do item tambem serao apagadas.').then(function (ok) {
+          if (!ok) return;
+          api("/api/paid-ads/biblioteca-acao", { method: "POST", body: { id: item.id, acao: "excluir" } })
+            .then(renderBiblioteca)
+            .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+        });
       });
     });
     ligarUploadBiblioteca(root);
@@ -3093,10 +3167,12 @@
       var btnExcluir = form.querySelector('[data-act="plan-excluir"]');
       if (btnExcluir) {
         btnExcluir.addEventListener("click", function () {
-          if (!window.confirm('Excluir "' + planFormAberto.titulo + '" do planejamento?')) return;
-          api("/api/paid-ads/planejamento-acao", { method: "POST", body: { id: planFormAberto.id, acao: "excluir" } })
-            .then(function () { planFormAberto = null; carregarPlanejamento(); })
-            .catch(function (err) { window.alert("Erro: " + err.message); });
+          pulsarConfirm('Excluir "' + planFormAberto.titulo + '" do planejamento?').then(function (ok) {
+            if (!ok) return;
+            api("/api/paid-ads/planejamento-acao", { method: "POST", body: { id: planFormAberto.id, acao: "excluir" } })
+              .then(function () { planFormAberto = null; carregarPlanejamento(); })
+              .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+          });
         });
       }
     }
@@ -3184,10 +3260,12 @@
     root.querySelectorAll("[data-ag-excluir]").forEach(function (b) {
       b.addEventListener("click", function () {
         var s = agInfo.sessoes[Number(b.getAttribute("data-ag-excluir"))];
-        if (!window.confirm('Excluir a conversa "' + s.titulo + '"?')) return;
-        api("/api/paid-ads/agente-acao", { method: "POST", body: { id: s.id, acao: "excluir" } })
-          .then(renderAgente)
-          .catch(function (err) { window.alert("Erro: " + err.message); });
+        pulsarConfirm('Excluir a conversa "' + s.titulo + '"?').then(function (ok) {
+          if (!ok) return;
+          api("/api/paid-ads/agente-acao", { method: "POST", body: { id: s.id, acao: "excluir" } })
+            .then(renderAgente)
+            .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+        });
       });
     });
   }
@@ -3251,10 +3329,12 @@
     root.querySelector('[data-act="ag-voltar"]').addEventListener("click", renderAgente);
     var btnEnc = root.querySelector('[data-act="ag-encerrar"]');
     if (btnEnc) btnEnc.addEventListener("click", function () {
-      if (!window.confirm("Encerrar esta sessao? A conversa fica salva para consulta, mas o agente perde o contexto.")) return;
-      api("/api/paid-ads/agente-acao", { method: "POST", body: { id: agSessao.id, acao: "encerrar" } })
-        .then(renderAgente)
-        .catch(function (err) { window.alert("Erro: " + err.message); });
+      pulsarConfirm("Encerrar esta sessao? A conversa fica salva para consulta, mas o agente perde o contexto.").then(function (ok) {
+        if (!ok) return;
+        api("/api/paid-ads/agente-acao", { method: "POST", body: { id: agSessao.id, acao: "encerrar" } })
+          .then(renderAgente)
+          .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+      });
     });
     var btnEnviar = root.querySelector('[data-act="ag-enviar"]');
     if (btnEnviar) btnEnviar.addEventListener("click", enviarMensagemAgente);
@@ -3264,12 +3344,14 @@
     });
     var btnAplicar = root.querySelector('[data-act="ag-aplicar"]');
     if (btnAplicar) btnAplicar.addEventListener("click", function () {
-      if (!window.confirm("Aplicar as mudancas propostas pelo agente? Isso ESCREVE de verdade nos arquivos das pastas permitidas.")) return;
-      agEnviando = true;
-      renderAgenteChat();
-      api("/api/paid-ads/agente-aplicar", { method: "POST", timeoutMs: 320000, body: { sessaoId: agSessao.id, confirmacao: "Confirmo aplicar" } })
-        .then(function (r) { agEnviando = false; agSessao = r.sessao; renderAgenteChat(); })
-        .catch(function (err) { agEnviando = false; recarregarSessaoAgente(err); });
+      pulsarConfirm("Aplicar as mudancas propostas pelo agente? Isso ESCREVE de verdade nos arquivos das pastas permitidas.").then(function (ok) {
+        if (!ok) return;
+        agEnviando = true;
+        renderAgenteChat();
+        api("/api/paid-ads/agente-aplicar", { method: "POST", timeoutMs: 320000, body: { sessaoId: agSessao.id, confirmacao: "Confirmo aplicar" } })
+          .then(function (r) { agEnviando = false; agSessao = r.sessao; renderAgenteChat(); })
+          .catch(function (err) { agEnviando = false; recarregarSessaoAgente(err); });
+      });
     });
   }
 
@@ -3487,17 +3569,19 @@
           .catch(function (err) {
             b.disabled = false;
             b.textContent = "Transcrever";
-            window.alert("Erro: " + (err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message));
+            pulsarAlert("Erro: " + (err.offline ? "Backend offline. Inicie o servico Paid Ads." : err.message));
           });
       });
     });
     root.querySelectorAll("[data-org-excluir]").forEach(function (b) {
       b.addEventListener("click", function () {
         var item = filtrados[Number(b.getAttribute("data-org-excluir"))];
-        if (!window.confirm('Excluir a referencia de "' + item.origem + '"? A midia do item tambem sera apagada.')) return;
-        api("/api/paid-ads/swipe-organico-acao", { method: "POST", body: { id: item.id, acao: "excluir" } })
-          .then(renderSwipeOrganico)
-          .catch(function (err) { window.alert("Erro: " + err.message); });
+        pulsarConfirm('Excluir a referencia de "' + item.origem + '"? A midia do item tambem sera apagada.').then(function (ok) {
+          if (!ok) return;
+          api("/api/paid-ads/swipe-organico-acao", { method: "POST", body: { id: item.id, acao: "excluir" } })
+            .then(renderSwipeOrganico)
+            .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+        });
       });
     });
     ligarFormOrganico(root);
@@ -3845,9 +3929,11 @@
 
     var h = '<div class="painel ct-secao"><div style="padding:20px 22px;">' +
       '<div class="ct-form-grid" style="margin-bottom:16px;">' +
-        '<div class="campo"><label>Cliente</label><div class="select-wrap"><select id="rel-cliente">' +
-          estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === relState.clienteId ? " selected" : "") + ">" + esc(c.nome) + "</option>"; }).join("") +
-        "</select></div></div>" +
+        '<div class="campo"><label>Cliente</label><div class="rel-combo" id="rel-combo">' +
+          '<input type="text" id="rel-cliente-input" class="rel-combo-input" autocomplete="off" spellcheck="false" placeholder="Buscar cliente..." value="' + esc(cli.nome) + '" />' +
+          '<span class="rel-combo-seta">&#9662;</span>' +
+          '<div class="rel-combo-list" id="rel-cliente-list" style="display:none;"></div>' +
+        "</div></div>" +
         '<div class="campo"><label>Periodo</label><div class="relcal-wrap">' +
           '<button type="button" class="relcal-btn" data-act="rel-periodo-toggle"><span id="rel-periodo-label">' + esc(relPeriodoTexto()) + '</span><span class="seta">&#9662;</span></button>' +
           '<div class="relcal-panel" id="rel-cal-panel" style="display:none;"></div>' +
@@ -3865,13 +3951,61 @@
 
     root.innerHTML = h;
 
-    document.getElementById("rel-cliente").addEventListener("change", function () {
-      relState.clienteId = this.value;
-      renderRelatoriosCorpo();
-    });
+    ligarComboClientes(cli);
     ligarSeletorPeriodo(root);
     root.querySelector('[data-act="rel-gerar"]').addEventListener("click", function () { gerarRelatorioTela(cli); });
     carregarHistoricoRel(cli);
+  }
+
+  // Combobox pesquisavel de cliente (digitar filtra; clicar seleciona).
+  function ligarComboClientes(cliAtual) {
+    var wrap = document.getElementById("rel-combo");
+    var input = document.getElementById("rel-cliente-input");
+    var list = document.getElementById("rel-cliente-list");
+    if (!wrap || !input || !list) return;
+    var idx = -1; // item destacado pelo teclado
+    var filtrados = estado.clientes.slice();
+
+    function norm(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+    function nomeSelecionado() { return (buscarCliente(relState.clienteId) || cliAtual).nome; }
+    function aberto() { return list.style.display === "block"; }
+
+    function renderLista(termo) {
+      var q = norm(termo);
+      filtrados = estado.clientes.filter(function (c) { return !q || norm(c.nome).indexOf(q) >= 0; });
+      if (!filtrados.length) { list.innerHTML = '<div class="rel-combo-vazio">Nenhum cliente encontrado</div>'; return; }
+      list.innerHTML = filtrados.map(function (c, i) {
+        return '<div class="rel-combo-item' + (c.id === relState.clienteId ? " sel" : "") + (i === idx ? " ativo" : "") +
+          '" data-id="' + esc(c.id) + '" data-i="' + i + '">' + esc(c.nome) + "</div>";
+      }).join("");
+      list.querySelectorAll("[data-id]").forEach(function (el) {
+        // mousedown (nao click) para nao perder o foco antes de selecionar.
+        el.addEventListener("mousedown", function (e) { e.preventDefault(); escolher(el.getAttribute("data-id")); });
+      });
+    }
+    function abrir(mostrarTudo) { list.style.display = "block"; renderLista(mostrarTudo ? "" : input.value); }
+    function fechar() { list.style.display = "none"; idx = -1; }
+    function escolher(id) { relState.clienteId = id; fechar(); renderRelatoriosCorpo(); }
+
+    input.addEventListener("focus", function () { input.select(); idx = -1; abrir(true); });
+    input.addEventListener("input", function () { idx = -1; if (!aberto()) list.style.display = "block"; renderLista(input.value); });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); if (!aberto()) abrir(true); idx = Math.min(idx + 1, filtrados.length - 1); renderLista(input.value); rolarAtivo(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); idx = Math.max(idx - 1, 0); renderLista(input.value); rolarAtivo(); }
+      else if (e.key === "Enter") { e.preventDefault(); var alvo = filtrados[idx >= 0 ? idx : 0]; if (alvo) escolher(alvo.id); }
+      else if (e.key === "Escape") { fechar(); input.value = nomeSelecionado(); input.blur(); }
+    });
+    function rolarAtivo() { var el = list.querySelector('[data-i="' + idx + '"]'); if (el) el.scrollIntoView({ block: "nearest" }); }
+
+    wrap.querySelector(".rel-combo-seta").addEventListener("mousedown", function (e) {
+      e.preventDefault();
+      if (aberto()) fechar();
+      else { input.focus(); input.select(); abrir(true); }
+    });
+    document.addEventListener("click", function fecharFora(ev) {
+      if (!wrap.parentNode) { document.removeEventListener("click", fecharFora); return; }
+      if (!wrap.contains(ev.target)) { fechar(); if (input.parentNode) input.value = nomeSelecionado(); }
+    });
   }
 
   // ---------- Seletor de periodo estilizado (sem input date nativo) ----------
@@ -3883,6 +4017,19 @@
   function relPeriodoTexto() {
     var nomes = { mes: "Mes ate hoje", mespassado: "Mes passado", "7dias": "Ultimos 7 dias", custom: "Personalizado" };
     return (nomes[relState.atalho] || "Personalizado") + " · " + relDdmmaa(relState.since) + " ate " + relDdmmaa(relState.until);
+  }
+
+  function relDdmmaaaa(iso) { var p = String(iso).split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
+
+  // Aceita dd/mm/aaaa ou dd/mm/aa (tambem com - ou .). Valida dia/mes reais.
+  function relParseData(s) {
+    var m = /^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2}|\d{4})$/.exec(String(s || "").trim());
+    if (!m) return null;
+    var d = Number(m[1]), mo = Number(m[2]), y = Number(m[3]);
+    if (y < 100) y += 2000;
+    var dt = new Date(y, mo - 1, d);
+    if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+    return relIso(y, mo, d);
   }
 
   function aplicarAtalhoPeriodo(nome) {
@@ -3916,6 +4063,12 @@
       h += '<button type="button" class="relcal-dia' + (borda ? " sel" : "") + (dentro ? " dentro" : "") + '" data-cal-dia="' + iso + '">' + dia + "</button>";
     }
     h += "</div>";
+    // Digitacao manual do periodo (alem do clique no calendario).
+    h += '<div class="relcal-datas">' +
+      '<input id="relcal-de" class="relcal-data-in" inputmode="numeric" placeholder="dd/mm/aaaa" value="' + relDdmmaaaa(relState.since) + '" spellcheck="false" />' +
+      '<span class="relcal-sep">ate</span>' +
+      '<input id="relcal-ate" class="relcal-data-in" inputmode="numeric" placeholder="dd/mm/aaaa" value="' + relDdmmaaaa(relState.until) + '" spellcheck="false" />' +
+      '<button type="button" class="btn-sm salvar" data-cal-aplicar>OK</button></div>';
     return h;
   }
 
@@ -3954,6 +4107,25 @@
         atualizarPainelPeriodo(root);
       });
     });
+    // Periodo digitado (dd/mm/aaaa): aplica com OK ou Enter.
+    function aplicarDigitado() {
+      var de = relParseData((document.getElementById("relcal-de") || {}).value);
+      var ate = relParseData((document.getElementById("relcal-ate") || {}).value);
+      if (!de || !ate) { pulsarAlert("Data invalida. Use o formato dd/mm/aaaa."); return; }
+      if (de > ate) { var t = de; de = ate; ate = t; }
+      relState.since = de;
+      relState.until = ate;
+      relState.atalho = "custom";
+      relState.calMes = ate.slice(0, 7);
+      relState.calStart = null;
+      atualizarPainelPeriodo(root);
+      panel.style.display = "none";
+    }
+    var btnAplicar = panel.querySelector("[data-cal-aplicar]");
+    if (btnAplicar) btnAplicar.addEventListener("click", aplicarDigitado);
+    panel.querySelectorAll(".relcal-data-in").forEach(function (inp) {
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); aplicarDigitado(); } });
+    });
   }
 
   function ligarSeletorPeriodo(root) {
@@ -3969,6 +4141,9 @@
     document.addEventListener("click", function fechar(ev) {
       if (!panel) return;
       if (!panel.parentNode) { document.removeEventListener("click", fechar); return; }
+      // Clique em elemento que o re-render interno removeu do DOM (ex.: seta de
+      // mes): contains() daria falso e fecharia sem querer. Ignorar.
+      if (ev.target && !ev.target.isConnected) return;
       if (!panel.contains(ev.target) && ev.target !== btn && !btn.contains(ev.target)) panel.style.display = "none";
     });
   }
@@ -4010,7 +4185,7 @@
     }).join("").trim();
   }
   function relBulletsTextos() {
-    return relOtim.bullets.map(relTextoBullet).filter(function (t) { return t; }).slice(0, 4);
+    return relOtim.bullets.map(relTextoBullet).filter(function (t) { return t; });
   }
   function relMontarSecao() {
     var bs = relBulletsTextos();
@@ -4066,11 +4241,12 @@
     });
   }
   function relAddBullet(partes) {
-    if (relOtim.bullets.length >= 4) { window.alert("Maximo de 4 otimizacoes no relatorio."); return; }
     relOtim.bullets.push({ partes: partes });
     relRenderBullets();
     relInserirSecao();
   }
+  var relOtimFraseEditando = null; // { catId, indice } enquanto uma frase da biblioteca esta em edicao
+
   function relRenderBiblioteca() {
     var alvo = document.getElementById("rel-otim-lib");
     if (!alvo) return;
@@ -4079,19 +4255,72 @@
     }).join("") + "</div>";
     var aberta = relOtim.biblioteca.filter(function (c) { return c.id === relOtim.catAberta; })[0];
     if (aberta) {
-      h += '<div class="rel-otim-frases">' + aberta.frases.map(function (f) {
-        return '<button type="button" class="rel-otim-frase" data-frase="' + esc(f) + '">+ ' + esc(f) + "</button>";
+      h += '<div class="rel-otim-frases">' + aberta.frases.map(function (f, i) {
+        var emEdicao = relOtimFraseEditando && relOtimFraseEditando.catId === aberta.id && relOtimFraseEditando.indice === i;
+        if (emEdicao) {
+          return '<div class="rel-otim-frase-row rel-otim-frase-editando">' +
+            '<input class="rel-otim-frase-edit-in" id="rel-otim-frase-edit-in" value="' + esc(f) + '" spellcheck="false" />' +
+            '<button type="button" class="btn-sm salvar" data-salvar-frase="' + i + '">Salvar</button>' +
+            '<button type="button" class="rel-otim-x" data-cancelar-edicao title="Cancelar">&times;</button>' +
+          "</div>";
+        }
+        return '<div class="rel-otim-frase-row">' +
+          '<button type="button" class="rel-otim-frase" data-frase="' + esc(f) + '">+ ' + esc(f) + "</button>" +
+          '<button type="button" class="rel-otim-frase-ico" data-editar-frase="' + i + '" title="Editar">&#9998;</button>' +
+          '<button type="button" class="rel-otim-x" data-remover-frase="' + i + '" title="Remover">&times;</button>' +
+        "</div>";
       }).join("") + "</div>";
       h += '<div class="rel-otim-addlib"><input id="rel-otim-nova" placeholder="Nova frase para ' + esc(aberta.nome) + ' (use [variavel])" spellcheck="false" />' +
            '<button type="button" class="btn-sm" data-addlib="' + esc(aberta.id) + '">Adicionar a biblioteca</button></div>';
     }
     alvo.innerHTML = h;
     alvo.querySelectorAll("[data-cat]").forEach(function (b) {
-      b.addEventListener("click", function () { relOtim.catAberta = b.getAttribute("data-cat"); relRenderBiblioteca(); });
+      b.addEventListener("click", function () { relOtimFraseEditando = null; relOtim.catAberta = b.getAttribute("data-cat"); relRenderBiblioteca(); });
     });
     alvo.querySelectorAll("[data-frase]").forEach(function (b) {
       b.addEventListener("click", function () { relAddBullet(relParsearFrase(b.getAttribute("data-frase"))); });
     });
+    alvo.querySelectorAll("[data-editar-frase]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        relOtimFraseEditando = { catId: aberta.id, indice: Number(b.getAttribute("data-editar-frase")) };
+        relRenderBiblioteca();
+        var inp = document.getElementById("rel-otim-frase-edit-in");
+        if (inp) { inp.focus(); inp.select(); }
+      });
+    });
+    alvo.querySelectorAll("[data-remover-frase]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var i = Number(b.getAttribute("data-remover-frase"));
+        pulsarConfirm('Remover a frase "' + aberta.frases[i] + '" da biblioteca?').then(function (ok) {
+          if (!ok) return;
+          b.disabled = true;
+          api("/api/paid-ads/otimizacoes-acao", { method: "POST", body: { categoria: aberta.id, indice: i, acao: "remover" } })
+            .then(function (r) { relOtim.biblioteca = r.categorias || relOtim.biblioteca; relRenderBiblioteca(); })
+            .catch(function (err) { b.disabled = false; pulsarAlert("Erro ao remover: " + err.message); });
+        });
+      });
+    });
+    var cancelar = alvo.querySelector("[data-cancelar-edicao]");
+    if (cancelar) cancelar.addEventListener("click", function () { relOtimFraseEditando = null; relRenderBiblioteca(); });
+    var salvarBtn = alvo.querySelector("[data-salvar-frase]");
+    if (salvarBtn) {
+      var confirmarEdicao = function () {
+        var inp = document.getElementById("rel-otim-frase-edit-in");
+        var nova = (inp.value || "").trim();
+        if (!nova) return;
+        var i = Number(salvarBtn.getAttribute("data-salvar-frase"));
+        salvarBtn.disabled = true;
+        api("/api/paid-ads/otimizacoes-acao", { method: "POST", body: { categoria: aberta.id, indice: i, acao: "editar", frase: nova } })
+          .then(function (r) { relOtimFraseEditando = null; relOtim.biblioteca = r.categorias || relOtim.biblioteca; relRenderBiblioteca(); })
+          .catch(function (err) { salvarBtn.disabled = false; pulsarAlert("Erro ao editar: " + err.message); });
+      };
+      salvarBtn.addEventListener("click", confirmarEdicao);
+      var editIn = document.getElementById("rel-otim-frase-edit-in");
+      if (editIn) editIn.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); confirmarEdicao(); }
+        else if (e.key === "Escape") { relOtimFraseEditando = null; relRenderBiblioteca(); }
+      });
+    }
     var addlib = alvo.querySelector("[data-addlib]");
     if (addlib) addlib.addEventListener("click", function () {
       var inp = document.getElementById("rel-otim-nova");
@@ -4100,7 +4329,7 @@
       addlib.disabled = true;
       api("/api/paid-ads/otimizacoes", { method: "POST", body: { categoria: addlib.getAttribute("data-addlib"), frase: frase } })
         .then(function (r) { relOtim.biblioteca = r.categorias || relOtim.biblioteca; relRenderBiblioteca(); })
-        .catch(function (err) { addlib.disabled = false; window.alert("Erro ao adicionar: " + err.message); });
+        .catch(function (err) { addlib.disabled = false; pulsarAlert("Erro ao adicionar: " + err.message); });
     });
   }
   function relRenderChangelog() {
@@ -4132,12 +4361,12 @@
       .catch(function (err) {
         if (status) status.textContent = "";
         if (btn) btn.disabled = false;
-        window.alert("Erro na analise IA: " + err.message);
+        pulsarAlert("Erro na analise IA: " + err.message);
       });
   }
   function relPainelOtimHtml() {
     return '<div class="rel-otim">' +
-      '<div class="rel-editor-titulo" style="margin-top:18px;">Otimizacoes realizadas no periodo (opcional) — maximo 4 itens</div>' +
+      '<div class="rel-editor-titulo" style="margin-top:18px;">Otimizacoes realizadas no periodo (opcional)</div>' +
       '<div id="rel-otim-lib"></div>' +
       '<div id="rel-otim-chg"></div>' +
       '<div class="rel-otim-livre-wrap"><input id="rel-otim-livre-add" placeholder="Escrever um item livre..." spellcheck="false" />' +
@@ -4194,6 +4423,7 @@
       .then(function (r) {
         relCampos = r.campos || [];
         relOtim = { bullets: [], analise: "", biblioteca: [], changelog: [], catAberta: null };
+        relOtimFraseEditando = null;
         // O relatorio WhatsApp nao tem secao Google: nao poluir com esse aviso.
         var avisos = (r.avisos || []).filter(function (a) { return a.indexOf("Google") < 0; });
         // Texto unico editavel: monta o texto a partir dos campos do backend e o
@@ -4217,16 +4447,23 @@
           if (aviso) aviso.style.display = temPreencher(ta.value) ? "inline" : "none";
         });
         relLigarPainelOtim(cli);
-        alvo.querySelector('[data-act="rel-copiar"]').addEventListener("click", function () {
-          if (temPreencher(ta.value) && !window.confirm("Ainda ha campo(s) [PREENCHER] em branco. Copiar mesmo assim?")) return;
-          copiarTexto(ta.value, this);
-          // Salvar ao finalizar (historico com a secao de otimizacoes + analise).
-          api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/relatorio-salvar", {
-            method: "POST",
-            body: { since: relState.since, until: relState.until, conteudo: ta.value, otimizacoes: relBulletsTextos(), analise: relOtim.analise }
-          })
-            .then(function () { carregarHistoricoRel(cli); })
-            .catch(function () {});
+        var btnCopiar = alvo.querySelector('[data-act="rel-copiar"]');
+        btnCopiar.addEventListener("click", function () {
+          function prosseguir() {
+            copiarTexto(ta.value, btnCopiar);
+            // Salvar ao finalizar (historico com a secao de otimizacoes + analise).
+            api("/api/paid-ads/clients/" + encodeURIComponent(cli.id) + "/relatorio-salvar", {
+              method: "POST",
+              body: { since: relState.since, until: relState.until, conteudo: ta.value, otimizacoes: relBulletsTextos(), analise: relOtim.analise }
+            })
+              .then(function () { carregarHistoricoRel(cli); })
+              .catch(function () {});
+          }
+          if (temPreencher(ta.value)) {
+            pulsarConfirm("Ainda ha campo(s) [PREENCHER] em branco. Copiar mesmo assim?").then(function (ok) { if (ok) prosseguir(); });
+          } else {
+            prosseguir();
+          }
         });
         carregarHistoricoRel(cli);
       })
@@ -4253,6 +4490,325 @@
       .catch(function () { alvo.innerHTML = '<div style="font-size:13px;color:var(--text-3);padding:8px 10px;">Nao foi possivel carregar o historico.</div>'; });
   }
 
+  // ---------------------------------------------------------------------
+  // AREA: TRANSCRITOR (Etapa 8)
+  // Transcricao INTEGRAL de audio/video via Whisper local (roda na maquina).
+  // Fila de 1 job por vez; a UI acompanha por polling de 3s.
+  // ---------------------------------------------------------------------
+  var trInfo = null; // GET /transcritor (motor, limite, jobs)
+  var trJobs = [];
+  var trTimestamps = {}; // jobId -> mostrar timestamps no texto expandido
+  var trResultados = {}; // jobId -> resultado carregado (texto + segmentos)
+  var trPollTimer = null;
+
+  var ROTULO_STATUS_TR = {
+    aguardando: "Na fila",
+    processando: "Transcrevendo",
+    concluido: "Concluido",
+    erro: "Erro",
+    cancelado: "Cancelado"
+  };
+  var CLASSE_STATUS_TR = {
+    aguardando: "",
+    processando: "on",
+    concluido: "conectado",
+    erro: "off",
+    cancelado: "off"
+  };
+
+  function fmtDuracao(seg) {
+    if (seg == null || isNaN(seg)) return "";
+    var s = Math.floor(seg);
+    var m = Math.floor(s / 60);
+    var r = s % 60;
+    return (m < 10 ? "0" : "") + m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  function trAreaAtiva() {
+    var sec = document.getElementById("area-transcritor");
+    return sec && sec.classList.contains("ativa");
+  }
+
+  function trTemJobAtivo() {
+    return trJobs.some(function (j) { return j.status === "aguardando" || j.status === "processando"; });
+  }
+
+  function agendarPollingTr() {
+    if (trPollTimer) { clearTimeout(trPollTimer); trPollTimer = null; }
+    if (!trAreaAtiva() || !trTemJobAtivo()) return;
+    trPollTimer = setTimeout(function () {
+      if (!trAreaAtiva()) return;
+      api("/api/paid-ads/transcritor")
+        .then(function (r) {
+          trInfo = r;
+          trJobs = r.jobs || [];
+          renderTranscritorCorpo();
+          agendarPollingTr();
+        })
+        .catch(function () { agendarPollingTr(); });
+    }, 3000);
+  }
+
+  function renderTranscritor() {
+    var root = document.getElementById("transcritor-root");
+    var topo = document.getElementById("transcritor-topo");
+    if (!root) return;
+    root.innerHTML = spinner("Carregando Transcritor...");
+    Promise.all([api("/api/paid-ads/transcritor"), api("/api/paid-ads/clients")])
+      .then(function (r) {
+        trInfo = r[0];
+        trJobs = r[0].jobs || [];
+        estado.clientes = r[1].clientes || [];
+        if (topo) {
+          topo.innerHTML = trInfo.motor && trInfo.motor.ok
+            ? '<span class="ct-badge conectado">Motor local: ' + esc(trInfo.motor.modelo || "whisper") + " (" + esc(trInfo.motor.device || "cpu") + ")</span>"
+            : '<span class="ct-badge off">Motor nao configurado</span>';
+        }
+        renderTranscritorCorpo();
+        agendarPollingTr();
+      })
+      .catch(function (err) {
+        if (err.offline) renderOffline(root, renderTranscritor);
+        else root.innerHTML = '<div class="ct-resultado erro">' + esc(err.message) + "</div>";
+      });
+  }
+
+  function renderTranscritorCorpo() {
+    var root = document.getElementById("transcritor-root");
+    if (!root) return;
+    var motorOk = trInfo && trInfo.motor && trInfo.motor.ok;
+    var limiteMb = (trInfo && trInfo.limiteMb) || 2048;
+    var h = "";
+
+    if (!motorOk) {
+      h += '<div class="ct-nota">' + esc((trInfo && trInfo.motor && trInfo.motor.detalhe) ||
+           'Transcritor nao configurado. Rode "npm run transcritor:setup" na pasta do backend e reinicie o servidor.') + "</div>";
+    } else {
+      h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div><div style="padding:18px 20px;">' +
+        '<div class="ct-form-grid">' +
+          '<div class="campo"><label>Arquivo de audio ou video *</label>' +
+            '<input type="file" id="tr-arquivo" accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
+          '<div class="campo"><label>Cliente (opcional)</label><div class="select-wrap"><select id="tr-cliente">' +
+            '<option value="">— sem cliente —</option>' +
+            estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
+          "</select></div></div>" +
+          '<div class="campo"><label>Contexto (opcional — nomes e termos do audio)</label>' +
+            '<input type="text" id="tr-contexto" placeholder="Ex.: Dra. Ana, toxina botulinica, harmonizacao" /></div>' +
+        "</div>" +
+        '<div class="ct-form-acoes" style="margin-top:6px;">' +
+          '<button class="btn-toolbar" data-act="tr-enviar">Transcrever</button>' +
+          '<span id="tr-envio-status" style="font-size:13px;color:var(--text-3);"></span>' +
+        "</div>" +
+        '<div class="ct-erro-form" id="tr-form-erro"></div>' +
+      "</div></div>";
+
+      h += '<div class="ct-nota">Transcricao local e integral: o Whisper roda nesta maquina e nenhum audio sai dela. ' +
+           "Precisao tipica de 95 a 98 por cento: revise nomes proprios e termos tecnicos antes de usar em entregavel. " +
+           "Limite de " + limiteMb + " MB por arquivo.</div>";
+    }
+
+    h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Transcricoes</h3>' +
+         '<span class="contador"><b>' + trJobs.length + "</b> item(ns)</span></div>";
+    if (!trJobs.length) {
+      h += '<div class="vazio">Nenhuma transcricao ainda. Envie um audio ou video acima.</div>';
+    } else {
+      h += '<div style="padding:6px 0;">' + trJobs.map(htmlJobTr).join("") + "</div>";
+    }
+    h += "</div>";
+
+    root.innerHTML = h;
+    ligarTranscritor(root);
+  }
+
+  function htmlJobTr(job) {
+    var cliente = job.clienteNome ? " · " + esc(job.clienteNome) : "";
+    var dur = job.duracaoAudio ? " · " + fmtDuracao(job.duracaoAudio) : "";
+    var statusHtml = '<span class="ct-badge ' + (CLASSE_STATUS_TR[job.status] || "") + '">' + esc(ROTULO_STATUS_TR[job.status] || job.status) + "</span>";
+
+    var meta = '<div class="hook-meta">' + fmtData(job.criadoEm) + cliente + dur + "</div>";
+    var corpo = "";
+    if (job.status === "processando") {
+      corpo = '<div style="margin:10px 0;">' + progressoHtml(job.progresso || 0) + "</div>";
+    } else if (job.status === "erro" && job.erro) {
+      corpo = '<div class="ct-resultado erro" style="margin:10px 0;">' + esc(job.erro) + "</div>";
+    }
+
+    var acoes = "";
+    if (job.status === "processando" || job.status === "aguardando") {
+      acoes += '<button class="btn-sm" data-tr-cancelar="' + esc(job.id) + '">Cancelar</button>';
+    }
+    if (job.status === "erro" || job.status === "cancelado") {
+      acoes += '<button class="btn-sm salvar" data-tr-reprocessar="' + esc(job.id) + '">Reprocessar</button>';
+    }
+    if (job.status === "concluido") {
+      acoes += '<button class="btn-sm salvar" data-tr-expandir="' + esc(job.id) + '">Ver transcricao</button>';
+    }
+    acoes += '<button class="btn-sm" data-tr-excluir="' + esc(job.id) + '">Excluir</button>';
+
+    var detalhe = "";
+    var res = trResultados[job.id];
+    if (job.status === "concluido" && res) {
+      var mostrarTs = !!trTimestamps[job.id];
+      var texto = mostrarTs
+        ? (res.segmentos || []).map(function (s) { return "[" + fmtDuracao(s.inicio) + "] " + s.texto; }).join("\n")
+        : (res.texto || "");
+      detalhe = '<div class="bloco" style="margin-top:12px;">' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">' +
+          '<button class="btn-sm salvar" data-tr-copiar="' + esc(job.id) + '">Copiar</button>' +
+          '<button class="btn-sm" data-tr-baixar="txt" data-tr-id="' + esc(job.id) + '">Baixar .txt</button>' +
+          '<button class="btn-sm" data-tr-baixar="srt" data-tr-id="' + esc(job.id) + '">Baixar .srt</button>' +
+          '<button class="btn-sm" data-tr-timestamps="' + esc(job.id) + '">' + (mostrarTs ? "Ocultar timestamps" : "Mostrar timestamps") + "</button>" +
+        "</div>" +
+        '<div style="white-space:pre-wrap;max-height:420px;overflow:auto;font-size:14px;line-height:1.6;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">' +
+          esc(texto || "(sem fala detectada)") + "</div></div>";
+    }
+
+    return '<div class="pend-item" style="display:block;padding:14px 16px;border-bottom:1px solid var(--border);">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">' +
+        '<div><div class="hook" style="font-size:15px;">' + esc(job.nomeOriginal) + "  " + statusHtml + "</div>" + meta + "</div>" +
+        '<div class="card-acoes" style="flex-wrap:wrap;">' + acoes + "</div>" +
+      "</div>" + corpo + detalhe +
+    "</div>";
+  }
+
+  function trBaixar(id, formato) {
+    var chave = chaveApi();
+    var headers = {};
+    if (chave) headers["X-Api-Key"] = chave;
+    fetch(API + "/api/paid-ads/transcritor-download?id=" + encodeURIComponent(id) + "&formato=" + encodeURIComponent(formato), { headers: headers })
+      .then(function (resp) {
+        if (!resp.ok) throw new Error("Falha ao baixar (HTTP " + resp.status + ").");
+        var nome = "transcricao." + (formato === "srt" ? "srt" : "txt");
+        var disp = resp.headers.get("Content-Disposition") || "";
+        var m = /filename="?([^"]+)"?/.exec(disp);
+        if (m) nome = m[1];
+        return resp.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url; a.download = nome;
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+        });
+      })
+      .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+  }
+
+  function ligarTranscritor(root) {
+    var btnEnviar = root.querySelector('[data-act="tr-enviar"]');
+    if (btnEnviar) btnEnviar.addEventListener("click", function () { enviarTranscricao(root); });
+
+    root.querySelectorAll("[data-tr-cancelar]").forEach(function (b) {
+      b.addEventListener("click", function () { trAcao("cancelar", b.getAttribute("data-tr-cancelar")); });
+    });
+    root.querySelectorAll("[data-tr-reprocessar]").forEach(function (b) {
+      b.addEventListener("click", function () { trAcao("reprocessar", b.getAttribute("data-tr-reprocessar")); });
+    });
+    root.querySelectorAll("[data-tr-excluir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-tr-excluir");
+        pulsarConfirm("Excluir esta transcricao? O arquivo de midia tambem sera apagado.").then(function (ok) {
+          if (ok) trAcao("excluir", id);
+        });
+      });
+    });
+    root.querySelectorAll("[data-tr-expandir]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-tr-expandir");
+        if (trResultados[id]) { delete trResultados[id]; renderTranscritorCorpo(); return; }
+        api("/api/paid-ads/transcritor-job?id=" + encodeURIComponent(id))
+          .then(function (r) { if (r.resultado) trResultados[id] = r.resultado; renderTranscritorCorpo(); })
+          .catch(function (err) { pulsarAlert("Erro: " + err.message); });
+      });
+    });
+    root.querySelectorAll("[data-tr-timestamps]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-tr-timestamps");
+        trTimestamps[id] = !trTimestamps[id];
+        renderTranscritorCorpo();
+      });
+    });
+    root.querySelectorAll("[data-tr-copiar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-tr-copiar");
+        var res = trResultados[id];
+        if (!res) return;
+        var mostrarTs = !!trTimestamps[id];
+        var texto = mostrarTs
+          ? (res.segmentos || []).map(function (s) { return "[" + fmtDuracao(s.inicio) + "] " + s.texto; }).join("\n")
+          : (res.texto || "");
+        copiarTexto(texto, b);
+      });
+    });
+    root.querySelectorAll("[data-tr-baixar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        trBaixar(b.getAttribute("data-tr-id"), b.getAttribute("data-tr-baixar"));
+      });
+    });
+  }
+
+  function trAcao(acao, id) {
+    api("/api/paid-ads/transcritor-acao", { method: "POST", body: { id: id, acao: acao } })
+      .then(function () { return api("/api/paid-ads/transcritor"); })
+      .then(function (r) {
+        trInfo = r; trJobs = r.jobs || [];
+        renderTranscritorCorpo();
+        agendarPollingTr();
+      })
+      .catch(function (err) { pulsarAlert("Erro: " + (err.offline ? "Backend offline." : err.message)); });
+  }
+
+  function enviarTranscricao(root) {
+    var erroEl = root.querySelector("#tr-form-erro");
+    var statusEl = root.querySelector("#tr-envio-status");
+    var input = root.querySelector("#tr-arquivo");
+    var arquivo = input && input.files && input.files[0] ? input.files[0] : null;
+    if (!arquivo) { erroEl.textContent = "Escolha um arquivo de audio ou video."; return; }
+    var limiteMb = (trInfo && trInfo.limiteMb) || 2048;
+    if (arquivo.size > limiteMb * 1024 * 1024) {
+      erroEl.textContent = "Arquivo acima do limite de " + limiteMb + " MB.";
+      return;
+    }
+    erroEl.textContent = "";
+    var btn = root.querySelector('[data-act="tr-enviar"]');
+    if (btn) btn.disabled = true;
+    if (statusEl) statusEl.textContent = "Enviando arquivo...";
+
+    var clienteId = root.querySelector("#tr-cliente").value;
+    var contexto = root.querySelector("#tr-contexto").value.trim();
+    var qs = "?nome=" + encodeURIComponent(arquivo.name) +
+             (clienteId ? "&clienteId=" + encodeURIComponent(clienteId) : "") +
+             (contexto ? "&contexto=" + encodeURIComponent(contexto) : "") +
+             "&idioma=pt";
+    var chave = chaveApi();
+    var headers = { "Content-Type": "application/octet-stream" };
+    if (chave) headers["X-Api-Key"] = chave;
+
+    fetch(API + "/api/paid-ads/transcritor-upload" + qs, { method: "POST", headers: headers, body: arquivo })
+      .then(function (resp) {
+        return resp.json().catch(function () { return {}; }).then(function (dados) {
+          if (!resp.ok) throw new Error((dados && dados.erro) || ("Erro HTTP " + resp.status));
+          return dados;
+        });
+      })
+      .then(function () {
+        if (btn) btn.disabled = false;
+        if (statusEl) statusEl.textContent = "";
+        input.value = "";
+        root.querySelector("#tr-contexto").value = "";
+        return api("/api/paid-ads/transcritor");
+      })
+      .then(function (r) {
+        trInfo = r; trJobs = r.jobs || [];
+        renderTranscritorCorpo();
+        agendarPollingTr();
+      })
+      .catch(function (err) {
+        if (btn) btn.disabled = false;
+        if (statusEl) statusEl.textContent = "";
+        erroEl.textContent = "Falha no envio: " + err.message;
+      });
+  }
+
   window.PulsarCentral = {
     onArea: function (id) {
       if (id === "dashboard") renderDashCentral();
@@ -4266,6 +4822,7 @@
       if (id === "designer") renderDesigner();
       if (id === "swipeorganico") renderSwipeOrganico();
       if (id === "agente") renderAgente();
+      if (id === "transcritor") renderTranscritor();
       if (id === "relatorios") renderRelatorios();
     }
   };
