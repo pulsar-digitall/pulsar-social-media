@@ -4561,11 +4561,10 @@
     var topo = document.getElementById("transcritor-topo");
     if (!root) return;
     root.innerHTML = spinner("Carregando Transcritor...");
-    Promise.all([api("/api/paid-ads/transcritor"), api("/api/paid-ads/clients")])
+    api("/api/paid-ads/transcritor")
       .then(function (r) {
-        trInfo = r[0];
-        trJobs = r[0].jobs || [];
-        estado.clientes = r[1].clientes || [];
+        trInfo = r;
+        trJobs = r.jobs || [];
         if (topo) {
           topo.innerHTML = trInfo.motor && trInfo.motor.ok
             ? '<span class="ct-badge conectado">Motor local: ' + esc(trInfo.motor.modelo || "whisper") + " (" + esc(trInfo.motor.device || "cpu") + ")</span>"
@@ -4591,9 +4590,9 @@
       h += '<div class="ct-nota">' + esc((trInfo && trInfo.motor && trInfo.motor.detalhe) ||
            'Transcritor nao configurado. Rode "npm run transcritor:setup" na pasta do backend e reinicie o servidor.') + "</div>";
     } else {
-      h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div><div style="padding:18px 20px;">' +
+      h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div><div class="tr-corpo">' +
         '<div class="ct-form-grid">' +
-          '<div class="campo"><label>Arquivos de audio ou video * (adicione quantos quiser, em uma ou varias escolhas)</label>' +
+          '<div class="campo"><label>Arquivos de audio ou video</label>' +
             '<input type="file" id="tr-arquivo" multiple accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
           '<div class="campo"><label>Idioma do audio</label><div class="select-wrap"><select id="tr-idioma">' +
             (trInfo.idiomas || [{ id: "pt", rotulo: "Portugues (BR)" }]).map(function (l) {
@@ -4605,17 +4604,11 @@
               return '<option value="' + esc(m.id) + '"' + (m.id === "rapido" ? " selected" : "") + ">" + esc(m.rotulo) + (m.descricao ? " — " + esc(m.descricao) : "") + "</option>";
             }).join("") +
           "</select></div></div>" +
-          '<div class="campo"><label>Cliente (opcional)</label><div class="select-wrap"><select id="tr-cliente">' +
-            '<option value="">— sem cliente —</option>' +
-            estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
-          "</select></div></div>" +
-          '<div class="campo"><label>Contexto (opcional — nomes e termos do audio)</label>' +
-            '<input type="text" id="tr-contexto" placeholder="Ex.: Dra. Ana, toxina botulinica, harmonizacao" /></div>' +
         "</div>" +
-        '<div id="tr-lista-arquivos" style="display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 10px;"></div>' +
-        '<div class="ct-form-acoes" style="margin-top:6px;">' +
+        '<div class="tr-chips" id="tr-lista-arquivos"></div>' +
+        '<div class="ct-form-acoes">' +
           '<button class="btn-toolbar" data-act="tr-enviar">Transcrever</button>' +
-          '<span id="tr-envio-status" style="font-size:13px;color:var(--text-3);"></span>' +
+          '<span class="tr-status" id="tr-envio-status"></span>' +
         "</div>" +
         '<div class="ct-erro-form" id="tr-form-erro"></div>' +
       "</div></div>";
@@ -4642,7 +4635,7 @@
     if (!trJobs.length) {
       h += '<div class="vazio">Nenhuma transcricao ainda. Envie um audio ou video acima.</div>';
     } else {
-      h += '<div style="padding:6px 0;">' + trJobs.map(htmlJobTr).join("") + "</div>";
+      h += '<div class="tr-jobs">' + trJobs.map(htmlJobTr).join("") + "</div>";
     }
     h += "</div>";
     wrap.innerHTML = h;
@@ -4655,10 +4648,10 @@
     if (!lista) return;
     lista.innerHTML = trArquivos.map(function (a, i) {
       var mb = (a.size / (1024 * 1024)).toFixed(1);
-      return '<span class="tag" style="display:inline-flex;align-items:center;gap:8px;max-width:100%;">' +
-        '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:320px;">' + esc(a.name) + "</span>" +
-        '<span style="color:var(--text-3);">' + mb + " MB</span>" +
-        '<button type="button" data-tr-rmarq="' + i + '" title="Remover" style="border:none;background:none;color:var(--text-3);cursor:pointer;font-size:14px;line-height:1;padding:0;">&#10005;</button>' +
+      return '<span class="tr-chip">' +
+        '<span class="nome">' + esc(a.name) + "</span>" +
+        '<span class="tam">' + mb + " MB</span>" +
+        '<button type="button" class="rm" data-tr-rmarq="' + i + '" title="Remover" aria-label="Remover">&#10005;</button>' +
       "</span>";
     }).join("");
     lista.querySelectorAll("[data-tr-rmarq]").forEach(function (b) {
@@ -4712,18 +4705,17 @@
   }
 
   function htmlJobTr(job) {
-    var cliente = job.clienteNome ? " · " + esc(job.clienteNome) : "";
     var dur = job.duracaoAudio ? " · " + fmtDuracao(job.duracaoAudio) : "";
     var extra = " · " + esc(rotuloIdioma(job.idioma)) + " · " + esc(rotuloModo(job.modo)) +
       (job.device ? " · " + (job.device === "cuda" ? "GPU" : "CPU") : "");
     var statusHtml = '<span class="ct-badge ' + (CLASSE_STATUS_TR[job.status] || "") + '">' + esc(ROTULO_STATUS_TR[job.status] || job.status) + "</span>";
+    var meta = '<div class="tr-job-meta">' + esc(fmtData(job.criadoEm)) + dur + extra + "</div>";
 
-    var meta = '<div class="hook-meta">' + fmtData(job.criadoEm) + cliente + dur + extra + "</div>";
     var corpo = "";
     if (job.status === "processando") {
-      corpo = '<div style="margin:10px 0;">' + progressoHtml(job.progresso || 0) + "</div>";
+      corpo = '<div class="tr-progresso">' + progressoHtml(job.progresso || 0) + "</div>";
     } else if (job.status === "erro" && job.erro) {
-      corpo = '<div class="ct-resultado erro" style="margin:10px 0;">' + esc(job.erro) + "</div>";
+      corpo = '<div class="tr-erro">' + esc(job.erro) + "</div>";
     }
 
     var acoes = "";
@@ -4746,21 +4738,21 @@
       var texto = mostrarTs
         ? (res.segmentos || []).map(function (s) { return "[" + fmtDuracao(s.inicio) + "] " + s.texto; }).join("\n")
         : (res.texto || "");
-      detalhe = '<div class="bloco" style="margin-top:12px;">' +
-        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">' +
+      detalhe = '<div class="tr-detalhe">' +
+        '<div class="tr-detalhe-acoes">' +
           '<button class="btn-sm salvar" data-tr-copiar="' + esc(job.id) + '">Copiar</button>' +
           '<button class="btn-sm" data-tr-baixar="txt" data-tr-id="' + esc(job.id) + '">Baixar .txt</button>' +
           '<button class="btn-sm" data-tr-baixar="srt" data-tr-id="' + esc(job.id) + '">Baixar .srt</button>' +
           '<button class="btn-sm" data-tr-timestamps="' + esc(job.id) + '">' + (mostrarTs ? "Ocultar timestamps" : "Mostrar timestamps") + "</button>" +
         "</div>" +
-        '<div style="white-space:pre-wrap;max-height:420px;overflow:auto;font-size:14px;line-height:1.6;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">' +
-          esc(texto || "(sem fala detectada)") + "</div></div>";
+        '<div class="tr-texto">' + esc(texto || "(sem fala detectada)") + "</div>" +
+      "</div>";
     }
 
-    return '<div class="pend-item" style="display:block;padding:14px 16px;border-bottom:1px solid var(--border);">' +
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">' +
-        '<div><div class="hook" style="font-size:15px;">' + esc(job.nomeOriginal) + "  " + statusHtml + "</div>" + meta + "</div>" +
-        '<div class="card-acoes" style="flex-wrap:wrap;">' + acoes + "</div>" +
+    return '<div class="tr-job">' +
+      '<div class="tr-job-head">' +
+        '<div class="tr-job-info"><div class="tr-job-nome"><span class="txt">' + esc(job.nomeOriginal) + "</span>" + statusHtml + "</div>" + meta + "</div>" +
+        '<div class="tr-job-acoes">' + acoes + "</div>" +
       "</div>" + corpo + detalhe +
     "</div>";
   }
@@ -4867,8 +4859,6 @@
     var btn = root.querySelector('[data-act="tr-enviar"]');
     if (btn) btn.disabled = true;
 
-    var clienteId = root.querySelector("#tr-cliente").value;
-    var contexto = root.querySelector("#tr-contexto").value.trim();
     var idiomaSel = root.querySelector("#tr-idioma");
     var idioma = idiomaSel ? idiomaSel.value : "pt";
     var modoSel = root.querySelector("#tr-modo");
@@ -4887,8 +4877,6 @@
       var arquivo = arquivos[i];
       if (statusEl) statusEl.textContent = "Enviando " + (i + 1) + " de " + total + ": " + arquivo.name;
       var qs = "?nome=" + encodeURIComponent(arquivo.name) +
-               (clienteId ? "&clienteId=" + encodeURIComponent(clienteId) : "") +
-               (contexto ? "&contexto=" + encodeURIComponent(contexto) : "") +
                "&idioma=" + encodeURIComponent(idioma) +
                "&modo=" + encodeURIComponent(modo);
       return fetch(API + "/api/paid-ads/transcritor-upload" + qs, { method: "POST", headers: headers, body: arquivo })

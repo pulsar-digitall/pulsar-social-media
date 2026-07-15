@@ -596,6 +596,49 @@
 }
 [data-theme="dark"] #plan-form .campo input[type="date"] { color-scheme: dark; }
 
+/* ---------- Transcritor (Etapa 8) ---------- */
+#transcritor-root .tr-corpo { padding: 20px 22px; }
+#transcritor-root input[type="file"] {
+  width: 100%; padding: 11px 12px; font-size: 13px; font-family: inherit; color: var(--text-2);
+  background: var(--surface); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+#transcritor-root .tr-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+#transcritor-root .tr-chip {
+  display: inline-flex; align-items: center; gap: 9px; max-width: 100%;
+  font-size: 12.5px; padding: 6px 8px 6px 13px; border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong); background: var(--surface-3); color: var(--text-2);
+}
+#transcritor-root .tr-chip .nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 320px; color: var(--text); font-weight: 500; }
+#transcritor-root .tr-chip .tam { color: var(--text-3); flex-shrink: 0; }
+#transcritor-root .tr-chip .rm {
+  border: none; background: none; color: var(--text-3); cursor: pointer; flex-shrink: 0;
+  font-size: 13px; line-height: 1; padding: 3px; border-radius: 50%; display: inline-flex;
+  transition: color 150ms ease;
+}
+#transcritor-root .tr-chip .rm:hover { color: var(--negative); }
+#transcritor-root .tr-status { font-size: 13px; color: var(--text-3); align-self: center; }
+
+#transcritor-root .tr-jobs { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+#transcritor-root .tr-job { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 15px 16px; }
+#transcritor-root .tr-job-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+#transcritor-root .tr-job-info { flex: 1; min-width: 0; }
+#transcritor-root .tr-job-nome { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--text); }
+#transcritor-root .tr-job-nome .txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+#transcritor-root .tr-job-meta { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+#transcritor-root .tr-job-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+#transcritor-root .tr-job-acoes .btn-sm { flex: 0 0 auto; }
+#transcritor-root .tr-progresso { margin-top: 13px; }
+#transcritor-root .tr-erro { margin-top: 11px; font-size: 13px; color: var(--negative); background: var(--negative-soft); border-radius: 10px; padding: 9px 13px; }
+#transcritor-root .tr-detalhe { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+#transcritor-root .tr-detalhe-acoes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+#transcritor-root .tr-detalhe-acoes .btn-sm { flex: 0 0 auto; }
+#transcritor-root .tr-texto {
+  white-space: pre-wrap; max-height: 440px; overflow-y: auto;
+  font-size: 13.5px; line-height: 1.7; color: var(--text-2);
+  background: var(--surface-2); border-radius: 12px; padding: 16px 18px;
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 860px) {
   .trk-item { flex-wrap: wrap; }
@@ -603,6 +646,8 @@
   .ct-diag-grid { grid-template-columns: 1fr; }
   .ct-cmd { flex-direction: column; }
   .ct-form-grid { grid-template-columns: 1fr; }
+  #transcritor-root .tr-job-acoes { width: 100%; }
+  #transcritor-root .tr-job-acoes .btn-sm { flex: 1 1 auto; }
   .ag-chat .painel-topo h3 { max-width: 100%; }
   .ag-msg { max-width: 95%; }
   .pl-legenda { margin-left: 0; }
