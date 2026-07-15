@@ -4588,6 +4588,16 @@
         '<div class="ct-form-grid">' +
           '<div class="campo"><label>Arquivos de audio ou video * (pode selecionar varios)</label>' +
             '<input type="file" id="tr-arquivo" multiple accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
+          '<div class="campo"><label>Idioma do audio</label><div class="select-wrap"><select id="tr-idioma">' +
+            (trInfo.idiomas || [{ id: "pt", rotulo: "Portugues (BR)" }]).map(function (l) {
+              return '<option value="' + esc(l.id) + '"' + (l.id === "pt" ? " selected" : "") + ">" + esc(l.rotulo) + "</option>";
+            }).join("") +
+          "</select></div></div>" +
+          '<div class="campo"><label>Modo</label><div class="select-wrap"><select id="tr-modo">' +
+            (trInfo.modos || [{ id: "rapido", rotulo: "Rapido", descricao: "" }]).map(function (m) {
+              return '<option value="' + esc(m.id) + '"' + (m.id === "rapido" ? " selected" : "") + ">" + esc(m.rotulo) + (m.descricao ? " — " + esc(m.descricao) : "") + "</option>";
+            }).join("") +
+          "</select></div></div>" +
           '<div class="campo"><label>Cliente (opcional)</label><div class="select-wrap"><select id="tr-cliente">' +
             '<option value="">— sem cliente —</option>' +
             estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
@@ -4603,8 +4613,8 @@
       "</div></div>";
 
       h += '<div class="ct-nota">Transcricao local e integral: o Whisper roda nesta maquina e nenhum audio sai dela. ' +
-           "Precisao tipica de 95 a 98 por cento: revise nomes proprios e termos tecnicos antes de usar em entregavel. " +
-           "Limite de " + limiteMb + " MB por arquivo.</div>";
+           "Modo Rapido ja tem alta precisao; Maxima precisao usa o modelo completo (mais lento, melhor em audio dificil). " +
+           "Revise nomes proprios e termos tecnicos antes de usar em entregavel. Limite de " + limiteMb + " MB por arquivo.</div>";
     }
 
     h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Transcricoes</h3>' +
@@ -4620,12 +4630,22 @@
     ligarTranscritor(root);
   }
 
+  function rotuloModo(id) {
+    var m = (trInfo && trInfo.modos || []).filter(function (x) { return x.id === id; })[0];
+    return m ? m.rotulo : (id || "");
+  }
+  function rotuloIdioma(id) {
+    var l = (trInfo && trInfo.idiomas || []).filter(function (x) { return x.id === id; })[0];
+    return l ? l.rotulo : (id || "").toUpperCase();
+  }
+
   function htmlJobTr(job) {
     var cliente = job.clienteNome ? " · " + esc(job.clienteNome) : "";
     var dur = job.duracaoAudio ? " · " + fmtDuracao(job.duracaoAudio) : "";
+    var extra = " · " + esc(rotuloIdioma(job.idioma)) + " · " + esc(rotuloModo(job.modo));
     var statusHtml = '<span class="ct-badge ' + (CLASSE_STATUS_TR[job.status] || "") + '">' + esc(ROTULO_STATUS_TR[job.status] || job.status) + "</span>";
 
-    var meta = '<div class="hook-meta">' + fmtData(job.criadoEm) + cliente + dur + "</div>";
+    var meta = '<div class="hook-meta">' + fmtData(job.criadoEm) + cliente + dur + extra + "</div>";
     var corpo = "";
     if (job.status === "processando") {
       corpo = '<div style="margin:10px 0;">' + progressoHtml(job.progresso || 0) + "</div>";
@@ -4775,6 +4795,10 @@
 
     var clienteId = root.querySelector("#tr-cliente").value;
     var contexto = root.querySelector("#tr-contexto").value.trim();
+    var idiomaSel = root.querySelector("#tr-idioma");
+    var idioma = idiomaSel ? idiomaSel.value : "pt";
+    var modoSel = root.querySelector("#tr-modo");
+    var modo = modoSel ? modoSel.value : "rapido";
     var chave = chaveApi();
     var headers = { "Content-Type": "application/octet-stream" };
     if (chave) headers["X-Api-Key"] = chave;
@@ -4791,7 +4815,8 @@
       var qs = "?nome=" + encodeURIComponent(arquivo.name) +
                (clienteId ? "&clienteId=" + encodeURIComponent(clienteId) : "") +
                (contexto ? "&contexto=" + encodeURIComponent(contexto) : "") +
-               "&idioma=pt";
+               "&idioma=" + encodeURIComponent(idioma) +
+               "&modo=" + encodeURIComponent(modo);
       return fetch(API + "/api/paid-ads/transcritor-upload" + qs, { method: "POST", headers: headers, body: arquivo })
         .then(function (resp) {
           return resp.json().catch(function () { return {}; }).then(function (dados) {
