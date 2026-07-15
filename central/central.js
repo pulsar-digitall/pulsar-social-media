@@ -4500,6 +4500,11 @@
   var trTimestamps = {}; // jobId -> mostrar timestamps no texto expandido
   var trResultados = {}; // jobId -> resultado carregado (texto + segmentos)
   var trPollTimer = null;
+  // Arquivos escolhidos ANTES do envio. Vive fora do DOM de proposito: o
+  // polling re-renderiza a lista de jobs e um input.files nativo perderia a
+  // selecao no meio do caminho (bug real). Tambem permite adicionar arquivos
+  // em varias escolhas seguidas.
+  var trArquivos = [];
 
   var ROTULO_STATUS_TR = {
     aguardando: "Na fila",
@@ -4542,7 +4547,9 @@
         .then(function (r) {
           trInfo = r;
           trJobs = r.jobs || [];
-          renderTranscritorCorpo();
+          // So a lista de jobs: o formulario (arquivos escolhidos, contexto,
+          // selects) NAO pode ser destruido pelo polling.
+          renderJobsTr();
           agendarPollingTr();
         })
         .catch(function () { agendarPollingTr(); });
@@ -4586,7 +4593,7 @@
     } else {
       h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div><div style="padding:18px 20px;">' +
         '<div class="ct-form-grid">' +
-          '<div class="campo"><label>Arquivos de audio ou video * (pode selecionar varios)</label>' +
+          '<div class="campo"><label>Arquivos de audio ou video * (adicione quantos quiser, em uma ou varias escolhas)</label>' +
             '<input type="file" id="tr-arquivo" multiple accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
           '<div class="campo"><label>Idioma do audio</label><div class="select-wrap"><select id="tr-idioma">' +
             (trInfo.idiomas || [{ id: "pt", rotulo: "Portugues (BR)" }]).map(function (l) {
@@ -4605,6 +4612,7 @@
           '<div class="campo"><label>Contexto (opcional — nomes e termos do audio)</label>' +
             '<input type="text" id="tr-contexto" placeholder="Ex.: Dra. Ana, toxina botulinica, harmonizacao" /></div>' +
         "</div>" +
+        '<div id="tr-lista-arquivos" style="display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 10px;"></div>' +
         '<div class="ct-form-acoes" style="margin-top:6px;">' +
           '<button class="btn-toolbar" data-act="tr-enviar">Transcrever</button>' +
           '<span id="tr-envio-status" style="font-size:13px;color:var(--text-3);"></span>' +
@@ -4617,17 +4625,81 @@
            "Revise nomes proprios e termos tecnicos antes de usar em entregavel. Limite de " + limiteMb + " MB por arquivo.</div>";
     }
 
-    h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Transcricoes</h3>' +
-         '<span class="contador"><b>' + trJobs.length + "</b> item(ns)</span></div>";
+    h += '<div id="tr-jobs-wrap"></div>';
+
+    root.innerHTML = h;
+    ligarFormTr(root);
+    atualizarListaArquivosTr();
+    renderJobsTr();
+  }
+
+  // Lista de jobs em container proprio: o polling atualiza SO isto.
+  function renderJobsTr() {
+    var wrap = document.getElementById("tr-jobs-wrap");
+    if (!wrap) return;
+    var h = '<div class="painel ct-secao"><div class="painel-topo"><h3>Transcricoes</h3>' +
+            '<span class="contador"><b>' + trJobs.length + "</b> item(ns)</span></div>";
     if (!trJobs.length) {
       h += '<div class="vazio">Nenhuma transcricao ainda. Envie um audio ou video acima.</div>';
     } else {
       h += '<div style="padding:6px 0;">' + trJobs.map(htmlJobTr).join("") + "</div>";
     }
     h += "</div>";
+    wrap.innerHTML = h;
+    ligarJobsTr(wrap);
+  }
 
-    root.innerHTML = h;
-    ligarTranscritor(root);
+  // Chips dos arquivos escolhidos (com remover) + contagem no botao.
+  function atualizarListaArquivosTr() {
+    var lista = document.getElementById("tr-lista-arquivos");
+    if (!lista) return;
+    lista.innerHTML = trArquivos.map(function (a, i) {
+      var mb = (a.size / (1024 * 1024)).toFixed(1);
+      return '<span class="tag" style="display:inline-flex;align-items:center;gap:8px;max-width:100%;">' +
+        '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:320px;">' + esc(a.name) + "</span>" +
+        '<span style="color:var(--text-3);">' + mb + " MB</span>" +
+        '<button type="button" data-tr-rmarq="' + i + '" title="Remover" style="border:none;background:none;color:var(--text-3);cursor:pointer;font-size:14px;line-height:1;padding:0;">&#10005;</button>' +
+      "</span>";
+    }).join("");
+    lista.querySelectorAll("[data-tr-rmarq]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        trArquivos.splice(Number(b.getAttribute("data-tr-rmarq")), 1);
+        atualizarListaArquivosTr();
+      });
+    });
+    var btn = document.querySelector('#transcritor-root [data-act="tr-enviar"]');
+    if (btn && !btn.disabled) {
+      btn.textContent = trArquivos.length > 1 ? "Transcrever " + trArquivos.length + " arquivos" : "Transcrever";
+    }
+  }
+
+  function ligarFormTr(root) {
+    var btnEnviar = root.querySelector('[data-act="tr-enviar"]');
+    if (btnEnviar) btnEnviar.addEventListener("click", function () { enviarTranscricao(root); });
+    var inputArq = root.querySelector("#tr-arquivo");
+    if (inputArq) {
+      inputArq.addEventListener("change", function () {
+        var novos = Array.prototype.slice.call(inputArq.files || []);
+        var limite = ((trInfo && trInfo.limiteMb) || 2048) * 1024 * 1024;
+        var recusados = [];
+        novos.forEach(function (a) {
+          var duplicado = trArquivos.some(function (x) { return x.name === a.name && x.size === a.size; });
+          if (duplicado) return;
+          if (a.size > limite) { recusados.push(a.name); return; }
+          trArquivos.push(a);
+        });
+        // Limpa o input nativo: a selecao real vive em trArquivos, e assim a
+        // proxima escolha ADICIONA em vez de substituir.
+        inputArq.value = "";
+        var erroEl = root.querySelector("#tr-form-erro");
+        if (erroEl) {
+          erroEl.textContent = recusados.length
+            ? "Acima do limite de " + ((trInfo && trInfo.limiteMb) || 2048) + " MB: " + recusados.join(", ")
+            : "";
+        }
+        atualizarListaArquivosTr();
+      });
+    }
   }
 
   function rotuloModo(id) {
@@ -4642,7 +4714,8 @@
   function htmlJobTr(job) {
     var cliente = job.clienteNome ? " · " + esc(job.clienteNome) : "";
     var dur = job.duracaoAudio ? " · " + fmtDuracao(job.duracaoAudio) : "";
-    var extra = " · " + esc(rotuloIdioma(job.idioma)) + " · " + esc(rotuloModo(job.modo));
+    var extra = " · " + esc(rotuloIdioma(job.idioma)) + " · " + esc(rotuloModo(job.modo)) +
+      (job.device ? " · " + (job.device === "cuda" ? "GPU" : "CPU") : "");
     var statusHtml = '<span class="ct-badge ' + (CLASSE_STATUS_TR[job.status] || "") + '">' + esc(ROTULO_STATUS_TR[job.status] || job.status) + "</span>";
 
     var meta = '<div class="hook-meta">' + fmtData(job.criadoEm) + cliente + dur + extra + "</div>";
@@ -4662,6 +4735,7 @@
     }
     if (job.status === "concluido") {
       acoes += '<button class="btn-sm salvar" data-tr-expandir="' + esc(job.id) + '">Ver transcricao</button>';
+      acoes += '<button class="btn-sm" data-tr-retranscrever="' + esc(job.id) + '">Retranscrever</button>';
     }
     acoes += '<button class="btn-sm" data-tr-excluir="' + esc(job.id) + '">Excluir</button>';
 
@@ -4713,15 +4787,22 @@
       .catch(function (err) { pulsarAlert("Erro: " + err.message); });
   }
 
-  function ligarTranscritor(root) {
-    var btnEnviar = root.querySelector('[data-act="tr-enviar"]');
-    if (btnEnviar) btnEnviar.addEventListener("click", function () { enviarTranscricao(root); });
-
+  function ligarJobsTr(root) {
     root.querySelectorAll("[data-tr-cancelar]").forEach(function (b) {
       b.addEventListener("click", function () { trAcao("cancelar", b.getAttribute("data-tr-cancelar")); });
     });
     root.querySelectorAll("[data-tr-reprocessar]").forEach(function (b) {
       b.addEventListener("click", function () { trAcao("reprocessar", b.getAttribute("data-tr-reprocessar")); });
+    });
+    root.querySelectorAll("[data-tr-retranscrever]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-tr-retranscrever");
+        pulsarConfirm("Retranscrever este arquivo com a configuracao atual? A transcricao existente sera substituida.").then(function (ok) {
+          if (!ok) return;
+          delete trResultados[id];
+          trAcao("reprocessar", id);
+        });
+      });
     });
     root.querySelectorAll("[data-tr-excluir]").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -4734,9 +4815,9 @@
     root.querySelectorAll("[data-tr-expandir]").forEach(function (b) {
       b.addEventListener("click", function () {
         var id = b.getAttribute("data-tr-expandir");
-        if (trResultados[id]) { delete trResultados[id]; renderTranscritorCorpo(); return; }
+        if (trResultados[id]) { delete trResultados[id]; renderJobsTr(); return; }
         api("/api/paid-ads/transcritor-job?id=" + encodeURIComponent(id))
-          .then(function (r) { if (r.resultado) trResultados[id] = r.resultado; renderTranscritorCorpo(); })
+          .then(function (r) { if (r.resultado) trResultados[id] = r.resultado; renderJobsTr(); })
           .catch(function (err) { pulsarAlert("Erro: " + err.message); });
       });
     });
@@ -4744,7 +4825,7 @@
       b.addEventListener("click", function () {
         var id = b.getAttribute("data-tr-timestamps");
         trTimestamps[id] = !trTimestamps[id];
-        renderTranscritorCorpo();
+        renderJobsTr();
       });
     });
     root.querySelectorAll("[data-tr-copiar]").forEach(function (b) {
@@ -4771,7 +4852,7 @@
       .then(function () { return api("/api/paid-ads/transcritor"); })
       .then(function (r) {
         trInfo = r; trJobs = r.jobs || [];
-        renderTranscritorCorpo();
+        renderJobsTr();
         agendarPollingTr();
       })
       .catch(function (err) { pulsarAlert("Erro: " + (err.offline ? "Backend offline." : err.message)); });
@@ -4780,15 +4861,8 @@
   function enviarTranscricao(root) {
     var erroEl = root.querySelector("#tr-form-erro");
     var statusEl = root.querySelector("#tr-envio-status");
-    var input = root.querySelector("#tr-arquivo");
-    var arquivos = input && input.files ? Array.prototype.slice.call(input.files) : [];
+    var arquivos = trArquivos.slice();
     if (!arquivos.length) { erroEl.textContent = "Escolha um ou mais arquivos de audio ou video."; return; }
-    var limiteMb = (trInfo && trInfo.limiteMb) || 2048;
-    var grande = arquivos.filter(function (a) { return a.size > limiteMb * 1024 * 1024; });
-    if (grande.length) {
-      erroEl.textContent = "Arquivo(s) acima do limite de " + limiteMb + " MB: " + grande.map(function (a) { return a.name; }).join(", ") + ".";
-      return;
-    }
     erroEl.textContent = "";
     var btn = root.querySelector('[data-act="tr-enviar"]');
     if (btn) btn.disabled = true;
@@ -4829,20 +4903,20 @@
 
     enviarUm(0)
       .then(function () {
-        if (btn) btn.disabled = false;
+        if (btn) { btn.disabled = false; btn.textContent = "Transcrever"; }
         if (statusEl) statusEl.textContent = "";
-        input.value = "";
-        root.querySelector("#tr-contexto").value = "";
+        trArquivos = [];
+        atualizarListaArquivosTr();
         erroEl.textContent = falhas.length ? "Nao foi possivel enviar: " + falhas.join("; ") : "";
         return api("/api/paid-ads/transcritor");
       })
       .then(function (r) {
         trInfo = r; trJobs = r.jobs || [];
-        renderTranscritorCorpo();
+        renderJobsTr();
         agendarPollingTr();
       })
       .catch(function (err) {
-        if (btn) btn.disabled = false;
+        if (btn) { btn.disabled = false; btn.textContent = "Transcrever"; }
         if (statusEl) statusEl.textContent = "";
         erroEl.textContent = "Falha no envio: " + err.message;
       });
