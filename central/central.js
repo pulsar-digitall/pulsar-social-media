@@ -4586,8 +4586,8 @@
     } else {
       h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div><div style="padding:18px 20px;">' +
         '<div class="ct-form-grid">' +
-          '<div class="campo"><label>Arquivo de audio ou video *</label>' +
-            '<input type="file" id="tr-arquivo" accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
+          '<div class="campo"><label>Arquivos de audio ou video * (pode selecionar varios)</label>' +
+            '<input type="file" id="tr-arquivo" multiple accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
           '<div class="campo"><label>Cliente (opcional)</label><div class="select-wrap"><select id="tr-cliente">' +
             '<option value="">— sem cliente —</option>' +
             estado.clientes.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + "</option>"; }).join("") +
@@ -4761,40 +4761,54 @@
     var erroEl = root.querySelector("#tr-form-erro");
     var statusEl = root.querySelector("#tr-envio-status");
     var input = root.querySelector("#tr-arquivo");
-    var arquivo = input && input.files && input.files[0] ? input.files[0] : null;
-    if (!arquivo) { erroEl.textContent = "Escolha um arquivo de audio ou video."; return; }
+    var arquivos = input && input.files ? Array.prototype.slice.call(input.files) : [];
+    if (!arquivos.length) { erroEl.textContent = "Escolha um ou mais arquivos de audio ou video."; return; }
     var limiteMb = (trInfo && trInfo.limiteMb) || 2048;
-    if (arquivo.size > limiteMb * 1024 * 1024) {
-      erroEl.textContent = "Arquivo acima do limite de " + limiteMb + " MB.";
+    var grande = arquivos.filter(function (a) { return a.size > limiteMb * 1024 * 1024; });
+    if (grande.length) {
+      erroEl.textContent = "Arquivo(s) acima do limite de " + limiteMb + " MB: " + grande.map(function (a) { return a.name; }).join(", ") + ".";
       return;
     }
     erroEl.textContent = "";
     var btn = root.querySelector('[data-act="tr-enviar"]');
     if (btn) btn.disabled = true;
-    if (statusEl) statusEl.textContent = "Enviando arquivo...";
 
     var clienteId = root.querySelector("#tr-cliente").value;
     var contexto = root.querySelector("#tr-contexto").value.trim();
-    var qs = "?nome=" + encodeURIComponent(arquivo.name) +
-             (clienteId ? "&clienteId=" + encodeURIComponent(clienteId) : "") +
-             (contexto ? "&contexto=" + encodeURIComponent(contexto) : "") +
-             "&idioma=pt";
     var chave = chaveApi();
     var headers = { "Content-Type": "application/octet-stream" };
     if (chave) headers["X-Api-Key"] = chave;
 
-    fetch(API + "/api/paid-ads/transcritor-upload" + qs, { method: "POST", headers: headers, body: arquivo })
-      .then(function (resp) {
-        return resp.json().catch(function () { return {}; }).then(function (dados) {
-          if (!resp.ok) throw new Error((dados && dados.erro) || ("Erro HTTP " + resp.status));
-          return dados;
-        });
-      })
+    var total = arquivos.length;
+    var falhas = [];
+
+    // Envia um por vez (a fila do backend ja processa em sequencia; enviar
+    // sequencial evita saturar a rede e deixa o status claro).
+    function enviarUm(i) {
+      if (i >= total) return Promise.resolve();
+      var arquivo = arquivos[i];
+      if (statusEl) statusEl.textContent = "Enviando " + (i + 1) + " de " + total + ": " + arquivo.name;
+      var qs = "?nome=" + encodeURIComponent(arquivo.name) +
+               (clienteId ? "&clienteId=" + encodeURIComponent(clienteId) : "") +
+               (contexto ? "&contexto=" + encodeURIComponent(contexto) : "") +
+               "&idioma=pt";
+      return fetch(API + "/api/paid-ads/transcritor-upload" + qs, { method: "POST", headers: headers, body: arquivo })
+        .then(function (resp) {
+          return resp.json().catch(function () { return {}; }).then(function (dados) {
+            if (!resp.ok) throw new Error((dados && dados.erro) || ("Erro HTTP " + resp.status));
+          });
+        })
+        .catch(function (err) { falhas.push(arquivo.name + " (" + err.message + ")"); })
+        .then(function () { return enviarUm(i + 1); });
+    }
+
+    enviarUm(0)
       .then(function () {
         if (btn) btn.disabled = false;
         if (statusEl) statusEl.textContent = "";
         input.value = "";
         root.querySelector("#tr-contexto").value = "";
+        erroEl.textContent = falhas.length ? "Nao foi possivel enviar: " + falhas.join("; ") : "";
         return api("/api/paid-ads/transcritor");
       })
       .then(function (r) {
