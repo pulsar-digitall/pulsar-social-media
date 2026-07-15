@@ -1,0 +1,13 @@
+# Deploy do frontend no Vercel: sobe so o app estatico.
+# A midia pesada de concorrentes (546 MB) e arquivos internos ficam de fora.
+swipe/espiao_midia
+core
+skills
+scripts
+docs
+*.md
+requirements.txt
+serve.bat
+netlify.toml
+_nanica_final.txt
+.git
