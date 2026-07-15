@@ -4505,9 +4505,11 @@
   // selecao no meio do caminho (bug real). Tambem permite adicionar arquivos
   // em varias escolhas seguidas.
   var trArquivos = [];
+  var trFonte = "arquivo"; // "arquivo" | "youtube"
 
   var ROTULO_STATUS_TR = {
     aguardando: "Na fila",
+    baixando: "Baixando do YouTube",
     processando: "Transcrevendo",
     concluido: "Concluido",
     erro: "Erro",
@@ -4515,6 +4517,7 @@
   };
   var CLASSE_STATUS_TR = {
     aguardando: "",
+    baixando: "conectado",
     processando: "on",
     concluido: "conectado",
     erro: "off",
@@ -4535,7 +4538,7 @@
   }
 
   function trTemJobAtivo() {
-    return trJobs.some(function (j) { return j.status === "aguardando" || j.status === "processando"; });
+    return trJobs.some(function (j) { return j.status === "aguardando" || j.status === "processando" || j.status === "baixando"; });
   }
 
   function agendarPollingTr() {
@@ -4590,10 +4593,22 @@
       h += '<div class="ct-nota">' + esc((trInfo && trInfo.motor && trInfo.motor.detalhe) ||
            'Transcritor nao configurado. Rode "npm run transcritor:setup" na pasta do backend e reinicie o servidor.') + "</div>";
     } else {
-      h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div><div class="tr-corpo">' +
-        '<div class="ct-form-grid">' +
+      h += '<div class="painel ct-secao"><div class="painel-topo"><h3>Nova transcricao</h3></div>' +
+        '<div class="tr-corpo" id="tr-corpo" data-fonte="' + trFonte + '">' +
+        '<div class="ct-periodo tr-fonte-tabs">' +
+          '<button data-fonte="arquivo"' + (trFonte === "arquivo" ? ' class="ativo"' : "") + ">Arquivo</button>" +
+          '<button data-fonte="youtube"' + (trFonte === "youtube" ? ' class="ativo"' : "") + ">Link do YouTube</button>" +
+        "</div>" +
+        '<div class="tr-fonte tr-fonte-arquivo">' +
           '<div class="campo"><label>Arquivos de audio ou video</label>' +
             '<input type="file" id="tr-arquivo" multiple accept=".mp3,.wav,.m4a,.aac,.ogg,.flac,.mp4,.mov,.webm,.mkv,audio/*,video/*" /></div>' +
+          '<div class="tr-chips" id="tr-lista-arquivos"></div>' +
+        "</div>" +
+        '<div class="tr-fonte tr-fonte-youtube">' +
+          '<div class="campo"><label>Links do YouTube (um por linha)</label>' +
+            '<textarea id="tr-urls" placeholder="https://www.youtube.com/watch?v=...&#10;https://youtu.be/..."></textarea></div>' +
+        "</div>" +
+        '<div class="ct-form-grid">' +
           '<div class="campo"><label>Idioma do audio</label><div class="select-wrap"><select id="tr-idioma">' +
             (trInfo.idiomas || [{ id: "pt", rotulo: "Portugues (BR)" }]).map(function (l) {
               return '<option value="' + esc(l.id) + '"' + (l.id === "pt" ? " selected" : "") + ">" + esc(l.rotulo) + "</option>";
@@ -4605,7 +4620,6 @@
             }).join("") +
           "</select></div></div>" +
         "</div>" +
-        '<div class="tr-chips" id="tr-lista-arquivos"></div>' +
         '<div class="ct-form-acoes">' +
           '<button class="btn-toolbar" data-act="tr-enviar">Transcrever</button>' +
           '<span class="tr-status" id="tr-envio-status"></span>' +
@@ -4614,6 +4628,7 @@
       "</div></div>";
 
       h += '<div class="ct-nota">Transcricao local e integral: o Whisper roda nesta maquina e nenhum audio sai dela. ' +
+           "Por link do YouTube, o audio e baixado aqui e transcrito igual a um arquivo. " +
            "Modo Rapido ja tem alta precisao; Maxima precisao usa o modelo completo (mais lento, melhor em audio dificil). " +
            "Revise nomes proprios e termos tecnicos antes de usar em entregavel. Limite de " + limiteMb + " MB por arquivo.</div>";
     }
@@ -4669,6 +4684,19 @@
   function ligarFormTr(root) {
     var btnEnviar = root.querySelector('[data-act="tr-enviar"]');
     if (btnEnviar) btnEnviar.addEventListener("click", function () { enviarTranscricao(root); });
+    // Toggle Arquivo / Link do YouTube (troca so a visibilidade, sem re-render).
+    root.querySelectorAll(".tr-fonte-tabs [data-fonte]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        trFonte = b.getAttribute("data-fonte");
+        var corpo = root.querySelector("#tr-corpo");
+        if (corpo) corpo.setAttribute("data-fonte", trFonte);
+        root.querySelectorAll(".tr-fonte-tabs [data-fonte]").forEach(function (x) {
+          x.classList.toggle("ativo", x.getAttribute("data-fonte") === trFonte);
+        });
+        var erroEl = root.querySelector("#tr-form-erro");
+        if (erroEl) erroEl.textContent = "";
+      });
+    });
     var inputArq = root.querySelector("#tr-arquivo");
     if (inputArq) {
       inputArq.addEventListener("change", function () {
@@ -4712,14 +4740,14 @@
     var meta = '<div class="tr-job-meta">' + esc(fmtData(job.criadoEm)) + dur + extra + "</div>";
 
     var corpo = "";
-    if (job.status === "processando") {
+    if (job.status === "processando" || job.status === "baixando") {
       corpo = '<div class="tr-progresso">' + progressoHtml(job.progresso || 0) + "</div>";
     } else if (job.status === "erro" && job.erro) {
       corpo = '<div class="tr-erro">' + esc(job.erro) + "</div>";
     }
 
     var acoes = "";
-    if (job.status === "processando" || job.status === "aguardando") {
+    if (job.status === "processando" || job.status === "aguardando" || job.status === "baixando") {
       acoes += '<button class="btn-sm" data-tr-cancelar="' + esc(job.id) + '">Cancelar</button>';
     }
     if (job.status === "erro" || job.status === "cancelado") {
@@ -4853,22 +4881,55 @@
   function enviarTranscricao(root) {
     var erroEl = root.querySelector("#tr-form-erro");
     var statusEl = root.querySelector("#tr-envio-status");
-    var arquivos = trArquivos.slice();
-    if (!arquivos.length) { erroEl.textContent = "Escolha um ou mais arquivos de audio ou video."; return; }
-    erroEl.textContent = "";
     var btn = root.querySelector('[data-act="tr-enviar"]');
-    if (btn) btn.disabled = true;
-
     var idiomaSel = root.querySelector("#tr-idioma");
     var idioma = idiomaSel ? idiomaSel.value : "pt";
     var modoSel = root.querySelector("#tr-modo");
     var modo = modoSel ? modoSel.value : "rapido";
+    var falhas = [];
+
+    function finalizar() {
+      if (btn) { btn.disabled = false; btn.textContent = "Transcrever"; }
+      if (statusEl) statusEl.textContent = "";
+      erroEl.textContent = falhas.length ? "Nao foi possivel enviar: " + falhas.join("; ") : "";
+      api("/api/paid-ads/transcritor").then(function (r) {
+        trInfo = r; trJobs = r.jobs || [];
+        renderJobsTr();
+        agendarPollingTr();
+      }).catch(function () {});
+    }
+
+    // ----- Fonte: links do YouTube -----
+    if (trFonte === "youtube") {
+      var urls = (root.querySelector("#tr-urls").value || "")
+        .split("\n").map(function (u) { return u.trim(); }).filter(Boolean);
+      if (!urls.length) { erroEl.textContent = "Cole um ou mais links do YouTube (um por linha)."; return; }
+      erroEl.textContent = "";
+      if (btn) btn.disabled = true;
+      var totalU = urls.length;
+      function enviarUrl(i) {
+        if (i >= totalU) return Promise.resolve();
+        if (statusEl) statusEl.textContent = "Enviando link " + (i + 1) + " de " + totalU + "...";
+        return api("/api/paid-ads/transcritor-youtube", { method: "POST", body: { url: urls[i], idioma: idioma, modo: modo } })
+          .catch(function (err) { falhas.push(urls[i] + " (" + (err.message || "erro") + ")"); })
+          .then(function () { return enviarUrl(i + 1); });
+      }
+      enviarUrl(0).then(function () {
+        if (!falhas.length) root.querySelector("#tr-urls").value = "";
+        finalizar();
+      });
+      return;
+    }
+
+    // ----- Fonte: arquivos -----
+    var arquivos = trArquivos.slice();
+    if (!arquivos.length) { erroEl.textContent = "Escolha um ou mais arquivos de audio ou video."; return; }
+    erroEl.textContent = "";
+    if (btn) btn.disabled = true;
     var chave = chaveApi();
     var headers = { "Content-Type": "application/octet-stream" };
     if (chave) headers["X-Api-Key"] = chave;
-
     var total = arquivos.length;
-    var falhas = [];
 
     // Envia um por vez (a fila do backend ja processa em sequencia; enviar
     // sequencial evita saturar a rede e deixa o status claro).
@@ -4889,25 +4950,10 @@
         .then(function () { return enviarUm(i + 1); });
     }
 
-    enviarUm(0)
-      .then(function () {
-        if (btn) { btn.disabled = false; btn.textContent = "Transcrever"; }
-        if (statusEl) statusEl.textContent = "";
-        trArquivos = [];
-        atualizarListaArquivosTr();
-        erroEl.textContent = falhas.length ? "Nao foi possivel enviar: " + falhas.join("; ") : "";
-        return api("/api/paid-ads/transcritor");
-      })
-      .then(function (r) {
-        trInfo = r; trJobs = r.jobs || [];
-        renderJobsTr();
-        agendarPollingTr();
-      })
-      .catch(function (err) {
-        if (btn) { btn.disabled = false; btn.textContent = "Transcrever"; }
-        if (statusEl) statusEl.textContent = "";
-        erroEl.textContent = "Falha no envio: " + err.message;
-      });
+    enviarUm(0).then(function () {
+      if (!falhas.length) { trArquivos = []; atualizarListaArquivosTr(); }
+      finalizar();
+    });
   }
 
   window.PulsarCentral = {

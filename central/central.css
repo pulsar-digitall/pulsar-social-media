@@ -618,6 +618,17 @@
 }
 #transcritor-root .tr-chip .rm:hover { color: var(--negative); }
 #transcritor-root .tr-status { font-size: 13px; color: var(--text-3); align-self: center; }
+#transcritor-root .tr-fonte-tabs { margin-bottom: 16px; }
+#transcritor-root .tr-fonte { margin-bottom: 16px; }
+#transcritor-root textarea {
+  width: 100%; min-height: 84px; resize: vertical;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 11px 13px; font-size: 14px; font-family: inherit; line-height: 1.5; outline: none;
+}
+#transcritor-root textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+#transcritor-root .tr-corpo[data-fonte="arquivo"] .tr-fonte-youtube { display: none; }
+#transcritor-root .tr-corpo[data-fonte="youtube"] .tr-fonte-arquivo { display: none; }
 
 #transcritor-root .tr-jobs { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
 #transcritor-root .tr-job { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 15px 16px; }
